@@ -19,5 +19,5 @@ export interface Loading extends LoadingStyle {
 }
 
 export function loading({loading, ...style}: Loading): ClassDescr {
-	return loading === true ? ['loading', ...loadingStyle(style)] : [argued({loading: <LoadingSpec>loading})];
+	return loading === true ? [...loadingStyle(style), 'loading'] : [argued({loading})];
 }

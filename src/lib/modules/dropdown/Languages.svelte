@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import Flag from '$lib/elements/Flag.svelte';
-    import DropDown from "./DropDown.svelte";
+    import DropDown from "./Dropdown.svelte";
 
 	const dispatch = createEventDispatcher();
 	export let

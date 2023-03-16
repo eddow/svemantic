@@ -1,9 +1,12 @@
+<script lang="ts" context="module">
+	export type IconSpec = string | string[];
+</script>
 <script lang="ts">
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
     import { argued, clastr, type Forward } from "$lib/classes";
 
-	export let icon: string|string[];
+	export let icon: IconSpec;
 	let collection: boolean;
 	$: collection = !!icon && typeof icon != 'string';
 

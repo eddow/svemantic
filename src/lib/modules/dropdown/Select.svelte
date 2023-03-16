@@ -1,6 +1,5 @@
 <script lang="ts">
-    import SlotFragment from "$lib/SlotFragment.svelte";
-    import DropDown from "./DropDown.svelte";
+    import DropDown from "./Dropdown.svelte";
 	import { createEventDispatcher, type ComponentProps } from 'svelte';
     import { frwstr, type Forward } from "$lib/classes";
 
@@ -10,7 +9,7 @@
 	}
 	export let value: string = '',
 		module: SemanticUI.Dropdown = <SemanticUI.Dropdown>Object.assign(()=> {}, {settings: {}});
-	$: module('set selected', value);
+	$: module('set selected', value);	// TODO render correct value SSR
 
 	function change({detail: {value: newV}}: any) {
 		dispatch('change', newV)
@@ -18,27 +17,7 @@
 	}
 	let cs: string;
 	$: cs = frwstr($$props, ['selection']);
+	// TODO: multiselect -> set value
+	// TODO https://github.com/sveltejs/svelte/pull/8304
 </script>
-<DropDown class={cs} {...$$restProps} on:change={change} bind:module>
-	{#if $$slots.toggle}
-		<SlotFragment slot="toggle">
-			<slot name="toggle" />
-		</SlotFragment>
-	{/if}
-	{#if $$slots.menu}
-		<SlotFragment slot="menu">
-			<slot name="menu" />
-		</SlotFragment>
-	{:else}
-		{#if $$slots.header}
-			<SlotFragment slot="header">
-				<slot name="header" />
-			</SlotFragment>
-		{/if}
-		{#if $$slots.item}
-			<SlotFragment slot="item" let:key>
-				<slot name="item" {key} />
-			</SlotFragment>
-		{/if}
-	{/if}
-</DropDown>
+<DropDown class={cs} {...$$restProps} on:change={change} bind:module />

@@ -1,0 +1,25 @@
+<script lang="ts">
+    import Items from './Items.svelte';
+	import { color, type Color } from '$lib/parts/Color';
+	import { size, type Size } from '$lib/parts/Size';
+    import { argued, uistr, type Forward } from "$lib/classes";
+	import { position, type Position } from "$lib/parts/Position";
+    import { childrenNumber, type ChildrenNumber } from '$lib/parts/Number';
+
+	interface $$Props extends Forward, Size, Color, ChildrenNumber, Position {
+		icon?: boolean | 'labeled';
+		vertical?: boolean;
+		tabular?: boolean;
+		compact?: boolean;
+	}
+	let cs: string;
+	$: {
+		let {icon, vertical, tabular, compact} = $$props;
+		cs = uistr('menu', $$props, [argued({icon}), {vertical, tabular, compact}], size, color, childrenNumber, position);
+	}
+</script>
+<Items>
+	<div class={cs}>
+		<slot />
+	</div>
+</Items>

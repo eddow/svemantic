@@ -3,8 +3,6 @@
     import Accordion from "$lib/modules/accordion/Accordion.svelte";
     import Languages from "$lib/modules/dropdown/Languages.svelte";
 	*/
-	import Button from "$lib/elements/button/Button.svelte";
-	import Buttons from "$lib/elements/button/Buttons.svelte";
     import Flag from "$lib/elements/Flag.svelte";
     import Icon from "$lib/elements/Icon.svelte";
     import Loader from "$lib/elements/Loader.svelte";
@@ -16,20 +14,15 @@
 
 <Select {values} bind:value placeholder="test-left" /><br />
 {value}<br />
-<Select {values} bind:value placeholder="blup" /><br />
-<!--Select {values} bind:value /-->
-<button class="ui fast loading button">Loading</button>
+<!--Select items={values} bind:value placeholder="blup">
+	<div slot="item" let:item class="item" data-value={item && item.value}>
+		<Icon icon={item && item.name.toLowerCase()} />
+		{item && item.name}
+	</div>
+</Select><br /-->
+<Select {values} bind:value />
 <div>
 	<Flag huge code="fr" />
-</div>
-<div>
-	<Buttons attached="top">
-		<Button>bs A</Button>
-		<Button loading="fast double">bs B</Button>
-		<Button>bs C</Button>
-	</Buttons>
-	
-	<Button circular>circular</Button>
 </div>
 <div>
 	<Icon huge icon={['big red dont', 'black user']} />

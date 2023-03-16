@@ -18,8 +18,8 @@ function combine(...classes: ClassDescr[]) : string {
 	).filter(c=>!!c).join(' ');
 }
 
-export function argued(args: Record<string, string|undefined>) {
-	return Object.keys(args).map(k=> args[k] && (args[k]+' '+k));
+export function argued(args: Record<string, string|boolean|undefined>) {
+	return Object.keys(args).map(k=> args[k] && (args[k] === true ? k : args[k]+' '+k));
 }
 
 export function frwstr(props: Forward, classes: ClassDescr = false, ...parts: ((cd: object)=> ClassDescr)[]) : string {
