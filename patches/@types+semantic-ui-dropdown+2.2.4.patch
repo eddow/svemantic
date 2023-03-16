@@ -1,0 +1,32 @@
+diff --git a/node_modules/@types/semantic-ui-dropdown/global.d.ts b/node_modules/@types/semantic-ui-dropdown/global.d.ts
+index b741d7f..d307c8f 100644
+--- a/node_modules/@types/semantic-ui-dropdown/global.d.ts
++++ b/node_modules/@types/semantic-ui-dropdown/global.d.ts
+@@ -301,7 +301,7 @@ declare namespace SemanticUI {
+             /**
+              * @default 'auto'
+              */
+-            placeholder: 'auto' | 'value' | false;
++            placeholder: string | 'auto' | 'value' | false;
+ 
+             // endregion
+ 
+@@ -853,6 +853,7 @@ declare namespace SemanticUI {
+                 Pick<_Impl, 'dropdown'> |
+                 Pick<_Impl, 'filtered'> |
+                 Pick<_Impl, 'hidden'> |
++                Pick<_Impl, 'icon'> |
+                 Pick<_Impl, 'item'> |
+                 Pick<_Impl, 'label'> |
+                 Pick<_Impl, 'loading'> |
+@@ -896,6 +897,10 @@ declare namespace SemanticUI {
+                  * @default 'hidden transition'
+                  */
+                 hidden: string;
++                /**
++                 * @default 'icon'
++                 */
++                icon: string;
+                 /**
+                  * @default 'item'
+                  */
