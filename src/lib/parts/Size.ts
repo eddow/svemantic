@@ -1,4 +1,4 @@
-import { oneOf, type ClassDescr } from "$lib/classes";
+import { oneOf, type ClassDescr } from "$lib/root";
 
 export interface Size {
 	size?: 'mini'|'tiny'|'small'|'medium'|'large'|'big'|'huge'|'massive';

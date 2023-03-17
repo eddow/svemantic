@@ -10,6 +10,7 @@
 			<LinkItem href="/dropdown">Drop down</LinkItem>
 			<LinkItem href="/message">Message</LinkItem>
 			<LinkItem href="/menu">Menu</LinkItem>
+			<LinkItem href="/popup">Popup</LinkItem>
 		</Menu>
 	</div>
 	<div class="article">

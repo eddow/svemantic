@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { buttonProp, type ButtonProp } from './ButtonProp';
-    import { uistr, type Forward } from "$lib/classes";
+    import { semantic, uistr, type Forward } from "$lib/root";
     import { loading, type Loading } from '$lib/parts/Loading';
     import Icon, { type IconSpec } from '../Icon.svelte';
     import Label from '../text/Label.svelte';
 
 	type Element = 'a'|'button'|'label';
 	type ButtonType = 'button'|'submit'|'reset'|undefined;
-	interface $$Props extends ButtonProp, Loading, Forward {
+	interface $$Props extends Forward, ButtonProp, Loading {
 		active?: boolean;
 		circular?: boolean;
 		type?: 'button'|'submit'|'reset';
@@ -46,7 +46,7 @@
 	// TODO labeled icon
 </script>
 {#if labeled}
-	<div class={cs}>
+	<div class={cs} use:semantic={$$props}>
 		{#if !rightLabeled}<slot name="label"><Label basic pointing="right">{label}</Label></slot>{/if}
 		{#if $$slots.default}
 			<svelte:self {text} {icon}><slot /></svelte:self>
@@ -56,7 +56,7 @@
 		{#if rightLabeled}<slot name="label"><Label basic pointing="left">{label}</Label></slot>{/if}
 	</div>
 {:else}
-	<svelte:element this={element} {tabindex} {type} {href} class={cs}>
+	<svelte:element this={element} {tabindex} {type} {href} class={cs} use:semantic={$$props}>
 		{#if icon}<Icon {icon} />{/if}
 		<slot>{text}</slot>
 	</svelte:element>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
-    import { uistr, type Forward } from "$lib/classes";
+    import { semantic, uistr, type Forward } from "$lib/root";
     import { loading, type Loading } from '$lib/parts/Loading';
     import Icon, { type IconSpec } from '../Icon.svelte';
     import Label from '../text/Label.svelte';
@@ -40,7 +40,7 @@
 		value = (<any>e.target!).value;
 	};
 </script>
-<div class={cs}>
+<div class={cs} use:semantic={$$props}>
 	<slot name="left-label">
 		{#if label}
 			<label for={name} class="ui label">{label}</label>

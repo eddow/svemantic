@@ -1,7 +1,7 @@
 <script lang="ts">
     import DropDown from "./Dropdown.svelte";
 	import { createEventDispatcher, type ComponentProps } from 'svelte';
-    import { frwstr } from "$lib/classes";
+    import { frwstr } from "$lib/root";
 
 	const dispatch = createEventDispatcher();
 	interface $$Props extends ComponentProps<DropDown> {
@@ -24,7 +24,7 @@
 	// TODO: multiselect -> set value
 	// TODO {#if}<slot https://github.com/sveltejs/svelte/pull/8304
 </script>
-<DropDown class={cs} {...config} on:change={change} bind:module>
+<DropDown {...config} class={cs} on:change={change} bind:module>
 	<svelte:fragment slot="text">
 		{#if value}
 			<div class="text">{retrieveText(value)}</div>

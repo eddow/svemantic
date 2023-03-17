@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
-    import { argued, uistr, type Forward } from "$lib/classes";
+    import { argued, semantic, uistr, type Forward } from "$lib/root";
     import { position, type Position } from '$lib/parts/Position';
 
 	type Pointing = 'up'|'down'|'left'|'right'|'';
@@ -41,7 +41,7 @@
 		], size, color, position);
 	}
 </script>
-<svelte:element this={element} class={cs} for={name}>
+<svelte:element this={element} class={cs} use:semantic={$$props} for={name}>
 	{#if image}<img src={image} alt="" />{/if}
 	<slot />
 </svelte:element>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { size, type Size } from '$lib/parts/Size';
-    import { clastr, type Forward } from "$lib/classes";
+    import { clastr, semantic, type Forward } from "$lib/root";
 
-	interface $$Props extends Size, Forward {
+	interface $$Props extends Forward, Size {
 		code: string;
 	}
 	let cs: string;
@@ -12,4 +12,4 @@
 	}
 	
 </script>
-<i class={cs}></i>
+<i class={cs} use:semantic={$$props}></i>

@@ -1,7 +1,7 @@
 import { position, type Position } from "$lib/parts/Position";
 import { color, type Color } from "$lib/parts/Color";
 import { size, type Size } from "$lib/parts/Size";
-import { argued } from "$lib/classes";
+import { argued } from "$lib/root";
 
 export interface ButtonProp extends Position, Color, Size {
 	basic?: boolean;

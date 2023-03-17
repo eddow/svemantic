@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { uistr, type Forward } from "$lib/classes";
+	import { uistr, semantic, type Forward } from "$lib/root";
 	import { createEventDispatcher } from 'svelte';
     import Icon, { type IconSpec } from "$lib/elements/Icon.svelte";
     import i18n from "$lib/i18n";
@@ -45,7 +45,7 @@
 </script>
 <Module {node} {config} access="dropdown" bind:module>
 	<slot {cs}>
-		<div class={cs} bind:this={node}>
+		<div class={cs} use:semantic={$$props} bind:this={node}>
 			{#if name}<input type="hidden" {name}>{/if}
 			<slot name="toggle">
 				<Icon {icon} />

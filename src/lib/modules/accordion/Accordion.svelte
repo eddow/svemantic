@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { uistr, type Forward } from "$lib/classes";
+	import { semantic, uistr, type Forward } from "$lib/root";
     import { onDestroy } from "svelte";
     import Module from "../Module.svelte";
 
@@ -25,7 +25,7 @@
 	// TODO Finish this
 </script>
 <Module {node} {config} access="accordion" bind:module>
-	<div class={cs} bind:this={node}>
+	<div class={cs} use:semantic={$$props} bind:this={node}>
 		<slot />
 		<div class="active title">
 			<i class="dropdown icon"></i>

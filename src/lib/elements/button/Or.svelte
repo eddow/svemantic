@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { clastr, type Forward } from "$lib/classes";
+    import { clastr, semantic, type Forward } from "$lib/root";
     import i18n from "$lib/i18n";
 	export let text: string = '';
 	$: if(!text) text = $i18n.or;
@@ -8,4 +8,4 @@
 	}
 	$: cs = clastr('or', $$props);
 </script>
-<div class={cs} data-text={text}></div>
+<div class={cs} use:semantic={$$props} data-text={text}></div>

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
-    import { uistr, type Forward } from "$lib/classes";
+    import { semantic, uistr, type Forward } from "$lib/root";
     import Icon, { type IconSpec } from '../Icon.svelte';
 
-	interface $$Props extends Size, Color, Forward {
+	interface $$Props extends Forward, Size, Color {
 		icon?: IconSpec | boolean;
 		sub?: boolean;
 	}
@@ -16,7 +16,7 @@
 	}
 	// TODO standardise header/item/... w/ header, sub-header, content, ....
 </script>
-<div class={cs}>
+<div class={cs} use:semantic={$$props}>
 	{#if typeof icon == 'string'}
 		<Icon {icon} />
 	{/if}

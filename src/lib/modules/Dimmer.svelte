@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { color, type Color } from '$lib/parts/Color';
-    import { uistr, type Forward } from "$lib/classes";
+    import { semantic, uistr, type Forward } from "$lib/root";
 
-	interface $$Props extends Color, Forward {
+	interface $$Props extends Forward, Color {
 		active?: boolean;
 		inverted?: boolean;
 	}
@@ -14,4 +14,4 @@
 		], color);
 	}
 </script>
-<div class={cs}><slot /></div>
+<div class={cs} use:semantic={$$props}><slot /></div>

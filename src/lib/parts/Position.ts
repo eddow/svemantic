@@ -1,4 +1,4 @@
-import { argued } from "$lib/classes";
+import { argued } from "$lib/root";
 
 export interface Position {
 	attached?: 'top'|'bottom'|'left'|'right'|'top left'|'top right'|'bottom left'|'bottom right';

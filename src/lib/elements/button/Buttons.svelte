@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { uistr, type Forward } from "$lib/classes";
+    import { semantic, uistr, type Forward } from "$lib/root";
 	import { buttonProp, type ButtonProp } from './ButtonProp';
 	import { childrenNumber, type ChildrenNumber } from "$lib/parts/Number";
 
-	interface $$Props extends ButtonProp, ChildrenNumber, Forward {
+	interface $$Props extends Forward, ButtonProp, ChildrenNumber {
 		vertical?: boolean;
 		stackable?: boolean;
 		icon?: boolean;
@@ -17,6 +17,6 @@
 		cs = uistr('buttons', $$props, {vertical, stackable, icon, wrapping, spaced}, buttonProp, childrenNumber);
 	}
 </script>
-<div class={cs}>
+<div class={cs} use:semantic={$$props}>
 	<slot />
 </div>

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
-    import { uistr, combine, type Forward } from "$lib/classes";
+    import { uistr, combine, type Forward, semantic } from "$lib/root";
 	import { createEventDispatcher } from 'svelte';
     import Module from '../Module.svelte';
 
 	const dispatch = createEventDispatcher();
-	interface $$Props extends Size, Color, Forward, Modal.Settings {
+	interface $$Props extends Forward, Size, Color, Modal.Settings {
 		basic?: boolean;
 		fullscreen?: boolean;
 		long?: boolean;
@@ -60,7 +60,7 @@
 	};
 </script>
 <Module {node} {config} access="modal" bind:module>
-	<div class={cs} bind:this={node}>
+	<div class={cs} use:semantic={$$props} bind:this={node}>
 		{#if closable}<i class="close icon"></i>{/if}
 		{#if $$slots.header}
 			<div class={csss.header}>

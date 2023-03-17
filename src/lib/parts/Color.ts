@@ -1,4 +1,4 @@
-import { oneOf, type ClassDescr } from "$lib/classes";
+import { oneOf, type ClassDescr } from "$lib/root";
 
 export interface Color {
 	color?: 'red'|'orange'|'yellow'|'olive'|'green'|'teal'|'blue'|'violet'|'purple'|'pink'|'brown'|'grey'|'black';

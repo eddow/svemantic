@@ -2,7 +2,7 @@
     import Items from './Items.svelte';
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
-    import { argued, uistr, type Forward } from "$lib/classes";
+    import { argued, semantic, uistr, type Forward } from "$lib/root";
 	import { position, type Position } from "$lib/parts/Position";
     import { childrenNumber, type ChildrenNumber } from '$lib/parts/Number';
 
@@ -21,7 +21,7 @@
 	}
 </script>
 <Items>
-	<div class={cs}>
+	<div class={cs} use:semantic={$$props}>
 		<slot />
 	</div>
 </Items>

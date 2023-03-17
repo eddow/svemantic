@@ -3,7 +3,7 @@
     import Item from './Item.svelte';
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
-    import { clastr, type Forward } from "$lib/classes";
+    import { clastr, semantic, type Forward } from "$lib/root";
 	import { position, type Position } from "$lib/parts/Position";
 	import { page } from "$app/stores";
 
@@ -19,7 +19,7 @@
 	}
 </script>
 <Item bind:active>
-	<a class={cs} {href}>
+	<a class={cs} use:semantic={$$props} {href}>
 		<slot>
 			{#if icon}<Icon {icon}/>{/if}
 			{text}

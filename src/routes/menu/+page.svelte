@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { SubMenu, Menu, LinkItem } from "$lib";
-    import Icon from "$lib/elements/Icon.svelte";
 	// TODO icon label text
 </script>
 <Menu attached="top">

@@ -1,7 +1,10 @@
+import { popup, type PopupSettings } from "./modules/popup/Popup.svelte";
+
 export type ClassDescr = string|Record<string,boolean|undefined>|ClassDescr[]|false|null|undefined;
 
 export interface Forward {
 	class?: string;
+	popup?: PopupSettings | string;
 }
 export function oneOf(classes: Record<string, string|boolean|undefined>) {
 	const used = Object.keys(classes).filter(c=> !!classes[c]), itm = classes[used[0]];
@@ -30,4 +33,12 @@ export function clastr(type: string, props: Forward, classes: ClassDescr = false
 }
 export function uistr(type: string, props: Forward, classes: ClassDescr = false, ...parts: ((cd: object)=> ClassDescr)[]) : string {
 	return combine('ui', classes, props.class, ...parts.map(p=> p(props)), type);
+}
+
+export function semantic(node: HTMLElement, frwrd: Forward) {
+	function update({popup: ppp}: Forward) {
+		if(ppp) popup(node, ppp);
+	}
+	update(frwrd);
+	return { update };
 }

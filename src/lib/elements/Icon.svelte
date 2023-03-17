@@ -4,13 +4,13 @@
 <script lang="ts">
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
-    import { argued, clastr, type Forward } from "$lib/classes";
+    import { argued, clastr, semantic, type Forward } from "$lib/root";
 
 	export let icon: IconSpec;
 	let collection: boolean;
 	$: collection = !!icon && typeof icon != 'string';
 
-	interface $$Props extends Size, Color, Forward {
+	interface $$Props extends Forward, Size, Color {
 		icon: string|string[];
 		disabled?: boolean;
 		loading?: boolean;
@@ -35,11 +35,11 @@
 	// Corner ("top right corner", ...) is specified in the code of unity icons
 </script>
 {#if collection}
-	<i class={cs}>
+	<i class={cs} use:semantic={$$props}>
 		{#each icon as i}
 			<i class={i+' icon'}></i>
 		{/each}
 	</i>
 {:else}
-<i class={cs}></i>
+<i class={cs} use:semantic={$$props}></i>
 {/if}

@@ -2,11 +2,11 @@
 <script lang="ts">
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
-    import { oneOf, uistr, type Forward } from "$lib/classes";
+    import { semantic, uistr, type Forward } from "$lib/root";
     import Dimmer from '$lib/modules/Dimmer.svelte';
     import { loading, type Loading } from '$lib/parts/Loading';
 
-	interface $$Props extends Size, Color, Forward, Loading {
+	interface $$Props extends Forward, Size, Color, Loading {
 		disabled?: boolean;
 		indeterminate?: boolean;
 		loading?: boolean;
@@ -23,7 +23,7 @@
 	}
 </script>
 <Dimmer {active} {inverted}>
-	<div class={cs}>
+	<div class={cs} use:semantic={$$props}>
 		<slot></slot>
 	</div>
 </Dimmer>
