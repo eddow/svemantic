@@ -1,5 +1,5 @@
 <script lang="ts">
-	// TODO
+	// TODO item(s) mgt + own items (vs other activable items)
     import DropDown from "./Dropdown.svelte";
 	import type { ComponentProps } from 'svelte';
     import { clastr } from "$lib/classes";

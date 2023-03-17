@@ -1,8 +1,10 @@
+import type { IconSpec } from "$lib/elements/Icon.svelte";
+
 export interface Action<T=any> {
 	text: string;
 	value: T;
 	class?: string;
-	icon?: string;
+	icon?: IconSpec;
 }
 export interface ActionDigest<T=any> {
 	actions: any[];

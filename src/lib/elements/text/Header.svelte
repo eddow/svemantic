@@ -2,12 +2,13 @@
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
     import { uistr, type Forward } from "$lib/classes";
+    import Icon, { type IconSpec } from '../Icon.svelte';
 
 	interface $$Props extends Size, Color, Forward {
-		icon?: string | boolean;
+		icon?: IconSpec | boolean;
 		sub?: boolean;
 	}
-	export let icon: string | boolean | undefined = undefined;
+	export let icon: IconSpec | boolean | undefined = undefined;
 	let cs: string;
 	$: {
 		let {sub} = $$props;
@@ -17,7 +18,7 @@
 </script>
 <div class={cs}>
 	{#if typeof icon == 'string'}
-		<i class={icon+' icon'}></i>
+		<Icon {icon} />
 	{/if}
 	<slot name="image" />
 	<div class="content">

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { manifest } from './../../.svelte-kit/output/server/manifest-full.js';
 	import "fomantic-ui/dist/semantic.js";
 	import "fomantic-ui/dist/semantic.css";
     import { LinkItem, Menu } from '$lib';
