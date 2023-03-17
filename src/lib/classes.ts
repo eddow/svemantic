@@ -9,7 +9,7 @@ export function oneOf(classes: Record<string, string|boolean|undefined>) {
 	return <ClassDescr>(!!used.length && itm === true ? used[0] : itm);
 }
 
-function combine(...classes: ClassDescr[]) : string {
+export function combine(...classes: ClassDescr[]) : string {
 	return classes.map(c=>
 		!c ? false :
 		typeof c === 'string' ? c :

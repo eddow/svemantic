@@ -49,9 +49,7 @@
 			{#if name}<input type="hidden" {name}>{/if}
 			<slot name="toggle">
 				<Icon {icon} />
-				<slot name="text">
-					<div class="default text">{placeholder}</div>
-				</slot>
+				<slot name="text" />
 			</slot>
 			{#if !values}
 				<div class="menu">

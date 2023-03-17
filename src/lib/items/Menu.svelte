@@ -11,11 +11,13 @@
 		vertical?: boolean;
 		tabular?: boolean;
 		compact?: boolean;
+		right?: boolean;
 	}
+	// TODO labeled icon
 	let cs: string;
 	$: {
-		let {icon, vertical, tabular, compact} = $$props;
-		cs = uistr('menu', $$props, [argued({icon}), {vertical, tabular, compact}], size, color, childrenNumber, position);
+		let {icon, vertical, tabular, compact, right} = $$props;
+		cs = uistr('menu', $$props, [argued({icon}), {vertical, tabular, compact, right}], size, color, childrenNumber, position);
 	}
 </script>
 <Items>

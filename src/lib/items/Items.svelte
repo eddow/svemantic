@@ -9,10 +9,8 @@
 		remove(key: T): void;
 		activate(key: T, active: boolean): boolean;
 	};
-	export function getRoot<T=any>(itemContainer: boolean = false) {
-		const rv = getContext<ItemsRoot<T>>(itemsContext);
-		if(!itemContainer) setContext(itemsContext, undefined);
-		return rv;
+	export function getRoot<T=any>() {
+		return getContext<ItemsRoot<T>>(itemsContext);
 	}
 </script>
 <script lang="ts">

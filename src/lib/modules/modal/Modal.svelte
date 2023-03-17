@@ -1,22 +1,19 @@
 <script lang="ts">
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
-    import { uistr, type Forward } from "$lib/classes";
+    import { uistr, combine, type Forward } from "$lib/classes";
 	import { createEventDispatcher } from 'svelte';
     import Module from '../Module.svelte';
-/*
-	header: center aligned, basic
-	content: image, center aligned
-	actions: left, center aligned, basic
-	*/
+
 	const dispatch = createEventDispatcher();
 	interface $$Props extends Size, Color, Forward, Modal.Settings {
-		inverted?: boolean;
 		basic?: boolean;
 		fullscreen?: boolean;
 		long?: boolean;
 		longer?: boolean;
 		scrolling?: boolean;
+		leftActions?: boolean;
+		centered?: boolean;
 	}
 	let module: (...parms: any[])=> any;
 	const config: SemanticUI.ModalSettings = <SemanticUI.ModalSettings>Object.assign({}, $$props, {
@@ -54,19 +51,25 @@
 		}
 		return new Promise<boolean|undefined>((resolve, reject)=> { promise = {resolve, reject}; });
 	}
-	export let closable: boolean = true, title: string = '';
-	let contentCls = ($$slots.image ? 'image ' : '') + 'content'
+	export let closable: boolean = true, title: string = '', leftActions: boolean = false, centered: boolean = false;
+	let csss: {content: string, header: string, actions: string};
+	$: csss = {
+		content: combine($$slots.image ? 'image ' : '', centered && 'center aligned', 'content'),
+		header: combine(centered && 'center aligned', 'header'),
+		actions: combine(leftActions && 'left', centered && 'center aligned', 'actions')
+	};
 </script>
-<div class={cs}><slot /></div>
 <Module {node} {config} access="modal" bind:module>
-	<div class={cs} bind:this={node}><div class="ui modal">
+	<div class={cs} bind:this={node}>
 		{#if closable}<i class="close icon"></i>{/if}
-		<div class="header">
-			<slot name="header">
-				{title}
-			</slot>
-		</div>
-		<div class={contentCls}>
+		{#if $$slots.header}
+			<div class={csss.header}>
+				<slot name="header">
+					{title}
+				</slot>
+			</div>
+		{/if}
+		<div class={csss.content}>
 			{#if $$slots.image}
 				<div class="image">
 					<slot name="image" />
@@ -77,7 +80,7 @@
 			</div>
 		</div>
 		{#if $$slots.actions}
-			<div class="actions">
+			<div class={csss.actions}>
 				<slot name="actions" />
 			</div>
 		{/if}

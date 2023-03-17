@@ -2,9 +2,9 @@
     import { createEventDispatcher, onDestroy } from "svelte";
     import { getRoot } from "./Items.svelte";
 
-	export let key: any = {}, active: boolean = false, itemContainer: boolean = false;
+	export let key: any = {}, active: boolean = false;
 	let oldKey: any = undefined, oldActive: boolean = false;
-	const root = getRoot(itemContainer);
+	const root = getRoot();
 	console.assert(!!root, `Item ${key} in an item container`)
 	function activate(nactive: boolean) {
 		if(oldActive !== nactive && !dispatch('activate', nactive, {cancelable: true}))

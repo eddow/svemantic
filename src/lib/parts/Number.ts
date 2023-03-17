@@ -1,9 +1,9 @@
 import { oneOf, type ClassDescr } from "$lib/classes";
-import type { Multiple } from "$lib/utils";
 
-// const nrs = [null, 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+export type Multiple = 'two'|'three'|'four'|'five'|'six'|'seven'|'eight'|'nine'|'ten'|'eleven'|'twelve';
+const nrs = [null, 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
 export interface ChildrenNumber {
-	number?: Multiple;
+	number?: number|Multiple;
 	two?: boolean;
 	three?: boolean;
 	four?: boolean;
@@ -18,5 +18,5 @@ export interface ChildrenNumber {
 }
 
 export function childrenNumber({number, two ,three, four, five, six, seven, eight, nine, ten, eleven, twelve}: ChildrenNumber): ClassDescr {
-	return oneOf({number, two ,three, four, five, six, seven, eight, nine, ten, eleven, twelve});
+	return oneOf({number: number!== undefined && (typeof number === 'number' ? nrs[number] || undefined : number), two ,three, four, five, six, seven, eight, nine, ten, eleven, twelve});
 }

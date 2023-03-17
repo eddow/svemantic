@@ -9,6 +9,7 @@
 			<LinkItem href="/button">Button</LinkItem>
 			<LinkItem href="/dropdown">Drop down</LinkItem>
 			<LinkItem href="/message">Message</LinkItem>
+			<LinkItem href="/menu">Menu</LinkItem>
 		</Menu>
 	</div>
 	<div class="article">

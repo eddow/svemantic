@@ -1,13 +1,14 @@
 <script lang="ts">
-	// TODO item(s) mgt + own items (vs other activable items)
     import DropDown from "./Dropdown.svelte";
 	import type { ComponentProps } from 'svelte';
-    import { clastr } from "$lib/classes";
+    import { clastr, type Forward } from "$lib/classes";
 
-	interface $$Props extends ComponentProps<DropDown> {}
+	interface $$Props extends Forward, ComponentProps<DropDown> {
+	}
 	let cs: string;
 	$: cs = clastr('item', $$props);
 </script>
-<DropDown class={cs} {...$$restProps}>
-	<slot name="menu" slot="menu" />
+<DropDown {...$$restProps} class={cs}>
+	<slot name="text" slot="text" />
+	<slot slot="menu" />
 </DropDown>
