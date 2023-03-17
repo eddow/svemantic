@@ -8,12 +8,14 @@
 		circular?: boolean;
 		type?: 'button'|'submit'|'reset';
 		href?: string;
+		approve?: boolean;
+		cancel?: boolean;
 	}
 
 	let cs: string;
 	$: {
-		let {active, circular} = $$props;
-		cs = uistr('button', $$props, {active, circular}, buttonProp, loading);
+		let {active, circular, approve, cancel} = $$props;
+		cs = uistr('button', $$props, {active, circular, approve, cancel}, buttonProp, loading);
 	}
 	
 	export let type: 'button'|'submit'|'reset' = 'button';

@@ -9,6 +9,7 @@
 		<Menu vertical fluid tabular>
 			<LinkItem href="/button">Button</LinkItem>
 			<LinkItem href="/dropdown">Drop down</LinkItem>
+			<LinkItem href="/message">Message</LinkItem>
 		</Menu>
 	</div>
 	<div class="article">

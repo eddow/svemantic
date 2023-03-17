@@ -26,7 +26,7 @@
 	export let node: HTMLElement|undefined = undefined;
 
 	const dispatch = createEventDispatcher();
-	export let config: SemanticUI.DropdownSettings = Object.assign({}, $$restProps, {
+	const config: SemanticUI.DropdownSettings = Object.assign({}, $$restProps, {
 		onChange: (value: any, text: string)=> { dispatch('change', {value, text}); },
 		onAdd: (value: any, text: string)=> { dispatch('add', {value, text}); },
 		onRemove: (value: any, text: string)=> { dispatch('remove', {value, text}); },
@@ -49,7 +49,9 @@
 			{#if name}<input type="hidden" {name}>{/if}
 			<slot name="toggle">
 				<Icon {icon} />
-				<div class="default text">{placeholder}</div>
+				<slot name="text">
+					<div class="default text">{placeholder}</div>
+				</slot>
 			</slot>
 			{#if !values}
 				<div class="menu">

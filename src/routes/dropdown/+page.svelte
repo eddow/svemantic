@@ -5,24 +5,22 @@
 	*/
     import { Languages, Select, Flag } from "$lib";
 
-	let values = [{value: 'M', name: 'Male'}, {value: 'F', name: 'Female'}], value: string = 'M';
-	let languages = {fr: 'Français', en: {flag: 'gb uk', text: 'English'}, ro: 'Romanian'}, language = 'fr';
+	const values = [{value: 'M', name: 'Male'}, {value: 'F', name: 'Female'}], 
+		languages = {fr: 'Français', en: {flag: 'gb uk', text: 'English'}, ro: 'Română', hu: 'Magyar'},
+		flags: Record<string,string> = {en: 'gb uk'};
+	let value: string = 'M', valueMult: string, language = 'fr';
+	// TODO multiple -> weird padding
 </script>
 
 <div>
-	<Languages {languages} {language} />
+	<Languages {languages} bind:language />
 </div>
 <div>
-<Select {values} multiple bind:value placeholder="test-left" /><br />
-{value}<br />
-<!--Select items={values} bind:value placeholder="blup">
-	<div slot="item" let:item class="item" data-value={item && item.value}>
-		<Icon icon={item && item.name.toLowerCase()} />
-		{item && item.name}
-	</div>
-</Select><br /-->
-<Select {values} multiple bind:value />
+	<Flag huge code={flags[language] || language} />
 </div>
 <div>
-	<Flag huge code="fr" />
+	<Select {values} clearable bind:value placeholder="test-left" /> -: {value} :- <Select {values} bind:value />
+</div>
+<div>
+	<Select {values} clearable multiple bind:value={valueMult} placeholder="test-left" /> -: {valueMult} :- <Select {values} multiple bind:value={valueMult} />
 </div>

@@ -85,7 +85,7 @@ npm publish
 - [ ] Breadcrumb
 - [ ] Form
 - [ ] Grid
-- [ ] Menu
+- [x] Menu
 - [ ] Message
 - [ ] Table
 
@@ -105,10 +105,10 @@ npm publish
 - [ ] Calendar
 - [ ] Checkbox
 - [x] Dimmer
-- [ ] Dropdown
+- [-] Dropdown
 - [ ] Embed
 - [ ] Flyout
-- [ ] Modal
+- [x] Modal
 - [ ] Nag
 - [ ] Popup
 - [ ] Progress
