@@ -1,6 +1,7 @@
 export * from "./button";
 export * from "./text";
 export * from "./input";
+export * from "./menu";
 
 import Flag from "./Flag.svelte";
 import Icon from "./Icon.svelte";

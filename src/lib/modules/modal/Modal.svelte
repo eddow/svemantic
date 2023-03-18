@@ -3,7 +3,7 @@
 	import { size, type Size } from '$lib/parts/Size';
     import { uistr, combine, type Forward, semantic } from "$lib/root";
 	import { createEventDispatcher } from 'svelte';
-    import Module from '../Module.svelte';
+    import Module from '$lib/modules/Module.svelte';
 
 	const dispatch = createEventDispatcher();
 	interface $$Props extends Forward, Size, Color, Modal.Settings {

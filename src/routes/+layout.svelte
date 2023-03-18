@@ -11,6 +11,7 @@
 			<LinkItem href="/message">Message</LinkItem>
 			<LinkItem href="/menu">Menu</LinkItem>
 			<LinkItem href="/popup">Popup</LinkItem>
+			<LinkItem href="/paged">Paged</LinkItem>
 		</Menu>
 	</div>
 	<div class="article">

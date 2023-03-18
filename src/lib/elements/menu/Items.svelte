@@ -16,8 +16,8 @@
 <script lang="ts">
 	type T = $$Generic;
 	const items = new Map<T, ItemActivation>;
-	//? TODO allows export of àctiveKey and bind
-	let activeKey: T | undefined = undefined;
+	//? TODO allows export of `activeKey` and bind: manage prvAK
+	let activeKey: T | undefined = undefined, prvAK: T | undefined = undefined;
 	function deactivate(): boolean {
 		if(activeKey === undefined) return true;
 		console.assert(items.has(activeKey), `Key not found: ${activeKey}`);
@@ -25,6 +25,15 @@
 			(activeKey = undefined, true) :
 			false;
 	}
+	function activate(key: T|undefined, active: boolean) {
+		if(!active) 
+			return key === prvAK ? deactivate() : true;
+		if(prvAK === key) return (prvAK = activeKey = key) && true;
+		console.assert(key !== undefined && items.has(key), `Key not found: ${key}`);
+		return deactivate() && (key === undefined || (items.has(key) && items.get(key)!(true))) && (prvAK = activeKey = key);
+	}
+	$: if(activeKey !== prvAK && !activate(activeKey, true))
+		activeKey = prvAK;
 	setContext(itemsContext, <ItemsRoot<T>>{
 		register(key: T, act: ItemActivation) {
 			console.assert(!items.has(key), `Duplicate key: ${key}`);
@@ -35,13 +44,7 @@
 			if(activeKey === key) deactivate();
 			items.delete(key);
 		},
-		activate(key: T, active: boolean) {
-			if(!active) 
-				return key === activeKey ? deactivate() : true;
-			if(activeKey === key) return true;
-			console.assert(items.has(key), `Key not found: ${key}`);
-			return deactivate() && items.has(key) && items.get(key)!(true);
-		}
+		activate
 	})
 </script>
 <slot />

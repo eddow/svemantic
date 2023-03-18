@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
     import Icon, { type IconSpec } from "$lib/elements/Icon.svelte";
     import i18n from "$lib/i18n";
-    import Module from "../Module.svelte";
+    import Module from "$lib/modules/Module.svelte";
 
 	interface $$Props extends Forward, Dropdown.Settings {
 		items?: any[];

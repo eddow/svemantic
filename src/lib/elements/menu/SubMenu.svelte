@@ -1,5 +1,5 @@
 <script lang="ts">
-    import DropDown from "./Dropdown.svelte";
+    import DropDown from "../../modules/dropdown/Dropdown.svelte";
 	import type { ComponentProps } from 'svelte';
     import { clastr, type Forward } from "$lib/root";
 

@@ -20,8 +20,6 @@
 		cs = uistr('menu', $$props, [argued({icon}), {vertical, tabular, compact, right}], size, color, childrenNumber, position);
 	}
 </script>
-<Items>
-	<div class={cs} use:semantic={$$props}>
-		<slot />
-	</div>
-</Items>
+<div class={cs} use:semantic={$$props}>
+	<slot />
+</div>
