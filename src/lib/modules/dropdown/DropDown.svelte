@@ -5,7 +5,7 @@
     import i18n from "$lib/i18n";
     import Module from "$lib/modules/Module.svelte";
 
-	interface $$Props extends Forward, Dropdown.Settings {
+	interface $$Props extends Forward, SveMantic.DropdownSettings {
 		items?: any[];
 		icon?: IconSpec;
 		action?: 'activate' | 'select' | 'combo' | 'nothing' | 'hide' | ((text: string, value: string | false, element: JQuery) => void);
@@ -34,7 +34,7 @@
 	});
 	if(values) config.values = values;
 	if(placeholder !== undefined) config.placeholder = placeholder;
-	$: config.message = $i18n.dropdown
+	$: config.message = $i18n.dropdown;	//? reactive?
 	export let module: (...parms: any[])=> any = ()=> {};
 	let cs: string;
 	$: {

@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { combine } from "$lib/root";
+    import { getTabs } from "./Tabs.svelte";
 
-	export let spec: Paged.TabSpecification, key: string;
+	export let spec: SveMantic.TabSpecification, key: string;
+	const context = getTabs();
+
 	let cs: string;
-	$: cs = combine('ui', spec.side, 'attached', {inverted: spec.inverted}, 'tab segment');
+	$: cs = combine('ui', spec.side, 'attached', {inverted: spec.inverted, active: key === $context}, 'tab segment');
 </script>
-<div class={cs} data-tab={key}><slot /></div>
+<div class={cs}><slot /></div>

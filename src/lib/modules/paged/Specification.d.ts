@@ -1,11 +1,11 @@
 declare global {
-	namespace Paged {
-		export type Side = 'top' | 'bottom';
-		export interface Specification {
+	namespace SveMantic {
+		export type TabSide = 'top' | 'bottom';
+		export interface PageSpecification {
 			part: ConstructorOfATypedSvelteComponent;
 		}
-		export interface TabSpecification extends Specification {
-			side: Side;
+		export interface TabSpecification extends PageSpecification {
+			side: TabSide;
 			inverted: boolean;
 		}
 	}

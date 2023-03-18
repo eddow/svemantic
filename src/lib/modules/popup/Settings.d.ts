@@ -1,7 +1,7 @@
 // c/p from semantic-ui.d.ts
 declare global {
-	namespace Popup {
-		export interface Settings {
+	namespace SveMantic {
+		export interface PopupSettings {
 			exclusive?: boolean;
 			movePopup?: boolean;
 			observeChanges?: boolean;

@@ -20,3 +20,5 @@ A popup can be defined in a `<Popup...` tag whose attributes are :
 To bind this popup, you can :
 1- Bind `config` and use its value in the `tooltip=...` or `use:tooltip=...` statement
 2- Place the tooltip **just after** the element it should bind to. If that element could be re-rendered or modified afterward, this solution might bring some bugs.
+
+Note: if `config` is bounf, the element before the `Popup` remains untouched.

@@ -1,24 +1,38 @@
+<script lang="ts" context="module">
+	const tabContext = {};	//unique context key;
+	export function getTabs() { return getContext<Writable<string>>(tabContext); }
+</script>
 <script lang="ts">
     import { combine } from "$lib/root";
     import TabHeader from "./TabHeader.svelte";
 	import TabContent from './TabContent.svelte';
+    import { writable, type Writable } from "svelte/store";
+    import { getContext, setContext } from "svelte";
+    import PageContainer from "./PageContainer.svelte";
 
-	type Position = 'top' | 'bottom';
-	export let tabs: Position = 'top', inverted: boolean = false;
-	const opposite: Record<Position, Position> = {top: 'bottom', bottom: 'top'};
+	export let tabs: SveMantic.TabSide = 'top', inverted: boolean = false, active: string = '';
+	const opposite: Record<SveMantic.TabSide, SveMantic.TabSide> = {top: 'bottom', bottom: 'top'},
+		context = writable<string>(active);
+	setContext<Writable<string>>(tabContext, context);
+	$: context.set(active);
+	context.subscribe(v=> { active = v; });
 	console.log(TabHeader.name);
-	let hdrSpec: Paged.TabSpecification, cntSpec: Paged.TabSpecification;
+	let hdrSpec: SveMantic.TabSpecification, cntSpec: SveMantic.TabSpecification;
 	$: {
 		hdrSpec = {part: TabHeader, side: tabs, inverted};
 		cntSpec = {part: TabContent, side: opposite[tabs], inverted};
 	}
 	let headersCls: string;
 	$: headersCls = combine('ui', tabs, {inverted}, 'attached tabular menu');
-	// TODO => use ui menu w/ tabular
-	// TODO keys generation
 </script>
-
-<div class={headersCls}>
-	<slot spec={hdrSpec} />
-</div>
-<slot spec={cntSpec} />
+{#if tabs === 'top'}
+	<div class={headersCls}>
+		<PageContainer><slot spec={hdrSpec} /></PageContainer>
+	</div>
+{/if}
+<PageContainer><slot spec={cntSpec} /></PageContainer>
+{#if tabs === 'bottom'}
+	<div class={headersCls}>
+		<PageContainer><slot spec={hdrSpec} /></PageContainer>
+	</div>
+{/if}

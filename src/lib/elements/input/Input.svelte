@@ -5,8 +5,9 @@
     import { loading, type Loading } from '$lib/parts/Loading';
     import Icon, { type IconSpec } from '../Icon.svelte';
     import Label from '../text/Label.svelte';
+    import { getField } from '$lib/modules/form/Field.svelte';
 
-	type Type = 'text'|'email'|'number'|'range'|'password'|'search'|'tel'|'url'|'time'|'date'|'month'|'week'|'datetime-local'|'color'|'file';
+	type Type = 'text'|'email'|'number'|'range'|'password'|'search'|'tel'|'url'|'time'|'date'|'month'|'week'|'datetime-local'|'color'|'file'|'area';
 	// not done here: checkbox radio hidden reset button submit 
 	//? image
 	
@@ -26,6 +27,8 @@
 	export let name:string = '', icon: IconSpec = '', type: Type = 'text', placeholder: string = '', value: string = '',
 		leftCorner: boolean = false, leftAction: boolean = false, leftIcon: boolean = false, label: string = '';
 	let cs: string;
+	const field = getField();
+	$: placeholder = (field && $field.text) || placeholder;
 	$: {
 		let {disabled, transparent} = $$props;
 		cs = uistr('input', $$props, [
@@ -51,7 +54,11 @@
 	{/if}
 	{#if leftAction}<slot name="action" />{/if}
 	<slot>
-		<input {type} {value} {name} {placeholder} on:input={handleInput} />
+		{#if type === 'area'}
+			<textarea {value} {name} {placeholder} on:input={handleInput}></textarea>
+		{:else}
+			<input {type} {value} {name} {placeholder} on:input={handleInput} />
+		{/if}
 	</slot>
 	{#if !leftAction}<slot name="action" />{/if}
 	{#if icon}<Icon {icon} />{/if}

@@ -6,7 +6,7 @@ export interface MessageImmediate {title?: string, content: string}
 export interface PromptImmediate extends MessageImmediate {placeholder?: string, defaultValue?: string}
 //? fomantic-ui.d.ts
 export function alert(text: string|MessageImmediate) {
-	(<any>jQuery).modal('alert', text);
+	new Promise<void>((resolve)=> (<any>jQuery).modal('alert', text, resolve));
 }
 export function confirm(text: string|MessageImmediate) {
 	return new Promise<boolean>((resolve)=> (<any>jQuery).modal('confirm', text, resolve));
@@ -14,8 +14,9 @@ export function confirm(text: string|MessageImmediate) {
 export function prompt(text: string|PromptImmediate) {
 	return new Promise<string>((resolve)=> (<any>jQuery).modal('prompt', text, resolve));
 }
+// TODO Find a way to do this as semantic-ui ($.modal.setting...) is loaded after the svemantic if svemantic does not import ir
 //? fomantic-ui.d.ts
-if(browser) i18n.subscribe(txts=> { (<any>jQuery.fn).modal.settings.text = txts.pppControl; })
+if(browser) i18n.subscribe(txts=> { (<any>jQuery.fn).modal.settings.text = txts.cmd; })
 
 export interface ModalSettings {
 	offset?: number;

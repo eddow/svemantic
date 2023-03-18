@@ -1,13 +1,17 @@
 <script lang="ts">
 	import { combine } from "$lib/root";
-    import Module from "$lib/modules/Module.svelte";
+    import { getTabs } from "./Tabs.svelte";
+	
+	export let spec: SveMantic.TabSpecification, key: string;
+	const context = getTabs();
 
-	export let spec: Paged.TabSpecification, key: string;
-	let cs: string, node: HTMLElement;
-	$: cs = combine({inverted: spec.inverted}, 'item');
+	let cs: string;
+	$: cs = combine({inverted: spec.inverted, active: key === $context}, 'item');
+
+	function click() {
+		$context = key;
+	}
 </script>
-<Module {node} access="tab">
-	<a class={cs} data-tab={key} bind:this={node}>
-		<slot name="header" />
-	</a>
-</Module>
+<a class={cs} on:click={click}>
+	<slot name="header" />
+</a>

@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	const emptyConfig = <PopupSettings>{};
-	export interface PopupSettings extends Popup.Settings {
+	export interface PopupSettings extends SveMantic.PopupSettings {
 		popup?: HTMLElement;
 		content?: string;
 		title?: string;
@@ -32,13 +32,13 @@
 	import { color, type Color } from '$lib/parts/Color';
 	import { size, type Size } from '$lib/parts/Size';
     import { argued, semantic, uistr, type Forward } from "$lib/root";
-    import { tick, createEventDispatcher } from "svelte";
+    import { onDestroy, tick, createEventDispatcher } from "svelte";
 
 	const dispatch = createEventDispatcher();
 	export let config: PopupSettings|undefined = undefined;	// For binding only
 	let previous: boolean, node: HTMLElement|undefined = undefined, apply: HTMLElement|undefined = undefined,
 		module: (...parms: any[])=> any = ()=> {};
-	interface $$Props extends Popup.Settings, Size, Color, Forward {
+	interface $$Props extends SveMantic.PopupSettings, Size, Color, Forward {
 		config?: PopupSettings;
 		flowing?: boolean;
 		basic?: boolean;
@@ -84,6 +84,9 @@
 			argued({wide})
 		], size, color);
 	}
+	onDestroy(()=> {
+		module('remove popup');
+	});
 </script>
 <div class={cs} use:semantic={$$restProps} bind:this={node}>
 	<slot />

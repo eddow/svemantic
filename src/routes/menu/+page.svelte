@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { SubMenu, Menu, LinkItem } from "$lib";
-	// TODO icon label text
 </script>
 <Menu attached="top">
 	<LinkItem href="#">Menu</LinkItem>

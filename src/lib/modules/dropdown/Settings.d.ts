@@ -1,7 +1,7 @@
 // c/p from semantic-ui.d.ts
 declare global {
-	namespace Dropdown {
-		export interface Settings {
+	namespace SveMantic {
+		export interface DropdownSettings {
 
 			// region Frequently Used Settings
 

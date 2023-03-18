@@ -6,7 +6,7 @@
     import Module from '$lib/modules/Module.svelte';
 
 	const dispatch = createEventDispatcher();
-	interface $$Props extends Forward, Size, Color, Modal.Settings {
+	interface $$Props extends Forward, Size, Color, SveMantic.ModalSettings {
 		basic?: boolean;
 		fullscreen?: boolean;
 		long?: boolean;
@@ -16,7 +16,7 @@
 		centered?: boolean;
 	}
 	let module: (...parms: any[])=> any;
-	const config: SemanticUI.ModalSettings = <SemanticUI.ModalSettings>Object.assign({}, $$props, {
+	const config = <SemanticUI.ModalSettings>Object.assign({}, $$props, {
 		onShow() { dispatch('show'); },
 		onVisible() { dispatch('visible'); },
 		onHide() { return dispatch('hide', null, {cancelable: true}); },

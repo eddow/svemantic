@@ -10,11 +10,6 @@
 			let jqn = node && jQuery(node);
 			if(jqn) {
 				module = (<(...parms: any[])=> any>(<any>jqn)[access]).bind(jqn);
-				/*let m = (<(...parms: any[])=> any>(<any>jqn)[access]).bind(jqn);
-				module = (...parms: any[])=> {
-					console.dir(parms);
-					m(...parms);
-				}*/
 				module(config);
 			}
 		}

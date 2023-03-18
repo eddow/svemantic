@@ -8,11 +8,56 @@ const englishDefault = {
 		maxSelections : 'Max {maxCount} selections',
 		noResults: 'No results found.'
 	},
-	pppControl: {
+	form: {
+		text: {
+			and: 'and',
+			unspecifiedRule: 'Please enter a valid value',
+			unspecifiedField: 'This field',
+			leavingMessage: 'There are unsaved changes on this page which will be discarded if you continue.',
+		},
+		prompt: {
+			range: '{name} must be in a range from {min} to {max}',
+			maxValue: '{name} must have a maximum value of {ruleValue}',
+			minValue: '{name} must have a minimum value of {ruleValue}',
+			empty: '{name} must have a value',
+			checked: '{name} must be checked',
+			email: '{name} must be a valid e-mail',
+			url: '{name} must be a valid url',
+			regExp: '{name} is not formatted correctly',
+			integer: '{name} must be an integer',
+			decimal: '{name} must be a decimal number',
+			number: '{name} must be set to a number',
+			is: '{name} must be "{ruleValue}"',
+			isExactly: '{name} must be exactly "{ruleValue}"',
+			not: '{name} cannot be set to "{ruleValue}"',
+			notExactly: '{name} cannot be set to exactly "{ruleValue}"',
+			contain: '{name} must contain "{ruleValue}"',
+			containExactly: '{name} must contain exactly "{ruleValue}"',
+			doesntContain: '{name} cannot contain "{ruleValue}"',
+			doesntContainExactly: '{name} cannot contain exactly "{ruleValue}"',
+			minLength: '{name} must be at least {ruleValue} characters',
+			exactLength: '{name} must be exactly {ruleValue} characters',
+			maxLength: '{name} cannot be longer than {ruleValue} characters',
+			size: '{name} must have a length between {min} and {max} characters',
+			match: '{name} must match {ruleValue} field',
+			different: '{name} must have a different value than {ruleValue} field',
+			creditCard: '{name} must be a valid credit card number',
+			minCount: '{name} must have at least {ruleValue} choices',
+			exactCount: '{name} must have exactly {ruleValue} choices',
+			maxCount: '{name} must have {ruleValue} or less choices',
+			addErrors: '{name}: {error}',
+		}
+	},
+	cmd: <Record<string, string>>{
 		ok: 'Ok',
 		cancel: 'Cancel',
 		close: 'Close'
-	}
+	},
+	fld: <Record<string, string>>{}
 }
+
 export default writable<typeof englishDefault>(englishDefault);
-// jQuery.fn.dropdown.settings.message
+
+export function i18ned(text: string|true, auto: string) {
+	return text === true ? auto : text;
+}

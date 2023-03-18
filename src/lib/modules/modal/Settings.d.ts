@@ -1,7 +1,7 @@
 // c/p from semantic-ui.d.ts
 declare global {
-	namespace Modal {
-		export interface Settings {
+	namespace SveMantic {
+		export interface ModalSettings {
 
 			/**
 			 * If set to false will prevent the modal from being moved to inside the dimmer

@@ -16,3 +16,7 @@
 <Popup bind:config={ppp} color="red">
 	<Input icon="at" />
 </Popup>
+
+
+<Button icon="blind" />
+<Popup></Popup>

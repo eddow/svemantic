@@ -6,13 +6,14 @@
 
 	interface $$Props extends Forward, Size, Color {
 		icon?: IconSpec | boolean;
+		dividing?: boolean;
 		sub?: boolean;
 	}
 	export let icon: IconSpec | boolean | undefined = undefined;
 	let cs: string;
 	$: {
-		let {sub} = $$props;
-		cs = uistr('header', $$props, {sub}, size, color);
+		let {sub, dividing} = $$props;
+		cs = uistr('header', $$props, {sub, dividing}, size, color);
 	}
 	// TODO standardise header/item/... w/ header, sub-header, content, ....
 </script>

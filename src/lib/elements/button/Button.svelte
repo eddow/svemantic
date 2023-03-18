@@ -4,6 +4,8 @@
     import { loading, type Loading } from '$lib/parts/Loading';
     import Icon, { type IconSpec } from '../Icon.svelte';
     import Label from '../text/Label.svelte';
+    import { getForm } from '$lib/modules/form/Form.svelte';
+    import { createEventDispatcher } from 'svelte';
 
 	type Element = 'a'|'button'|'label';
 	type ButtonType = 'button'|'submit'|'reset'|undefined;
@@ -36,7 +38,16 @@
 	if(element === 'button' && type === undefined) type = 'button';	//avoid auto-submit
 	let labeled: string|false = '';
 	$: labeled = !!($$slots.label || label) && (rightLabeled ? 'right labeled' : 'left labeled');
-
+	
+	const form = getForm(),
+		dispatch = createEventDispatcher();
+	function click() {
+		if(form) switch(type) {
+			case 'submit': form.validate(); break;
+			case 'reset': form.reset(); break;
+		}
+		dispatch('click');
+	}
 	let cs: string;
 	$: {
 		let {active, circular, approve, cancel} = $$props;
@@ -56,7 +67,7 @@
 		{#if rightLabeled}<slot name="label"><Label basic pointing="left">{label}</Label></slot>{/if}
 	</div>
 {:else}
-	<svelte:element this={element} {tabindex} {type} {href} class={cs} use:semantic={$$props}>
+	<svelte:element this={element} {tabindex} {type} {href} class={cs} use:semantic={$$props} on:click={click}>
 		{#if icon}<Icon {icon} />{/if}
 		<slot>{text}</slot>
 	</svelte:element>
