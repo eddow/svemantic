@@ -25,8 +25,12 @@
 		return {
 			identifier, optional,
 			rules: optional || hasEmptyRule ? ruleList :
-				[{type: 'empty'}, ...ruleList]
+				[{type: 'empty'}, ...ruleList],
+			setErrors
 		};
+	}
+	function setErrors(errors?: string[]) {
+
 	}
 	const form = getForm();
 	interface $$Props extends ComponentProps<Input> {
@@ -41,7 +45,7 @@
 	export let element: string = form.tabular?'td': 'div', name: string, inputClass: string = '',
 		required: boolean = false,
 		validate: RulesSpec|undefined = undefined;
-	let cs: string, specText: string = '', text: string, specLabel: string|true = '', label: string;
+	let cs: string, specText: string|true = true, text: string, specLabel: string|true = '', label: string;
 	export {specLabel as label, specText as text};
 	$: label = i18ned(specLabel, $i18n.fld[name]);
 	$: text = i18ned(specText, $i18n.fld[name]);

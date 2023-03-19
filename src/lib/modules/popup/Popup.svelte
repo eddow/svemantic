@@ -1,5 +1,4 @@
 <script lang="ts" context="module">
-	const emptyConfig = <PopupSettings>{};
 	export interface PopupSettings extends SveMantic.PopupSettings {
 		popup?: HTMLElement;
 		content?: string;
@@ -46,6 +45,7 @@
 		wide?: boolean|'very';
 	}
 	async function setPrevious() {
+		const emptyConfig = <PopupSettings>{};
 		config = emptyConfig;
 		await tick();
 		previous = $$props.config !== emptyConfig;
@@ -58,7 +58,7 @@
 			inline, preserve, prefer, lastResort, on, delay, transition, duration, setFluidWidth,
 			hoverable, closable, addTouchEvents, hideOnScroll, target, distanceAway, offset, maxSearchDepth
 		} = $$props;
-		config = {
+		Object.assign(config || (config = {}), {
 			exclusive, movePopup, observeChanges, boundary, context, scrollContext, jitter, position,
 			inline, preserve, prefer, lastResort, on, delay, transition, duration, setFluidWidth,
 			hoverable, closable, addTouchEvents, hideOnScroll, target, distanceAway, offset, maxSearchDepth,
@@ -67,7 +67,8 @@
 			onVisible() { dispatch('visible'); },
 			onHide() { if(!dispatch('hide', null, {cancelable: true})) return false; },
 			onHidden() { dispatch('hidden'); },
-		};
+		});
+		config = config;
 		if(apply) {
 			const jqn = jQuery(apply);
 			module = jqn.popup.bind(jqn);

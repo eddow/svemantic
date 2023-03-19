@@ -9,7 +9,7 @@ export interface Forward {
 export function oneOf(classes: Record<string, string|boolean|undefined>) {
 	const used = Object.keys(classes).filter(c=> !!classes[c]), itm = classes[used[0]];
 	console.assert(used.length <= 1, `Exclusive properties used : ${used.join(', ')}`);
-	return <ClassDescr>(!!used.length && itm === true ? used[0] : itm);
+	return <string|undefined>(!!used.length && itm === true ? used[0] : itm);
 }
 
 export function combine(...classes: ClassDescr[]) : string {

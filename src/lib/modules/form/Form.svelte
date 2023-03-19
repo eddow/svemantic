@@ -31,34 +31,43 @@
 		
 	let module: (...parms: any[])=> any;
 	let node: HTMLElement|undefined = undefined;
-	export let tabular: boolean = true, element: string = tabular ? 'tr' : 'div';
+	export let tabular: boolean = false, element: string = tabular ? 'tr' : 'div',
+		fields = <Record<string, SveMantic.Field>>{};
 	interface $$Props extends Forward {
 		tabular?: boolean;
 	}
-	const config = Object.assign({}, $$props, {
-		fields: <Record<string, SveMantic.Field>>{},
-		onSuccess(e: any, fields: any) { dispatch('submit', fields); },
-		onDirty() { dirty.value = true; },
-		onClean() { dirty.value = false; }
-	});
-	$: Object.assign(config, $i18n.form);	//? reactive?
-	setContext<FormContext>(formContext, {
-		tabular,
+	// TODO Error report: inline/.ui.messages.error/tool-tip
+	const context = {
 		dirty: dirty.store,
 		validate() { return module('validate form'); },
 		isValid() { return module('is valid'); },
 		reset() { module('reset'); },
 		get values(): T { return module('get values'); },
-		set values(v: T) { module('set values', v); },
+		set values(v: T) { module('set values', v); }
+	}, config = Object.assign({}, $$props, {
+		fields,
+		onInvalid(this: HTMLInputElement, errors: string[]) {
+			fields[this.name]?.setErrors(errors);
+		},
+		onValid(this: HTMLInputElement, errors: string[]) {
+			fields[this.name]?.setErrors();
+		},
+		onSuccess(e: any, values: any) { dispatch('submit', {context, values}); },
+		onDirty() { dirty.value = true; },
+		onClean() { dirty.value = false; }
+	});
+	$: Object.assign(config, $i18n.form);	//? reactive?
+	setContext<FormContext>(formContext, Object.assign(Object.create(context), {
+		tabular,
 		addField(name: string, fld: SveMantic.Field) {
 			if(module) module('add fields', [fld]);
 			config.fields[name] = fld;
 		},
-		removeField(name) {
+		removeField(name: string) {
 			if(module) module('remove field', name);
 			delete config.fields[name];
 		},
-	});
+	}));
 	let cs: string;
 	$: cs = uistr('form', $$props);
 </script>

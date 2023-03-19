@@ -10,20 +10,20 @@
     import { getContext, setContext } from "svelte";
     import PageContainer from "./PageContainer.svelte";
 
-	export let tabs: SveMantic.TabSide = 'top', inverted: boolean = false, active: string = '';
+	export let tabs: SveMantic.TabSide = 'top', inverted: boolean = false, active: string = '',
+		headerClass: string = '';
 	const opposite: Record<SveMantic.TabSide, SveMantic.TabSide> = {top: 'bottom', bottom: 'top'},
 		context = writable<string>(active);
 	setContext<Writable<string>>(tabContext, context);
 	$: context.set(active);
 	context.subscribe(v=> { active = v; });
-	console.log(TabHeader.name);
 	let hdrSpec: SveMantic.TabSpecification, cntSpec: SveMantic.TabSpecification;
 	$: {
 		hdrSpec = {part: TabHeader, side: tabs, inverted};
 		cntSpec = {part: TabContent, side: opposite[tabs], inverted};
 	}
 	let headersCls: string;
-	$: headersCls = combine('ui', tabs, {inverted}, 'attached tabular menu');
+	$: headersCls = combine('ui', tabs, [headerClass, {inverted}], 'attached tabular menu');
 </script>
 {#if tabs === 'top'}
 	<div class={headersCls}>

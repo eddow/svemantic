@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { buttonProp, type ButtonProp } from './ButtonProp';
-    import { semantic, uistr, type Forward } from "$lib/root";
+    import { oneOf, semantic, uistr, type Forward } from "$lib/root";
     import { loading, type Loading } from '$lib/parts/Loading';
     import Icon, { type IconSpec } from '../Icon.svelte';
     import Label from '../text/Label.svelte';
@@ -8,14 +8,14 @@
     import { createEventDispatcher } from 'svelte';
 
 	type Element = 'a'|'button'|'label';
-	type ButtonType = 'button'|'submit'|'reset'|undefined;
 	interface $$Props extends Forward, ButtonProp, Loading {
 		active?: boolean;
 		circular?: boolean;
-		type?: 'button'|'submit'|'reset';
 		href?: string;
 		approve?: boolean;
 		cancel?: boolean;
+		submit?: boolean;
+		reset?: boolean;
 		rightLabeled?: boolean;
 		label?: string;
 		icon?: IconSpec;
@@ -27,24 +27,26 @@
 	
 	let name: string|undefined = undefined;
 	export {name as for}
-	export let type: ButtonType = undefined,
-		href: string = '',
+	export let href: string = '',
 		rightLabeled: boolean = false,
+		submit: boolean = false,
+		reset: boolean = false,
 		text: string = '',
 		icon: IconSpec = '',
 		label: string = '',
 		element: Element = href?'a':name?'label':'button',
 		tabindex: number|undefined = element === 'a' ? 0 : undefined;
-	if(element === 'button' && type === undefined) type = 'button';	//avoid auto-submit
-	let labeled: string|false = '';
+	let labeled: string|false = '', type: string|undefined;
+	$: type = (element === 'button' || undefined) &&
+		(oneOf({submit, reset})||'button');
 	$: labeled = !!($$slots.label || label) && (rightLabeled ? 'right labeled' : 'left labeled');
 	
 	const form = getForm(),
 		dispatch = createEventDispatcher();
 	function click() {
-		if(form) switch(type) {
-			case 'submit': form.validate(); break;
-			case 'reset': form.reset(); break;
+		if(form) {
+			if(submit) form.validate();
+			if(reset) form.reset();
 		}
 		dispatch('click');
 	}

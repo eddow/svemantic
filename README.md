@@ -5,7 +5,7 @@
 
 - [x] Button
 - [ ] Container
-- [ ] Divider
+- --Divider--
 - [ ] Emoji
 - [x] Flag
 - [ ] Header
@@ -25,7 +25,7 @@
 ### Collections
 
 - [ ] Breadcrumb
-- [ ] Form
+- [X] Form
 - [ ] Grid
 - [x] Menu
 - [ ] Message
@@ -42,7 +42,7 @@
 
 ### Modules
 
-- [ ] Accordion
+- [x] Accordion
 - [ ] Calendar
 - [ ] Checkbox
 - [x] Dimmer
@@ -59,10 +59,18 @@
 - [ ] Sidebar
 - [ ] Slider
 - [ ] Sticky
-- [ ] Tab
+- [x] Tab	(refactored)
 - [x] Toast
 - [ ] Transition
 
+## Remaining error
+
+```
+@sveltejs/package found the following issues while packaging your library:
+You are using SvelteKit-specific imports in your code, but you have not declared a dependency on `@sveltejs/kit` in your `package.json`. Add it to your `dependencies` or `peerDependencies`.
+```
+
+If anyone sees which `SvelteKit-specific imports` this message relates to, I would clean it
 ## How to...
 ### Developing
 

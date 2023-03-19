@@ -9,6 +9,7 @@ declare global {
 			identifier: string;
 			optional: boolean;
 			rules: Rule[];
+			setErrors(errors?: string[]): void;
 		}		
 	}
 }
