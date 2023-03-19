@@ -1,4 +1,4 @@
-import { argued, oneOf, type ClassDescr } from "$lib/root";
+import { argued, oneOf, type ClassDescr } from "$svemantic/root";
 
 type LoadingSpec = 'slow'|'fast'|'elastic'|'double'|'slow elastic'|'fast elastic'|'slow double'|'fast double';
 

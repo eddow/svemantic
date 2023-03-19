@@ -2,9 +2,9 @@
 	export type IconSpec = string | string[];
 </script>
 <script lang="ts">
-	import { color, type Color } from '$lib/parts/Color';
-	import { size, type Size } from '$lib/parts/Size';
-    import { argued, clastr, semantic, type Forward } from "$lib/root";
+	import { color, type Color } from '$svemantic/parts/Color';
+	import { size, type Size } from '$svemantic/parts/Size';
+    import { argued, clastr, semantic, type Forward } from "$svemantic/root";
 
 	export let icon: IconSpec;
 	let collection: boolean;

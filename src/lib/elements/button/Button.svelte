@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { buttonProp, type ButtonProp } from './ButtonProp';
-    import { oneOf, semantic, uistr, type Forward } from "$lib/root";
-    import { loading, type Loading } from '$lib/parts/Loading';
+    import { oneOf, semantic, uistr, type Forward } from "$svemantic/root";
+    import { loading, type Loading } from '$svemantic/parts/Loading';
     import Icon, { type IconSpec } from '../Icon.svelte';
     import Label from '../text/Label.svelte';
-    import { getForm } from '$lib/modules/form/Form.svelte';
+    import { getForm } from '$svemantic/modules/form/Form.svelte';
     import { createEventDispatcher } from 'svelte';
 
 	type Element = 'a'|'button'|'label';

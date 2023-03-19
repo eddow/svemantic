@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { color, type Color } from '$lib/parts/Color';
-	import { size, type Size } from '$lib/parts/Size';
-    import { uistr, combine, type Forward, semantic } from "$lib/root";
+	import { color, type Color } from '$svemantic/parts/Color';
+	import { size, type Size } from '$svemantic/parts/Size';
+    import { uistr, combine, type Forward, semantic } from "$svemantic/root";
 	import { createEventDispatcher } from 'svelte';
-    import Module from '$lib/modules/Module.svelte';
+    import Module from '$svemantic/modules/Module.svelte';
 
 	const dispatch = createEventDispatcher();
 	interface $$Props extends Forward, Size, Color, SveMantic.ModalSettings {

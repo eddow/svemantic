@@ -1,25 +1,25 @@
 <script lang="ts">
-	import Icon, { type IconSpec } from '$lib/elements/Icon.svelte';
-	import { color, type Color } from '$lib/parts/Color';
-	import { size, type Size } from '$lib/parts/Size';
-    import { clastr, semantic, type Forward } from "$lib/root";
-	import { position, type Position } from "$lib/parts/Position";
+	import Icon, { type IconSpec } from '$svemantic/elements/Icon.svelte';
+	import { color, type Color } from '$svemantic/parts/Color';
+	import { size, type Size } from '$svemantic/parts/Size';
+    import { clastr, semantic, type Forward } from "$svemantic/root";
+	import { position, type Position } from "$svemantic/parts/Position";
 	import { page } from "$app/stores";
 
 	interface $$Props extends Forward, Size, Color, Position {
-		href: string;
+		href?: string;
+		text?: string;
+		icon?: IconSpec;
 	}
-	export let icon: IconSpec = '', text: string = '';
-	export let href: string;
+	export let icon: IconSpec = '', text: string = '', href: string|undefined = undefined;
 	let cs: string, active: boolean;
+	
 	$: active = $page.url.pathname === href;
-	$: {
-		cs = clastr('item', $$props, {active}, size, color, position);
-	}
+	$: cs = clastr('item', $$props, {active}, size, color, position);
 </script>
-<a class={cs} use:semantic={$$props} {href}>
+<a class={cs} use:semantic={$$props} {href} on:click>
+	{#if icon}<Icon {icon}/>{/if}
 	<slot>
-		{#if icon}<Icon {icon}/>{/if}
 		{text}
 	</slot>
 </a>

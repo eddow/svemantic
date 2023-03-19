@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { color, type Color } from '$lib/parts/Color';
-    import { semantic, uistr, type Forward } from "$lib/root";
+	import { color, type Color } from '$svemantic/parts/Color';
+    import { semantic, uistr, type Forward } from "$svemantic/root";
 
 	interface $$Props extends Forward, Color {
 		active?: boolean;

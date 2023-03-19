@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { combine } from "$lib/root";
+	import { combine } from "$svemantic/root";
     import { getTabs } from "./Tabs.svelte";
 
 	export let spec: SveMantic.TabSpecification, key: string;

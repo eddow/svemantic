@@ -17,12 +17,12 @@
 	}
 </script>
 <script lang="ts">
-    import { uistr, type Forward, semantic } from "$lib/root";
+    import { uistr, type Forward, semantic } from "$svemantic/root";
 	import { createEventDispatcher } from 'svelte';
-    import Module from '$lib/modules/Module.svelte';
+    import Module from '$svemantic/modules/Module.svelte';
     import type { Readable } from "svelte/store";
-    import privateStore from "$lib/utils/privateStore";
-    import i18n from "$lib/i18n";
+    import privateStore from "$svemantic/utils/privateStore";
+    import i18n from "$svemantic/i18n";
 
 	type T = $$Generic;
 

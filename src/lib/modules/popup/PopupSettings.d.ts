@@ -15,7 +15,7 @@ declare global {
 			prefer?: 'adjacent' | 'opposite';
 			lastResort?: boolean | string;
 			on?: 'focus' | 'click' | 'hover' | 'manual';
-			delay?: Popup.DelaySettings;
+			delay?: any;	// TODO? Popup.DelaySettings;
 			transition?: string;
 			duration?: number;
 			setFluidWidth?: boolean;

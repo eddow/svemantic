@@ -8,10 +8,10 @@
 	export function getField() { return getContext<Readable<FieldContext>>(fieldContext); }
 </script>
 <script lang="ts">
-	import Input from "$lib/elements/input/Input.svelte";
-    import i18n, { i18ned } from "$lib/i18n";
-	import { clastr, semantic } from "$lib/root";
-    import privateStore from "$lib/utils/privateStore";
+	import Input from "$svemantic/elements/input/Input.svelte";
+    import i18n, { i18ned } from "$svemantic/i18n";
+	import { clastr, semantic } from "$svemantic/root";
+    import privateStore from "$svemantic/utils/privateStore";
     import { setContext, getContext, type ComponentProps } from "svelte";
     import type { Readable } from "svelte/store";
     import { getForm } from "./Form.svelte";
@@ -40,6 +40,7 @@
 		inputClass?: string;
 		required?: boolean;
 		text?: string;
+		validate?: RulesSpec;
 	}
 	
 	export let element: string = form.tabular?'td': 'div', name: string, inputClass: string = '',

@@ -1,7 +1,7 @@
 <script lang="ts">
     import DropDown from "./Dropdown.svelte";
 	import { createEventDispatcher, type ComponentProps } from 'svelte';
-    import { frwstr } from "$lib/root";
+    import { frwstr } from "$svemantic/root";
 
 	const dispatch = createEventDispatcher();
 	interface $$Props extends ComponentProps<DropDown> {
@@ -16,6 +16,7 @@
 		dispatch('change', newV)
 		value = newV;
 	}
+	// TODO get name+texts from `Field` like `Input`
 	let cs: string;
 	$: cs = frwstr($$props, ['selection']);
 	function retrieveText(value: string) {

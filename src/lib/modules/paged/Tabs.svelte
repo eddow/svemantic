@@ -3,7 +3,7 @@
 	export function getTabs() { return getContext<Writable<string>>(tabContext); }
 </script>
 <script lang="ts">
-    import { combine } from "$lib/root";
+    import { combine } from "$svemantic/root";
     import TabHeader from "./TabHeader.svelte";
 	import TabContent from './TabContent.svelte';
     import { writable, type Writable } from "svelte/store";

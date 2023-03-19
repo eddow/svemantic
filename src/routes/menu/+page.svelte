@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SubMenu, Menu, LinkItem } from "$lib";
+	import { SubMenu, Menu, LinkItem } from "$svemantic";
 </script>
 <Menu attached="top">
 	<LinkItem href="#">Menu</LinkItem>

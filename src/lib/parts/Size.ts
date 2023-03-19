@@ -1,4 +1,4 @@
-import { oneOf, type ClassDescr } from "$lib/root";
+import { oneOf, type ClassDescr } from "$svemantic/root";
 
 export interface Size {
 	size?: 'mini'|'tiny'|'small'|'medium'|'large'|'big'|'huge'|'massive';

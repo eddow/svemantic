@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Field, Form, Input } from "$lib";
+    import { Button, Field, Form, Input } from "$svemantic";
 	function submit({detail}: CustomEvent) {
 		console.dir(detail);
 	}

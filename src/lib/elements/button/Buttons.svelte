@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { semantic, uistr, type Forward } from "$lib/root";
+    import { semantic, uistr, type Forward } from "$svemantic/root";
 	import { buttonProp, type ButtonProp } from './ButtonProp';
-	import { childrenNumber, type ChildrenNumber } from "$lib/parts/Number";
+	import { childrenNumber, type ChildrenNumber } from "$svemantic/parts/Number";
 
 	interface $$Props extends Forward, ButtonProp, ChildrenNumber {
 		vertical?: boolean;

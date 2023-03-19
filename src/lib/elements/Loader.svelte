@@ -1,10 +1,10 @@
 
 <script lang="ts">
-	import { color, type Color } from '$lib/parts/Color';
-	import { size, type Size } from '$lib/parts/Size';
-    import { semantic, uistr, type Forward } from "$lib/root";
-    import Dimmer from '$lib/modules/Dimmer.svelte';
-    import { loading, type Loading } from '$lib/parts/Loading';
+	import { color, type Color } from '$svemantic/parts/Color';
+	import { size, type Size } from '$svemantic/parts/Size';
+    import { semantic, uistr, type Forward } from "$svemantic/root";
+    import Dimmer from '$svemantic/modules/Dimmer.svelte';
+    import { loading, type Loading } from '$svemantic/parts/Loading';
 
 	interface $$Props extends Forward, Size, Color, Loading {
 		disabled?: boolean;

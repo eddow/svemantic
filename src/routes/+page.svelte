@@ -1,12 +1,12 @@
 <script lang="ts">
 	/*
-    import Accordion from "$lib/modules/accordion/Accordion.svelte";
-    import Languages from "$lib/modules/dropdown/Languages.svelte";
+    import Accordion from "$svemantic/modules/accordion/Accordion.svelte";
+    import Languages from "$svemantic/modules/dropdown/Languages.svelte";
 	*/
-    import Flag from "$lib/elements/Flag.svelte";
-    import Icon from "$lib/elements/Icon.svelte";
-    import Loader from "$lib/elements/Loader.svelte";
-    import Select from "$lib/modules/dropdown/Select.svelte";
+    import Flag from "$svemantic/elements/Flag.svelte";
+    import Icon from "$svemantic/elements/Icon.svelte";
+    import Loader from "$svemantic/elements/Loader.svelte";
+    import Select from "$svemantic/modules/dropdown/Select.svelte";
 
 	let values = [{value: 'M', name: 'Male'}, {value: 'F', name: 'Female'}], value: string = 'M';
 	//let languages = {fr: 'Français', en: {flag: 'gb uk', text: 'English'}, ro: 'Romanian'}, language = 'fr';

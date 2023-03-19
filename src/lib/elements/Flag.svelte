@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { size, type Size } from '$lib/parts/Size';
-    import { clastr, semantic, type Forward } from "$lib/root";
+	import { size, type Size } from "$svemantic/parts/Size";
+    import { clastr, semantic, type Forward } from "$svemantic/root";
 
 	interface $$Props extends Forward, Size {
 		code: string;

@@ -1,7 +1,7 @@
 <script lang="ts">
     import DropDown from "../../modules/dropdown/Dropdown.svelte";
 	import type { ComponentProps } from 'svelte';
-    import { clastr, type Forward } from "$lib/root";
+    import { clastr, type Forward } from "$svemantic/root";
 
 	interface $$Props extends Forward, ComponentProps<DropDown> {
 	}

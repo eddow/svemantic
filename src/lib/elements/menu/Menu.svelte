@@ -1,10 +1,10 @@
 <script lang="ts">
     import Items from './Items.svelte';
-	import { color, type Color } from '$lib/parts/Color';
-	import { size, type Size } from '$lib/parts/Size';
-    import { argued, semantic, uistr, type Forward } from "$lib/root";
-	import { position, type Position } from "$lib/parts/Position";
-    import { childrenNumber, type ChildrenNumber } from '$lib/parts/Number';
+	import { color, type Color } from '$svemantic/parts/Color';
+	import { size, type Size } from '$svemantic/parts/Size';
+    import { argued, semantic, uistr, type Forward } from "$svemantic/root";
+	import { position, type Position } from "$svemantic/parts/Position";
+    import { childrenNumber, type ChildrenNumber } from '$svemantic/parts/Number';
 
 	interface $$Props extends Forward, Size, Color, ChildrenNumber, Position {
 		icon?: boolean | 'labeled';

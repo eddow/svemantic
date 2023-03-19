@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Page, Accordion, Tabs } from "$lib";
+	import { Page, Accordion, Tabs } from "$svemantic";
     import Pages from "./Pages.svelte";
 	let active: any = 'p1';
 </script>

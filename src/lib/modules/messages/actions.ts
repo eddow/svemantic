@@ -1,4 +1,4 @@
-import type { IconSpec } from "$lib/elements/Icon.svelte";
+import type { IconSpec } from "$svemantic/elements/Icon.svelte";
 
 export interface Action<T=any> {
 	text: string;

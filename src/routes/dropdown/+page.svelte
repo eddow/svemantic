@@ -1,9 +1,9 @@
 <script lang="ts">
 	/*
-    import Accordion from "$lib/modules/accordion/Accordion.svelte";
-    import Languages from "$lib/modules/dropdown/Languages.svelte";
+    import Accordion from "$svemantic/modules/accordion/Accordion.svelte";
+    import Languages from "$svemantic/modules/dropdown/Languages.svelte";
 	*/
-    import { Languages, Select, Flag } from "$lib";
+    import { Languages, Select, Flag } from "$svemantic";
 
 	const values = [{value: 'M', name: 'Male'}, {value: 'F', name: 'Female'}], 
 		languages = {fr: 'Français', en: {flag: 'gb uk', text: 'English'}, ro: 'Română', hu: 'Magyar'},

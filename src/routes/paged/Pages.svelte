@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Page } from "$lib";
+    import { Page } from "$svemantic";
 
 	export let spec: SveMantic.PageSpecification;
 </script>

@@ -1,4 +1,4 @@
-import { oneOf, type ClassDescr } from "$lib/root";
+import { oneOf, type ClassDescr } from "$svemantic/root";
 
 export type Multiple = 'two'|'three'|'four'|'five'|'six'|'seven'|'eight'|'nine'|'ten'|'eleven'|'twelve';
 const nrs = [null, 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];

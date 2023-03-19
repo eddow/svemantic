@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { color, type Color } from '$lib/parts/Color';
-	import { size, type Size } from '$lib/parts/Size';
-    import { semantic, uistr, type Forward } from "$lib/root";
-    import { loading, type Loading } from '$lib/parts/Loading';
+	import { color, type Color } from '$svemantic/parts/Color';
+	import { size, type Size } from '$svemantic/parts/Size';
+    import { semantic, uistr, type Forward } from "$svemantic/root";
+    import { loading, type Loading } from '$svemantic/parts/Loading';
     import Icon, { type IconSpec } from '../Icon.svelte';
-    import { getField } from '$lib/modules/form/Field.svelte';
+    import { getField } from '$svemantic/modules/form/Field.svelte';
 
 	type Type = 'text'|'email'|'number'|'range'|'password'|'search'|'tel'|'url'|'time'|'date'|'month'|'week'|'datetime-local'|'color'|'file'|'area';
 	// not done here: checkbox radio hidden reset button submit 

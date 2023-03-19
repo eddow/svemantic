@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { uistr, semantic, type Forward } from "$lib/root";
+	import { uistr, semantic, type Forward } from "$svemantic/root";
 	import { createEventDispatcher } from 'svelte';
-    import Icon, { type IconSpec } from "$lib/elements/Icon.svelte";
-    import i18n from "$lib/i18n";
-    import Module from "$lib/modules/Module.svelte";
+    import Icon, { type IconSpec } from "$svemantic/elements/Icon.svelte";
+    import i18n from "$svemantic/i18n";
+    import Module from "$svemantic/modules/Module.svelte";
 
 	interface $$Props extends Forward, SveMantic.DropdownSettings {
 		items?: any[];
@@ -14,16 +14,15 @@
 		search?: boolean;
 		clearable?: boolean;
 		multiple?: boolean;
-		node?: HTMLElement;
+		node?: HTMLElement
 	}
 
 	export let items: any[] = [],
 		name: string = '',
 		icon: IconSpec = 'dropdown',
 		values: any = null,
-		placeholder: string | false | undefined = undefined;
-
-	export let node: HTMLElement|undefined = undefined;
+		placeholder: string | false | undefined = undefined,
+		node: HTMLElement|undefined = undefined;
 
 	const dispatch = createEventDispatcher();
 	const config: SemanticUI.DropdownSettings = Object.assign({}, $$restProps, {
@@ -48,21 +47,21 @@
 		<div class={cs} use:semantic={$$props} bind:this={node}>
 			{#if name}<input type="hidden" {name}>{/if}
 			<slot name="toggle">
-				<Icon {icon} />
 				<slot name="text" />
+				{#if icon}<Icon {icon} />{/if}
 			</slot>
-			{#if !values}
-				<div class="menu">
-					<slot name="menu">
+			<slot name="menu">
+				{#if !values}
+					<div class="menu">
 						<slot name="header" />
 						{#each items as item}
 							<slot name="item" {item}>
 								<div class="item" data-value={item.value}>{item.name}</div>
 							</slot>
 						{/each}
-					</slot>
-				</div>
-			{/if}
+					</div>
+				{/if}
+			</slot>
 		</div>
 	</slot>
 </Module>

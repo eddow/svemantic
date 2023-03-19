@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { alert, confirm, prompt, toast, Button } from "$lib";
+    import { alert, confirm, prompt, toast, Button } from "$svemantic";
 	// TODO use actions
 </script>
 <Button on:click={()=> alert('Alert!')}>Test alert</Button>

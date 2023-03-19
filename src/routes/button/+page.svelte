@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Buttons } from "$lib";
+	import { Button, Buttons } from "$svemantic";
 	// TODO icon label text
 </script>
 <div>

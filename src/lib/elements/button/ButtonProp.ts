@@ -1,7 +1,7 @@
-import { position, type Position } from "$lib/parts/Position";
-import { color, type Color } from "$lib/parts/Color";
-import { size, type Size } from "$lib/parts/Size";
-import { argued } from "$lib/root";
+import { position, type Position } from "$svemantic/parts/Position";
+import { color, type Color } from "$svemantic/parts/Color";
+import { size, type Size } from "$svemantic/parts/Size";
+import { argued } from "$svemantic/root";
 
 export interface ButtonProp extends Position, Color, Size {
 	basic?: boolean;

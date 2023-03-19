@@ -28,9 +28,9 @@
 <script lang="ts">
     import { browser } from '$app/environment';
 
-	import { color, type Color } from '$lib/parts/Color';
-	import { size, type Size } from '$lib/parts/Size';
-    import { argued, semantic, uistr, type Forward } from "$lib/root";
+	import { color, type Color } from '$svemantic/parts/Color';
+	import { size, type Size } from '$svemantic/parts/Size';
+    import { argued, semantic, uistr, type Forward } from "$svemantic/root";
     import { onDestroy, tick, createEventDispatcher } from "svelte";
 
 	const dispatch = createEventDispatcher();
