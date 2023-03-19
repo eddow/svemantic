@@ -7,15 +7,15 @@ Most of the time, each part specifies only one characteristic, a complex way.
 
 ### Attributes
 
-- color : red | orange | yellow | olive | green | teal | blue | violet | purple | pink | brown | grey | black
+- `color` red | orange | yellow | olive | green | teal | blue | violet | purple | pink | brown | grey | black
 
 ### Flags
 
-- primary
-- secondary
-- positive
-- negative
-- inverted
+- `primary`
+- `secondary`
+- `positive`
+- `negative`
+- `inverted`
 
 ## Loading
 
@@ -23,9 +23,9 @@ Loading can be specified by flags but also by giving a string value to `loading`
 
 ### Flags
 
-- loading
-- slow | fast
-- double | elastic
+- `loading`
+- `slow` | `fast`
+- `double` | `elastic`
 
 ## Numbers
 
@@ -33,19 +33,19 @@ Only one out of all configurations
 
 ### Attributes
 
-- number: 2 ... 12 or "two" ... "twelve"
+- `number` 2 ... 16 or "two" ... "sixteen"
 
 ### Flags
 
-- two ... twelve
+- two ... sixteen
 
 ## Position
 
 ### Attributes
 
-- attached : top | bottom | left | right
+- `attached` top | bottom | left | right
 `attached` can also be a composition "[vertical] [horizontal]" like `"top right"`
 
 ### Flags
 
-- fluid
+- `fluid` Take the whole width of the container

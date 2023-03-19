@@ -1,3 +1,21 @@
+<script lang="ts" context="module">
+	export interface ModalSettings {
+		detachable?: boolean;
+		autofocus?: boolean;
+		observeChanges?: boolean;
+		allowMultiple?: boolean;
+		keyboardShortcuts?: boolean;
+		offset?: number;
+		context?: HTMLElement;
+		closable?: boolean;
+		dimmerSettings?: SemanticUI.DimmerSettings;
+		transition?: string;
+		duration?: number;
+		queue?: boolean;
+	}
+
+	export type ModalFunction = ()=> Promise<boolean|undefined>;
+</script>
 <script lang="ts">
 	import { color, type Color } from '$svemantic/parts/Color';
 	import { size, type Size } from '$svemantic/parts/Size';
@@ -6,7 +24,7 @@
     import Module from '$svemantic/modules/Module.svelte';
 
 	const dispatch = createEventDispatcher();
-	interface $$Props extends Forward, Size, Color, SveMantic.ModalSettings {
+	interface $$Props extends Forward, Size, Color, ModalSettings {
 		basic?: boolean;
 		fullscreen?: boolean;
 		long?: boolean;
@@ -14,9 +32,12 @@
 		scrolling?: boolean;
 		leftActions?: boolean;
 		centered?: boolean;
+		modal: ModalFunction;
 	}
+	export let context: HTMLElement|undefined = undefined;
 	let module: (...parms: any[])=> any;
-	const config = <SemanticUI.ModalSettings>Object.assign({}, $$props, {
+	const config = <SemanticUI.ModalSettings>Object.assign({}, $$props,
+		context ? {context: jQuery(context)} : {}, {
 		onShow() { dispatch('show'); },
 		onVisible() { dispatch('visible'); },
 		onHide() { return dispatch('hide', null, {cancelable: true}); },
@@ -49,6 +70,7 @@
 			console.assert(false, "Modal opened twice");
 			promise.reject('Modal re-entrance');
 		}
+		module('show');
 		return new Promise<boolean|undefined>((resolve, reject)=> { promise = {resolve, reject}; });
 	}
 	export let closable: boolean = true, title: string = '', leftActions: boolean = false, centered: boolean = false;

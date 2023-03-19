@@ -1,8 +1,11 @@
+
 <script lang="ts">
 	import { combine } from "$svemantic/root";
-    import { getTabs } from "./Tabs.svelte";
+    import { getPageContainer } from "./PageContainer.svelte";
+    import { getTabs, type TabSpecification } from "./Tabs.svelte";
 	
-	export let spec: SveMantic.TabSpecification, key: string;
+	export let key: string;
+	let spec = getPageContainer<TabSpecification>();
 	const context = getTabs();
 
 	let cs: string;

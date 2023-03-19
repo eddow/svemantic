@@ -1,10 +1,21 @@
 <script lang="ts" context="module">
-	export type RulesSpec = string|(string|SveMantic.Rule)[];
+	export interface Rule {
+		type: string;
+		value?: any;
+		prompt?: string | ((value: any)=> string);
+	}
+	export interface FomanticField {
+		identifier: string;
+		optional: boolean;
+		rules: Rule[];
+		setErrors(errors?: string[]): void;
+	}
+	export type RulesSpec = string|(string|Rule)[];
 	const fieldContext = {};	//unique context key
 	interface FieldContext {
 		name: string;
 		text: string;
-	}
+}
 	export function getField() { return getContext<Readable<FieldContext>>(fieldContext); }
 </script>
 <script lang="ts">
@@ -16,8 +27,8 @@
     import type { Readable } from "svelte/store";
     import { getForm } from "./Form.svelte";
 
-	function fieldDescr(identifier: string, optional: boolean, rules?: RulesSpec): SveMantic.Field {
-		const ruleList : SveMantic.Rule[] = rules ?
+	function fieldDescr(identifier: string, optional: boolean, rules?: RulesSpec): FomanticField {
+		const ruleList : Rule[] = rules ?
 			(typeof rules === 'string' ? rules.split(',') : rules)
 				.map(type=>typeof type === 'string' ? {type} : type) :
 			[],

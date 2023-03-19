@@ -1,3 +1,3 @@
-import Modal from "./Modal.svelte";
+import Modal, { type ModalFunction } from "./Modal.svelte";
 
-export { Modal };
+export { Modal, ModalFunction };

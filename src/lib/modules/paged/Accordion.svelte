@@ -3,6 +3,7 @@
     import { onDestroy } from "svelte";
     import Module from "$svemantic/modules/Module.svelte";
     import AccordionPage from "./AccordionPage.svelte";
+    import PageContainer from "./PageContainer.svelte";
 
 	let node: HTMLDivElement;
 	export let exclusive: boolean = true,
@@ -21,10 +22,10 @@
 	}
 	const spec = {part: AccordionPage};
 	onDestroy(()=> module('destroy'));
-	// TODO Accordion usage + test dynamic cases
+	// TODO Accordion usage <-> + test dynamic cases
 </script>
 <Module {node} {config} access="accordion" bind:module>
 	<div class={cs} use:semantic={$$props} bind:this={node}>
-		<slot {spec} />
+		<PageContainer {spec}><slot /></PageContainer>
 	</div>
 </Module>

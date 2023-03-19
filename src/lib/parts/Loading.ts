@@ -1,4 +1,4 @@
-import { argued, oneOf, type ClassDescr } from "$svemantic/root";
+import { combine, oneOf, type ClassDescr } from "$svemantic/root";
 
 type LoadingSpec = 'slow'|'fast'|'elastic'|'double'|'slow elastic'|'fast elastic'|'slow double'|'fast double';
 
@@ -19,5 +19,5 @@ export interface Loading extends LoadingStyle {
 }
 
 export function loading({loading, ...style}: Loading): ClassDescr {
-	return loading === true ? [...loadingStyle(style), 'loading'] : [argued({loading})];
+	return loading === true ? [...loadingStyle(style), 'loading'] : combine({loading});
 }

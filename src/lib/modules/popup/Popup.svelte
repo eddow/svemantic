@@ -1,5 +1,39 @@
 <script lang="ts" context="module">
-	export interface PopupSettings extends SveMantic.PopupSettings {
+	/**
+	 * What can be used on a <Popup> tag
+	 */
+	export interface PopupSpecifications {
+		exclusive?: boolean;
+		movePopup?: boolean;
+		observeChanges?: boolean;
+		boundary?: HTMLElement;
+		context?: HTMLElement;
+		scrollContext?: HTMLElement;
+		jitter?: number;
+		position?: string;
+		inline?: boolean;
+		preserve?: boolean;
+		prefer?: 'adjacent' | 'opposite';
+		lastResort?: boolean | string;
+		on?: 'focus' | 'click' | 'hover' | 'manual';
+		delay?: any;	// TODO? Popup.DelaySettings;
+		transition?: string;
+		duration?: number;
+		setFluidWidth?: boolean;
+		hoverable?: boolean;
+		closable?: boolean;
+		addTouchEvents?: boolean;
+		hideOnScroll?: 'auto' | false;
+		target?: false | HTMLElement;
+		distanceAway?: number;
+		offset?: number;
+		maxSearchDepth?: number;
+	}
+	
+	/**
+	 * Can be used to describe a popup to Fomantic
+	 */
+	export interface PopupSettings extends PopupSpecifications {
 		popup?: HTMLElement;
 		content?: string;
 		title?: string;
@@ -30,14 +64,14 @@
 
 	import { color, type Color } from '$svemantic/parts/Color';
 	import { size, type Size } from '$svemantic/parts/Size';
-    import { argued, semantic, uistr, type Forward } from "$svemantic/root";
+    import { semantic, uistr, type Forward } from "$svemantic/root";
     import { onDestroy, tick, createEventDispatcher } from "svelte";
 
 	const dispatch = createEventDispatcher();
 	export let config: PopupSettings|undefined = undefined;	// For binding only
 	let previous: boolean, node: HTMLElement|undefined = undefined, apply: HTMLElement|undefined = undefined,
 		module: (...parms: any[])=> any = ()=> {};
-	interface $$Props extends SveMantic.PopupSettings, Size, Color, Forward {
+	interface $$Props extends PopupSpecifications, Size, Color, Forward {
 		config?: PopupSettings;
 		flowing?: boolean;
 		basic?: boolean;
@@ -80,10 +114,7 @@
 	let cs: string;
 	$: {
 		let {loading, flowing, basic, multiline, wide} = $$props;
-		cs = uistr('popup', $$props, [
-			{loading, flowing, basic, multiline},
-			argued({wide})
-		], size, color);
+		cs = uistr('popup', $$props, {loading, flowing, basic, multiline, wide}, size, color);
 	}
 	onDestroy(()=> {
 		module('remove popup');

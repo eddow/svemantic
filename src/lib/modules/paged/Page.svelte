@@ -1,9 +1,20 @@
+<script lang="ts" context="module">
+	export interface PageSpecification {
+		part: ConstructorOfATypedSvelteComponent;
+		KeyGen?(): string;
+	}
+</script>
 <script lang="ts">
 	import { getPageContainer } from "./PageContainer.svelte"
-	export let spec: SveMantic.PageSpecification, pc = getPageContainer(), key: string|null = null;
-	if(!key) key = pc && pc();	//unique object
+	export let key: string|null = null;
+	let spec = getPageContainer();
+	if(spec && !key) key = spec.KeyGen!();	//unique object
 </script>
-<svelte:component this={spec.part} {spec} {key}>
-	<slot name="header" slot="header" />
-	<slot />
-</svelte:component>
+{#if spec}
+	<svelte:component this={spec.part} {key}>
+		<slot name="header" slot="header" />
+		<slot />
+	</svelte:component>
+{:else}
+	<div class="ui message error">A page can only appear in a paged component</div>
+{/if}

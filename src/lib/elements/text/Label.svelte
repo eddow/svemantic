@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { color, type Color } from '$svemantic/parts/Color';
 	import { size, type Size } from '$svemantic/parts/Size';
-    import { argued, semantic, uistr, type Forward } from "$svemantic/root";
+    import { semantic, uistr, type Forward } from "$svemantic/root";
     import { position, type Position } from '$svemantic/parts/Position';
 
 	type Pointing = 'up'|'down'|'left'|'right'|'';
@@ -35,9 +35,8 @@
 	$: {
 		let {pointing, corner, ribbon, floating, tag, disabled, centered, circular, basic} = $$props;
 		cs = uistr('label', $$props, [
-			{image: !!image, tag, disabled, centered, circular, basic},
-			!!pointing && pointings[<Pointing>pointing],
-			argued({corner, ribbon, floating}),
+			{image: !!image, tag, disabled, centered, circular, basic, corner, ribbon, floating},
+			!!pointing && pointings[<Pointing>pointing]
 		], size, color, position);
 	}
 </script>

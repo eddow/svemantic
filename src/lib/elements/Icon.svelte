@@ -4,7 +4,7 @@
 <script lang="ts">
 	import { color, type Color } from '$svemantic/parts/Color';
 	import { size, type Size } from '$svemantic/parts/Size';
-    import { argued, clastr, semantic, type Forward } from "$svemantic/root";
+    import { clastr, semantic, type Forward } from "$svemantic/root";
 
 	export let icon: IconSpec;
 	let collection: boolean;
@@ -28,8 +28,7 @@
 		let {disabled, loading, fitted, link, circular, bordered, colored, flipped, rotated} = $$props;
 		cs = clastr(collection? 'icons' : 'icon', $$props, [
 			collection? false : icon,
-			argued({flipped, rotated}),
-			{disabled, loading, fitted, link, circular, bordered, colored}
+			{disabled, loading, fitted, link, circular, bordered, colored, flipped, rotated}
 		], size, color);
 	}
 	// Corner ("top right corner", ...) is specified in the code of unity icons

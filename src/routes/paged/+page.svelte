@@ -1,15 +1,17 @@
 <script lang="ts">
-	import { Page, Accordion, Tabs } from "$svemantic";
+	import { Accordion, Tabs } from "$svemantic";
     import Pages from "./Pages.svelte";
 	let active: any = 'p1';
 </script>
 
-<Accordion styled let:spec>
-	<Pages {spec} />
+<Accordion styled>
+	<Pages />
 </Accordion>
 
 {active}
 
-<Tabs tabs="bottom" let:spec bind:active>
-	<Pages {spec} />
+<Tabs tabs="bottom" bind:active>
+	<Pages />
 </Tabs>
+
+<Pages />

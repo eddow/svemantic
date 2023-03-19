@@ -9,7 +9,7 @@
 		tabular: boolean;
 		dirty: Readable<boolean>;
 		values: T;
-		addField(name: string, fld: SveMantic.Field): void;
+		addField(name: string, fld: FomanticField): void;
 		removeField(name: string): void;
 	}
 	export function getForm(): FormContext {
@@ -23,6 +23,7 @@
     import type { Readable } from "svelte/store";
     import privateStore from "$svemantic/utils/privateStore";
     import i18n from "$svemantic/i18n";
+    import type { FomanticField } from "./Field.svelte";
 
 	type T = $$Generic;
 
@@ -32,7 +33,7 @@
 	let module: (...parms: any[])=> any;
 	let node: HTMLElement|undefined = undefined;
 	export let tabular: boolean = false, element: string = tabular ? 'tr' : 'div',
-		fields = <Record<string, SveMantic.Field>>{};
+		fields = <Record<string, FomanticField>>{};
 	interface $$Props extends Forward {
 		tabular?: boolean;
 	}
@@ -59,7 +60,7 @@
 	$: Object.assign(config, $i18n.form);	//? reactive?
 	setContext<FormContext>(formContext, Object.assign(Object.create(context), {
 		tabular,
-		addField(name: string, fld: SveMantic.Field) {
+		addField(name: string, fld: FomanticField) {
 			if(module) module('add fields', [fld]);
 			config.fields[name] = fld;
 		},

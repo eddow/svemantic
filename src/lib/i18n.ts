@@ -48,7 +48,7 @@ const englishDefault = {
 			addErrors: '{name}: {error}',
 		}
 	},
-	cmd: <Record<string, string>>{
+	cmd: {
 		ok: 'Ok',
 		cancel: 'Cancel',
 		close: 'Close'

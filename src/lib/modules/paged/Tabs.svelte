@@ -1,6 +1,11 @@
 <script lang="ts" context="module">
 	const tabContext = {};	//unique context key;
 	export function getTabs() { return getContext<Writable<string>>(tabContext); }
+	export type TabSide = 'top' | 'bottom';
+	export interface TabSpecification extends PageSpecification {
+		side: TabSide;
+		inverted: boolean;
+	}
 </script>
 <script lang="ts">
     import { combine } from "$svemantic/root";
@@ -9,15 +14,16 @@
     import { writable, type Writable } from "svelte/store";
     import { getContext, setContext } from "svelte";
     import PageContainer from "./PageContainer.svelte";
+    import type { PageSpecification } from "./Page.svelte";
 
-	export let tabs: SveMantic.TabSide = 'top', inverted: boolean = false, active: string = '',
+	export let tabs: TabSide = 'top', inverted: boolean = false, active: string = '',
 		headerClass: string = '';
-	const opposite: Record<SveMantic.TabSide, SveMantic.TabSide> = {top: 'bottom', bottom: 'top'},
+	const opposite: Record<TabSide, TabSide> = {top: 'bottom', bottom: 'top'},
 		context = writable<string>(active);
 	setContext<Writable<string>>(tabContext, context);
 	$: context.set(active);
 	context.subscribe(v=> { active = v; });
-	let hdrSpec: SveMantic.TabSpecification, cntSpec: SveMantic.TabSpecification;
+	let hdrSpec: TabSpecification, cntSpec: TabSpecification;
 	$: {
 		hdrSpec = {part: TabHeader, side: tabs, inverted};
 		cntSpec = {part: TabContent, side: opposite[tabs], inverted};
@@ -27,12 +33,12 @@
 </script>
 {#if tabs === 'top'}
 	<div class={headersCls}>
-		<PageContainer><slot spec={hdrSpec} /></PageContainer>
+		<PageContainer spec={hdrSpec}><slot /></PageContainer>
 	</div>
 {/if}
-<PageContainer><slot spec={cntSpec} /></PageContainer>
+<PageContainer spec={cntSpec}><slot /></PageContainer>
 {#if tabs === 'bottom'}
 	<div class={headersCls}>
-		<PageContainer><slot spec={hdrSpec} /></PageContainer>
+		<PageContainer spec={hdrSpec}><slot /></PageContainer>
 	</div>
 {/if}

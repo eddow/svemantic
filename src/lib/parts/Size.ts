@@ -15,3 +15,13 @@ export interface Size {
 export function size({size, mini, tiny, small, medium, large, big, huge, massive}: Size): ClassDescr {
 	return oneOf({size, mini, tiny, small, medium, large, big, huge, massive});
 }
+
+export interface SmallLarge {
+	size?: 'small'|'large';
+	small?: boolean;
+	large?: boolean;
+}
+
+export function smallLarge({size, small, large}: Size): ClassDescr {
+	return oneOf({size, small, large});
+}

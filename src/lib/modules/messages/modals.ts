@@ -69,6 +69,6 @@ export function modal<T=any>(content: string|ModalSettings) {
 		});
 		rv = actSpecs.promise;
 	}
-	(<any>jQuery).modal(spec);
+	(<any>jQuery).modal(spec).modal('show');
 	return rv;
 }

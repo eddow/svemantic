@@ -14,7 +14,7 @@
 	let cs: string;
 	$: {
 		let {vertical, stackable, icon, wrapping, spaced} = $$props;
-		cs = uistr('buttons', $$props, {vertical, stackable, icon, wrapping, spaced}, buttonProp, childrenNumber);
+		cs = uistr('buttons', $$props, {vertical, stackable, icon, wrapping, spaced}, buttonProp, childrenNumber());
 	}
 </script>
 <div class={cs} use:semantic={$$props}>

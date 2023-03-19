@@ -1,15 +1,16 @@
 import { popup, type PopupSettings } from "./modules/popup/Popup.svelte";
 
-export type ClassDescr = string|Record<string,boolean|undefined>|ClassDescr[]|false|null|undefined;
+type baseCD = string|boolean|undefined;
+export type ClassDescr = baseCD|Record<string,baseCD|ClassDescr[]>|ClassDescr[];
 
 export interface Forward {
 	class?: string;
 	popup?: PopupSettings | string;
 }
-export function oneOf(classes: Record<string, string|boolean|undefined>) {
+export function oneOf(classes: Record<string, ClassDescr>) {
 	const used = Object.keys(classes).filter(c=> !!classes[c]), itm = classes[used[0]];
 	console.assert(used.length <= 1, `Exclusive properties used : ${used.join(', ')}`);
-	return <string|undefined>(!!used.length && itm === true ? used[0] : itm);
+	return <string|undefined>(!!used.length && itm === true ? used[0] : combine(itm));
 }
 
 export function combine(...classes: ClassDescr[]) : string {
@@ -17,12 +18,10 @@ export function combine(...classes: ClassDescr[]) : string {
 		!c ? false :
 		typeof c === 'string' ? c :
 		c instanceof Array ? combine(...c) :
-		Object.keys(c).filter(u=> c[u]).join(' ')
+		c instanceof Object ? Object.keys(c).filter(k=> !!c[k])
+			.map(k=> c[k] === true ? k : (combine(c[k])+ ' ' + k)).join(' ') :
+		new Error('Bad ClassDescr', {cause: c})
 	).filter(c=>!!c).join(' ');
-}
-
-export function argued(args: Record<string, string|boolean|undefined>) {
-	return Object.keys(args).map(k=> args[k] && (args[k] === true ? k : args[k]+' '+k));
 }
 
 export function frwstr(props: Forward, classes: ClassDescr = false, ...parts: ((cd: object)=> ClassDescr)[]) : string {

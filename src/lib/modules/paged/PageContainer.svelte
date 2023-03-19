@@ -1,13 +1,13 @@
 <script lang="ts" context="module">
     import { setContext, getContext } from "svelte";
+    import type { PageSpecification } from "./Page.svelte";
 
 	const pcContext = {};	//unique context key;
-	type KeyGen = ()=> string;
-	export function getPageContainer() { return getContext<KeyGen>(pcContext); }
+	export function getPageContainer<T extends PageSpecification = PageSpecification>() { return getContext<T>(pcContext); }
 </script>
 <script lang="ts">
-	export let prefix: string = 'page-';
+	export let prefix: string = 'page-', spec: PageSpecification;
 	let keys = 0;
-	setContext(pcContext, ()=> prefix+(++keys));
+	setContext(pcContext, Object.assign({KeyGen: ()=> prefix+(++keys)}, spec));
 </script>
 <slot />

@@ -1,6 +1,29 @@
 
 # Svemantic
 
+Now tuned to Fomantic-UI 2.9.2
+
+Library [documentation entrance](./src/lib/README.md)
+
+## What it does and does not
+
+### What it does
+
+- Implements elements by allowing reactive attributes to specific components to interract directly with the classes.
+- Implements Semantic-UI jQuery calls with arguments given by reactive attributes
+- Makes events or even promises out of call backs
+- Automate and re-order some content managements (like Tabs, Grids)
+- Centralize internationalization
+
+### What it does not
+
+- Implements each and every nuance of Semantic-UI. Some are let to simple class specifications
+```html
+<div class="ui vertical divider">
+and
+</div>
+```
+
 ## Implemented
 
 - [x] Button
