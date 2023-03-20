@@ -3,7 +3,6 @@ import "fomantic-ui/dist/semantic.css";
 
 export * from "./elements";
 export * from "./modules";
-export * from "./table";
 export * from "./parts";
 
 import i18n from "./i18n";

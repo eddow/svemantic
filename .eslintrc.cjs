@@ -22,6 +22,7 @@ module.exports = {
 		"@typescript-eslint/no-empty-interface": "off",
 		"@typescript-eslint/ban-types": "off",
 		"@typescript-eslint/no-empty-function": "off",
-		"@typescript-eslint/no-namespace": "off"
+		"@typescript-eslint/no-namespace": "off",
+		"lit-a11y/click-events-have-key-events": "off"
 	}
 };

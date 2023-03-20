@@ -6,6 +6,10 @@
 
 If the names match, these follow and simply mean what was intended by Semantic-UI.
 
+## Elements
+
+- [Table](./elements/table/README.md) define all the generic table parts
+
 ## Modules
 
 - [Paged](./modules/paged/README.md) define `Accordions`, `Tabs` and `Steps`

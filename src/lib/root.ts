@@ -19,7 +19,7 @@ export function combine(...classes: ClassDescr[]) : string {
 		typeof c === 'string' ? c :
 		c instanceof Array ? combine(...c) :
 		c instanceof Object ? Object.keys(c).filter(k=> !!c[k])
-			.map(k=> c[k] === true ? k : (combine(c[k])+ ' ' + k)).join(' ') :
+			.map(k=> c[k] === true ? k : [combine(c[k]), k].filter(c=>c).join(' ')).join(' ') :
 		new Error('Bad ClassDescr', {cause: c})
 	).filter(c=>!!c).join(' ');
 }
@@ -28,10 +28,10 @@ export function frwstr(props: Forward, classes: ClassDescr = false, ...parts: ((
 	return combine(classes, props.class, ...parts.map(p=> p(props)));
 }
 export function clastr(type: string, props: Forward, classes: ClassDescr = false, ...parts: ((cd: object)=> ClassDescr)[]) : string {
-	return frwstr(props, classes, ...parts) +' ' + type;
+	return [frwstr(props, classes, ...parts), type].join(' ');
 }
 export function uistr(type: string, props: Forward, classes: ClassDescr = false, ...parts: ((cd: object)=> ClassDescr)[]) : string {
-	return 'ui ' + clastr(type, props, classes, ...parts);
+	return ['ui', clastr(type, props, classes, ...parts)].join(' ');
 }
 
 export function semantic(node: HTMLElement, frwrd: Forward) {

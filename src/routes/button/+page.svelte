@@ -1,6 +1,12 @@
 <script lang="ts">
-	import { Button, Buttons } from "$svemantic";
+	import { Checkbox, Button, Buttons, type ColorName } from "$svemantic";
 	// TODO icon label text
+	const next: { [P in ColorName]?: ColorName } = {red: 'blue', blue: 'green', green: 'red'};
+	let color: ColorName = 'red', circular = false, value: boolean|undefined;
+	function toggle() {
+		color = next[color]!;
+		circular = !circular
+	}
 </script>
 <div>
 	<Buttons attached="top">
@@ -14,5 +20,15 @@
 	
 	<Button icon="heart" label="hearts" />
 	<Button circular icon="heart">heart slot</Button>
-	<Button circular icon="heart" text="heart text" />
+	<Button {circular} icon="heart" {color} text="heart text" on:click={toggle} />
+</div>
+<div>
+	<Checkbox bind:value label="try3" />
+	<Checkbox toggle bind:value label="try3" />
+	<Checkbox slider bind:value label="try3" />
+	<Buttons>
+		<Button icon="check square outline" on:click={()=> value=true} />
+		<Button icon="square outline" on:click={()=> value=false} />
+		<Button icon="minus square outline" on:click={()=> value=undefined} />
+	</Buttons>
 </div>

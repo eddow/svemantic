@@ -22,9 +22,11 @@
 	let module: (...parms: any[])=> any = ()=> {};
 	export let value: boolean|undefined = false, disabled: boolean = false;
 	let cs: string, name: string, specName: string = '', label: string, specLabel: string = '',
-		node: HTMLElement|undefined = undefined;;
-	export {specName as name};
-	$: module(value === true ? 'set checked' : value === false ? 'set unchecked' : 'set indeterminate');
+		node: HTMLElement|undefined = undefined;
+	export {specName as name, specLabel as label};
+	$: {
+		module(value === true ? 'set checked' : value === false ? 'set unchecked' : 'set indeterminate');
+	}
 	$: module(disabled ? 'set disabled' : 'set enabled');
 	const field = getField(), config = {
 		onChecked() { value = true; },
@@ -43,10 +45,12 @@
 	}
 </script>
 <Module {node} {config} access="checkbox" bind:module>
-	<div class={cs} use:semantic={$$props}>
-		{#if label}
-			<label for={name} class="ui label">{label}</label>
-		{/if}
+	<div bind:this={node} class={cs} use:semantic={$$props}>
+		<slot name="label">
+			{#if label}
+				<label for={name}>{label}</label>
+			{/if}
+		</slot>
 		<input type="checkbox" {name} />
 	</div>
 </Module>
