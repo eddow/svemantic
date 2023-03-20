@@ -6,6 +6,25 @@ All attributes and flags describing the `<table>` tag are used with the same nam
 
 Not implemented: `sortable`, `full-width`
 
-### Attributes
+## Generic usage
 
-- `selected` If the table is `selectable` (Semantic-UI flag), this store contains the selected row (or undefined)
+`Table`, `Tr`, `Th` and `Td` (along with `Cell` who takes an `element = 'td'|'th'` attribute) are forwarded straight to use their attributes as class part
+
+## Generated usage
+
+A table can also be defined with these three slots : `head`, `data` and `foot`.
+
+```html
+<script lang="ts">
+	...
+	const MTable = Table<MyClass>;
+	let data: MyClass[];
+	...
+</script>
+	...
+	<MTable {data}>
+		<thead slot="head">...</thead>
+		<Tr slot="data" let:row>
+			<Td>{row.field}</Td>
+			...
+```

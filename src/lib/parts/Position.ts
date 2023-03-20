@@ -1,8 +1,11 @@
 import { combine } from "$svemantic/root";
 
+type VertSpec = 'top'|'bottom';
+type HorzSpec = 'left'|'right';
+
 export interface Position {
-	attached?: 'top'|'bottom'|'left'|'right'|'top left'|'top right'|'bottom left'|'bottom right';
-	fixed?: 'top'|'bottom';
+	attached?: VertSpec|HorzSpec|`${VertSpec} ${HorzSpec}`;
+	fixed?: VertSpec;
 	fluid?: boolean;
 }
 export function position({attached, fixed, fluid}: Position) {

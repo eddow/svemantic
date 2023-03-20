@@ -8,6 +8,9 @@ const englishDefault = {
 		maxSelections : 'Max {maxCount} selections',
 		noResults: 'No results found.'
 	},
+	table: {
+		empty: 'No data to show'
+	},
 	form: {
 		text: {
 			and: 'and',

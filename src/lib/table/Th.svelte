@@ -1,7 +1,5 @@
 <script lang="ts">
-    import Cell from "./Cell.svelte";
-	import type { CellSettings } from "./Cell.svelte";
-
+    import Cell, { type CellSettings } from "./Cell.svelte";
 	interface $$Props extends CellSettings {
 		scope?: 'row'|'col';
 	}
