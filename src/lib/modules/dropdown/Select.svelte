@@ -11,7 +11,7 @@
 	export let value: string = '', placeholder: string|false = '', values: any[],
 		module: SemanticUI.Dropdown = <SemanticUI.Dropdown>Object.assign(()=> {}, {settings: {}});
 	$: module('set selected', value);
-	let config = Object.assign({placeholder, values}, $$restProps);
+	let config = {placeholder, values, ...$$restProps};
 	function change({detail: {value: newV}}: any) {
 		dispatch('change', newV)
 		value = newV;

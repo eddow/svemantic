@@ -28,10 +28,10 @@ export function frwstr(props: Forward, classes: ClassDescr = false, ...parts: ((
 	return combine(classes, props.class, ...parts.map(p=> p(props)));
 }
 export function clastr(type: string, props: Forward, classes: ClassDescr = false, ...parts: ((cd: object)=> ClassDescr)[]) : string {
-	return combine(classes, props.class, ...parts.map(p=> p(props)), type);
+	return frwstr(props, classes, ...parts) +' ' + type;
 }
 export function uistr(type: string, props: Forward, classes: ClassDescr = false, ...parts: ((cd: object)=> ClassDescr)[]) : string {
-	return combine('ui', classes, props.class, ...parts.map(p=> p(props)), type);
+	return 'ui ' + clastr(type, props, classes, ...parts);
 }
 
 export function semantic(node: HTMLElement, frwrd: Forward) {

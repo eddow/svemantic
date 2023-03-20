@@ -41,7 +41,7 @@
 		};
 	}
 	function setErrors(errors?: string[]) {
-
+		// TODO Field setErrors
 	}
 	const form = getForm();
 	interface $$Props extends ComponentProps<Input> {

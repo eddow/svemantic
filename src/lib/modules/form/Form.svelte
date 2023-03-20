@@ -45,7 +45,8 @@
 		reset() { module('reset'); },
 		get values(): T { return module('get values'); },
 		set values(v: T) { module('set values', v); }
-	}, config = Object.assign({}, $$props, {
+	}, config = {
+		...$$props,
 		fields,
 		onInvalid(this: HTMLInputElement, errors: string[]) {
 			fields[this.name]?.setErrors(errors);
@@ -56,7 +57,7 @@
 		onSuccess(e: any, values: any) { dispatch('submit', {context, values}); },
 		onDirty() { dirty.value = true; },
 		onClean() { dirty.value = false; }
-	});
+	};
 	$: Object.assign(config, $i18n.form);	//? reactive?
 	setContext<FormContext>(formContext, Object.assign(Object.create(context), {
 		tabular,
@@ -71,6 +72,7 @@
 	}));
 	let cs: string;
 	$: cs = uistr('form', $$props);
+	// TODO bind an object as a value
 </script>
 <Module {node} {config} access="form" bind:module>
 	<svelte:element this={element} class={cs} use:semantic={$$props} bind:this={node}>

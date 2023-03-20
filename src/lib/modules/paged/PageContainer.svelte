@@ -6,7 +6,7 @@
 	export function getPageContainer<T extends PageSpecification = PageSpecification>() { return getContext<T>(pcContext); }
 </script>
 <script lang="ts">
-	export let prefix: string = 'page-', spec: PageSpecification;
+	export let prefix: string = '#', spec: PageSpecification;
 	let keys = 0;
 	setContext(pcContext, Object.assign({KeyGen: ()=> prefix+(++keys)}, spec));
 </script>

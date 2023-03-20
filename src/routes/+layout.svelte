@@ -13,6 +13,7 @@
 			<LinkItem href="/popup">Popup</LinkItem>
 			<LinkItem href="/paged">Paged</LinkItem>
 			<LinkItem href="/form">Form</LinkItem>
+			<LinkItem href="/table">Table</LinkItem>
 		</Menu>
 	</div>
 	<div class="article">

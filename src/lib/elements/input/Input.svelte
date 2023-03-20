@@ -23,13 +23,13 @@
 		leftCorner?: boolean;
 		label?: string;
 	}
-	export let icon: IconSpec = '', type: Type = 'text', placeholder: string = '', value: string = '',
+	export let icon: IconSpec = '', type: Type = 'text', value: string = '',
 		leftCorner: boolean = false, leftAction: boolean = false, leftIcon: boolean = false, label: string = '';
-	let cs: string, name: string, specName: string = '';
-	export {specName as name};
+	let cs: string, name: string, specName: string = '', placeholder: string, specPlaceholder: string = '';
+	export {specName as name, specPlaceholder as placeholder};
 	const field = getField();
 	$: name = specName || (field && $field.name);
-	$: placeholder = (field && $field.text) || placeholder;
+	$: placeholder = specPlaceholder || (field && $field.text);
 	$: {
 		let {disabled, transparent} = $$props;
 		cs = uistr('input', $$props, [

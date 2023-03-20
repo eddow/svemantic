@@ -1,7 +1,8 @@
-import { oneOf, type ClassDescr } from "$svemantic/root";
+import { combine, oneOf, type ClassDescr } from "$svemantic/root";
 
+export type ColorName = 'red'|'orange'|'yellow'|'olive'|'green'|'teal'|'blue'|'violet'|'purple'|'pink'|'brown'|'grey'|'black';
 export interface Color {
-	color?: 'red'|'orange'|'yellow'|'olive'|'green'|'teal'|'blue'|'violet'|'purple'|'pink'|'brown'|'grey'|'black';
+	color?: ColorName;
 	primary?: boolean;
 	secondary?: boolean;
 	positive?: boolean;
@@ -10,5 +11,5 @@ export interface Color {
 }
 
 export function color({color, primary, secondary, positive, negative, inverted}: Color): ClassDescr {
-	return [oneOf({color, primary, secondary, positive, negative}), {inverted}];
+	return combine([oneOf({color, primary, secondary, positive, negative}), {inverted}]);
 }

@@ -190,12 +190,13 @@
 		node: HTMLElement|undefined = undefined;
 
 	const dispatch = createEventDispatcher();
-	const config: SemanticUI.DropdownSettings = Object.assign({}, $$restProps, {
+	const config: SemanticUI.DropdownSettings = {
 		onChange: (value: any, text: string)=> { dispatch('change', {value, text}); },
 		onAdd: (value: any, text: string)=> { dispatch('add', {value, text}); },
 		onRemove: (value: any, text: string)=> { dispatch('remove', {value, text}); },
-		onNoResults: (search: any)=> { dispatch('no-result', {search}); }
-	});
+		onNoResults: (search: any)=> { dispatch('no-result', {search}); },
+		...$$restProps
+	};
 	if(values) config.values = values;
 	if(placeholder !== undefined) config.placeholder = placeholder;
 	$: config.message = $i18n.dropdown;	//? reactive?

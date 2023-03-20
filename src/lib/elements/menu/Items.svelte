@@ -15,7 +15,7 @@
 </script>
 <script lang="ts">
 	type T = $$Generic;
-	const items = new Map<T, ItemActivation>;
+	const items = new Map<T, ItemActivation>();
 	//? TODO allows export of `activeKey` and bind: manage prvAK
 	let activeKey: T | undefined = undefined, prvAK: T | undefined = undefined;
 	function deactivate(): boolean {

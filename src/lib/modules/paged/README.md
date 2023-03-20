@@ -17,7 +17,7 @@ Each of these page containers are therefore used like this:
 </SomePageContainer>
 ```
 
-Page without specified keys will have an automatically generated one as it is used internally (of the form `page-#` where `#` is a number)
+Page without specified keys will have an automatically generated one as it is used internally (of the form "`#xx`" where `xx` is a number)
 
 ## Accordions
 
