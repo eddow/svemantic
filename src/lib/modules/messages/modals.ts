@@ -16,7 +16,7 @@ export function prompt(text: string|PromptImmediate) {
 }
 // TODO Find a way to do this as semantic-ui ($.modal.setting...) is loaded after the svemantic if svemantic does not import ir
 //? fomantic-ui.d.ts
-if(browser) i18n.subscribe(txts=> { (<any>jQuery.fn).modal.settings.text = txts.cmd; })
+if(browser) ()=> i18n.subscribe(txts=> { (<any>jQuery.fn).modal.settings.text = txts.cmd; });
 
 export interface ModalSettings {
 	offset?: number;

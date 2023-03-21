@@ -3,6 +3,7 @@ export * from "./text";
 export * from "./input";
 export * from "./menu";
 export * from "./table";
+export * from "./grid";
 
 import Flag from "./Flag.svelte";
 import Icon from "./Icon.svelte";

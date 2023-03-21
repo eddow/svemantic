@@ -1,6 +1,3 @@
-import "fomantic-ui/dist/semantic.js";
-import "fomantic-ui/dist/semantic.css";
-
 export * from "./elements";
 export * from "./modules";
 export * from "./parts";

@@ -60,6 +60,7 @@
 	}
 </script>
 <script lang="ts">
+	// TODO Buggy with HMR
     import { browser } from '$app/environment';
 
 	import { color, type Color } from '$svemantic/parts/Color';

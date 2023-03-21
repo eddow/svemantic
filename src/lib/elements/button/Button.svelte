@@ -43,6 +43,7 @@
 	
 	const form = getForm(),
 		dispatch = createEventDispatcher();
+		
 	function click() {
 		if(form) {
 			if(submit) form.validate();

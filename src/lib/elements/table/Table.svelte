@@ -11,7 +11,7 @@
 	type T = $$Generic;
 	const emptyRow = <T>{};
 	interface $$Props extends Forward, SmallLarge, Color, ChildrenNumber {
-		data: T[];
+		data?: T[];
 		definition?: boolean;
 		structured?: boolean;
 		singleLine?: boolean;
@@ -28,7 +28,7 @@
 		scrolling?: boolean|'short'|'very short'|'long'|'very long';
 		stuck?: Stuckable[]|Record<Stuckable, boolean>|string;
 	}
-	export let data: T[];
+	export let data: T[] = [];
 	let cs: string;
 	$: {
 		let {

@@ -10,8 +10,11 @@
 	// not done here: checkbox radio hidden reset button submit 
 	//? image
 	
+// TODO Generics all along? (input, field, -> form[fieldName])
+
 	interface $$Props extends Forward, Size, Color, Loading {
-		value?: string;
+		fluid?: boolean;
+		value?: any;
 		type?: Type;
 		placeholder?: string;
 		name?: string;
@@ -22,18 +25,20 @@
 		leftAction?: boolean;
 		leftCorner?: boolean;
 		label?: string;
+		autofocus?: boolean;
 	}
-	export let icon: IconSpec = '', type: Type = 'text', value: string = '',
-		leftCorner: boolean = false, leftAction: boolean = false, leftIcon: boolean = false, label: string = '';
+	export let icon: IconSpec = '', type: Type = 'text', value: any = '',	// TODO Initialize to form's default
+		leftCorner: boolean = false, leftAction: boolean = false, leftIcon: boolean = false, label: string = '',
+		autofocus: boolean = false;
 	let cs: string, name: string, specName: string = '', placeholder: string, specPlaceholder: string = '';
 	export {specName as name, specPlaceholder as placeholder};
 	const field = getField();
 	$: name = specName || (field && $field.name);
 	$: placeholder = specPlaceholder || (field && $field.text);
 	$: {
-		let {disabled, transparent} = $$props;
+		let {disabled, transparent, fluid} = $$props;
 		cs = uistr('input', $$props, [
-			{disabled, transparent, file: type === 'file'},
+			{disabled, transparent, fluid, file: type === 'file'},
 			$$slots['right-label'] ? 'right labeled' : label || $$slots['left-label'] ? 'labeled' : false,
 			$$slots.action && (leftAction ? 'left action' : 'action'),
 			!!icon && (leftIcon ? 'left icon' : 'icon'),
@@ -58,7 +63,7 @@
 		{#if type === 'area'}
 			<textarea {value} {name} {placeholder} on:input={handleInput}></textarea>
 		{:else}
-			<input {type} {value} {name} {placeholder} on:input={handleInput} />
+			<input {autofocus} {type} {value} {name} {placeholder} on:input={handleInput} />
 		{/if}
 	</slot>
 	{#if !leftAction}<slot name="action" />{/if}

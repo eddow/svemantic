@@ -1,6 +1,4 @@
 <script lang="ts">
-	import "fomantic-ui/dist/semantic.js";
-	import "fomantic-ui/dist/semantic.css";
     import { LinkItem, Menu } from '$svemantic';
 </script>
 <div class="main">

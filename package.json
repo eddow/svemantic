@@ -9,8 +9,7 @@
 		"prepublishOnly": "npm run package",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "eslint .",
-		"postinstall": "patch-package"
+		"lint": "eslint ."
 	},
 	"exports": {
 		".": {
@@ -47,7 +46,6 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"fomantic-ui": "^2.9.2",
-		"patch-package": "^6.5.1"
+		"fomantic-ui": "^2.9.2"
 	}
 }

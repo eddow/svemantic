@@ -13,6 +13,16 @@
 		duration?: number;
 		queue?: boolean;
 	}
+	export interface ModalSpecification extends Forward, Size, Color, ModalSettings {
+		basic?: boolean;
+		fullscreen?: boolean;
+		long?: boolean;
+		longer?: boolean;
+		scrolling?: boolean;
+		leftActions?: boolean;
+		centered?: boolean;
+		opened?: boolean;
+	}
 
 	export type ModalFunction = ()=> Promise<boolean|undefined>;
 </script>
@@ -24,24 +34,20 @@
     import Module from '$svemantic/modules/Module.svelte';
 
 	const dispatch = createEventDispatcher();
-	interface $$Props extends Forward, Size, Color, ModalSettings {
-		basic?: boolean;
-		fullscreen?: boolean;
-		long?: boolean;
-		longer?: boolean;
-		scrolling?: boolean;
-		leftActions?: boolean;
-		centered?: boolean;
-		modal: ModalFunction;
+	interface $$Props extends ModalSpecification {
+		modal?: ModalFunction;
+		show?: ()=>void;
+		hide?: ()=>void;
+		node?: HTMLElement;
 	}
-	export let context: HTMLElement|undefined = undefined;
+	export let context: HTMLElement|undefined = undefined, opened: boolean = false;
 	let module: (...parms: any[])=> any;
-	const config = <SemanticUI.ModalSettings>Object.assign({}, $$props,
+	const config = Object.assign({}, $$props,
 		context ? {context: jQuery(context)} : {}, {
 		onShow() { dispatch('show'); },
-		onVisible() { dispatch('visible'); },
+		onVisible() { opened = true; dispatch('visible'); },
 		onHide() { return dispatch('hide', null, {cancelable: true}); },
-		onHidden() { dispatch('hidden'); answer(); },
+		onHidden() { opened = false; dispatch('hidden'); answer(); },
 		onApprove() { dispatch('approve'); answer(true); },
 		onDeny() { dispatch('deny'); answer(false); }
 	});
@@ -52,25 +58,29 @@
 			{inverted, basic, fullscreen, long, longer: longer||scrolling}
 		], size, color);
 	}
-	let node: HTMLElement|undefined = undefined;
+	export let node: HTMLElement|undefined = undefined;
 	let promise: {resolve: (answer?: boolean)=> void, reject: (reason: any)=> void}|null = null;
 	function answer(answer?: boolean) {
-		if(!promise) {
-			console.assert(false, 'Answering not-shown modal');
-			return;
-		}
+		if(!promise) return;
 		try {
 			promise.resolve(answer);
 		} finally {
 			promise = null;
 		}
 	}
+	let prvOpened = false;
+	$: if(opened !== prvOpened) {
+		if(opened) show();
+		else hide();
+	}
+	export function show() { module('show'); }
+	export function hide() { module('hide'); }
 	export function modal() {
 		if(!!promise) {
 			console.assert(false, "Modal opened twice");
 			promise.reject('Modal re-entrance');
 		}
-		module('show');
+		show();
 		return new Promise<boolean|undefined>((resolve, reject)=> { promise = {resolve, reject}; });
 	}
 	export let closable: boolean = true, title: string = '', leftActions: boolean = false, centered: boolean = false;
