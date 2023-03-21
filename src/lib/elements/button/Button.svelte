@@ -41,8 +41,7 @@
 		(oneOf({submit, reset})||'button');
 	$: labeled = !!($$slots.label || label) && (rightLabeled ? 'right labeled' : 'left labeled');
 	
-	const form = getForm(),
-		dispatch = createEventDispatcher();
+	const form = getForm(), dispatch = createEventDispatcher();
 		
 	function click() {
 		if(form) {

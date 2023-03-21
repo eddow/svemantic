@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { semantic, uistr, type Forward } from "$svemantic/root";
     import { onDestroy } from "svelte";
-    import Module from "$svemantic/modules/Module.svelte";
+    import Module from "$svemantic/modules/Module";
     import AccordionPage from "./AccordionPage.svelte";
     import PageContainer from "./PageContainer.svelte";
 
 	let node: HTMLDivElement;
 	export let exclusive: boolean = true,
 		collapsible: boolean = true;
-	let config: SemanticUI.AccordionSettings = {exclusive, collapsible};
-	let module: (...parms: any[])=> any;
+	const module = Module('accordion', {exclusive, collapsible});
 	interface $$Props extends Forward {
 		styled?: boolean;
 		exclusive?: boolean;
@@ -24,8 +23,6 @@
 	onDestroy(()=> module('destroy'));
 	// TODO Accordion usage <-> + test dynamic cases
 </script>
-<Module {node} {config} access="accordion" bind:module>
-	<div class={cs} use:semantic={$$props} bind:this={node}>
-		<PageContainer {spec}><slot /></PageContainer>
-	</div>
-</Module>
+<div class={cs} use:module use:semantic={$$props} bind:this={node}>
+	<PageContainer {spec}><slot /></PageContainer>
+</div>

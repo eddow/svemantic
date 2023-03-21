@@ -1,66 +1,77 @@
 <script lang="ts" context="module">
-	export type ModalFormFunction<T=any> = (init?: T)=> Promise<T|undefined>;
-	export type SaveFunction<T=any> = (item: T)=> Promise<void>;
+	export type ModalFormFunction<T=any> = (init?: Partial<T>)=> Promise<T|undefined>;
+	export type ModalSaveFunction<T=any> = (item: T)=> Promise<void>;
+	export class ErrorNotSaved extends Error {}
 </script>
 <script lang="ts">
 	import { createEventDispatcher, type ComponentProps } from 'svelte';
     import Modal, { type ModalSpecification } from './Modal.svelte';
-    import FormModule from '../form/FormModule.svelte';
+    import FormModule, { type FormContext, type FormSpecifications } from '../form/FormModule';
     import Loader from '$svemantic/elements/Loader.svelte';
     import { clastr } from '$svemantic/root';
+    import { toast } from '../messages';
 
 	type T = $$Generic;
 
 	const dispatch = createEventDispatcher();
-	interface $$Props extends ModalSpecification {
+	interface $$Props extends ModalSpecification, FormSpecifications<T> {
 		modal?: ModalFormFunction<T>;
-		save?: SaveFunction<T>;
+		save?: ModalSaveFunction<T>;
 	}
-	export let opened: boolean = false, save: SaveFunction<T> = ()=> Promise.resolve();
+	export let save: ModalSaveFunction<T> = ()=> Promise.resolve(), model: Partial<T>|undefined = undefined;
 	let promise: {resolve: (answer?: T)=> void, reject: (reason: any)=> void}|null = null;
 	function answer(answer?: T) {
 		if(!promise) return;
-		try {
-			promise.resolve(answer);
-		} finally {
-			promise = null;
-		}
+		if(answer) promise.resolve(answer);
+		else promise.resolve()
+		promise = null;
 	}
-	export function modal() {
+	export function modal(init?: Partial<T>) {
 		if(!!promise) {
 			console.assert(false, "Modal opened twice");
 			promise.reject('Modal re-entrance');
 		}
-		opened = true;
+
+		model = init || {};
 		return new Promise<T|undefined>((resolve, reject)=> { promise = {resolve, reject}; });
 	}
-	// TODO: on:hide always cancel if not answering
+	// TODO: on:hide dirty-> "Are you sure you want to lose your changes?"
 	function deny() {
 		answer();
 		dispatch('deny');
 	}
-	async function submit({detail}: CustomEvent) {
-		saving = true;
-		try {
-			await save(<T>detail.values);
-			answer(<T>detail.values);
-			opened = false;
-			dispatch('submit', detail);
-		} finally {
-			saving = false;
-		}
-		
+	function hidden() {
+		answer();
+		dispatch('hidden');
 	}
+	const module = FormModule({
+		...$$props,
+		async onSubmit(context: FormContext, values: T) {
+			saving = true;
+			try {
+				await save(values);
+				answer(values);
+				dispatch('submit', {context, values});
+				model = undefined;
+			} catch(x) {
+				if(!(x instanceof ErrorNotSaved))
+					throw x;
+				toast({message: x.message, class: 'error'});
+			} finally {
+				saving = false;
+			}
+			
+		}
+	});
+	$: module('set values', model);
 	let node: HTMLElement, saving = false;
 	let cs: string;
 	$: cs = clastr('form', $$props);
 </script>
-<FormModule {node} on:failure on:submit={submit}>
-	<Modal bind:node bind:opened on:show on:visible on:hide on:hidden on:deny={deny} {...$$restProps} class={cs}>
-		<Loader inverted loading={saving} />
-		<slot name="header" slot="header" />
-		<!--slot name="image" slot="image" /-->
-		<slot name="actions" slot="actions" />
-		<slot />
-	</Modal>
-</FormModule>
+<Modal form={module} bind:node opened={!!model} on:show on:visible on:hide on:hidden={hidden} on:deny={deny} {...$$restProps} class={cs}>
+	<Loader inverted loading={saving} />
+	<slot name="header" slot="header" />
+	<!--slot name="image" slot="image" /-->
+	<slot name="actions" slot="actions" />
+	<slot />
+</Modal>

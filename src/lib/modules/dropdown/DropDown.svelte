@@ -33,7 +33,7 @@
 	import { createEventDispatcher } from 'svelte';
     import Icon, { type IconSpec } from "$svemantic/elements/Icon.svelte";
     import i18n from "$svemantic/i18n";
-    import Module from "$svemantic/modules/Module.svelte";
+    import Module from "$svemantic/modules/Module";
 
 	interface $$Props extends Forward, DropdownSettings {
 		items?: any[];
@@ -50,7 +50,7 @@
 	export let items: any[] = [],
 		name: string = '',
 		icon: IconSpec = 'dropdown',
-		values: any = null,
+		values: any[]|undefined = undefined,
 		placeholder: string | false | undefined = undefined,
 		node: HTMLElement|undefined = undefined;
 
@@ -61,11 +61,10 @@
 		onRemove: (value: any, text: string)=> { dispatch('remove', {value, text}); },
 		onNoResults: (search: any)=> { dispatch('no-result', {search}); },
 		...$$restProps
-	};
+	}, module = Module('dropdown', config);
 	if(values) config.values = values;
 	if(placeholder !== undefined) config.placeholder = placeholder;
 	$: config.message = $i18n.dropdown;	//? reactive?
-	export let module: (...parms: any[])=> any = ()=> {};
 	let cs: string;
 	$: {
 		let {search, clearable, multiple} = $$props;
@@ -73,26 +72,22 @@
 	}
 	// TODO Dropdown sub: Text helpers
 </script>
-<Module {node} {config} access="dropdown" bind:module>
-	<slot {cs}>
-		<div class={cs} use:semantic={$$props} bind:this={node}>
-			{#if name}<input type="hidden" {name}>{/if}
-			<slot name="toggle">
-				<slot name="text" />
-				{#if icon}<Icon {icon} />{/if}
-			</slot>
-			<slot name="menu">
-				{#if !values}
-					<div class="menu">
-						<slot name="header" />
-						{#each items as item}
-							<slot name="item" {item}>
-								<div class="item" data-value={item.value}>{item.name}</div>
-							</slot>
-						{/each}
-					</div>
-				{/if}
-			</slot>
-		</div>
+<div class={cs} use:module use:semantic={$$props} bind:this={node}>
+	{#if name}<input type="hidden" {name}>{/if}
+	<slot name="toggle">
+		<slot name="text" />
+		{#if icon}<Icon {icon} />{/if}
 	</slot>
-</Module>
+	<slot name="menu">
+		{#if !values}
+			<div class="menu">
+				<slot name="header" />
+				{#each items as item}
+					<slot name="item" {item}>
+						<div class="item" data-value={item.value}>{item.name}</div>
+					</slot>
+				{/each}
+			</div>
+		{/if}
+	</slot>
+</div>

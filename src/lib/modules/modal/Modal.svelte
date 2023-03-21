@@ -21,7 +21,6 @@
 		scrolling?: boolean;
 		leftActions?: boolean;
 		centered?: boolean;
-		opened?: boolean;
 	}
 
 	export type ModalFunction = ()=> Promise<boolean|undefined>;
@@ -31,7 +30,7 @@
 	import { size, type Size } from '$svemantic/parts/Size';
     import { uistr, combine, type Forward, semantic } from "$svemantic/root";
 	import { createEventDispatcher } from 'svelte';
-    import Module from '$svemantic/modules/Module.svelte';
+    import Module from '$svemantic/modules/Module';
 
 	const dispatch = createEventDispatcher();
 	interface $$Props extends ModalSpecification {
@@ -39,18 +38,18 @@
 		show?: ()=>void;
 		hide?: ()=>void;
 		node?: HTMLElement;
+		opened?: boolean;
 	}
+	let node: HTMLElement|undefined = undefined, promise: {resolve: (answer?: boolean)=> void, reject: (reason: any)=> void}|null = null;
 	export let context: HTMLElement|undefined = undefined, opened: boolean = false;
-	let module: (...parms: any[])=> any;
-	const config = Object.assign({}, $$props,
-		context ? {context: jQuery(context)} : {}, {
+	const module = Module('modal', Object.assign({
 		onShow() { dispatch('show'); },
-		onVisible() { opened = true; dispatch('visible'); },
+		onVisible() { prvOpened = opened = true; dispatch('visible'); },
 		onHide() { return dispatch('hide', null, {cancelable: true}); },
-		onHidden() { opened = false; dispatch('hidden'); answer(); },
+		onHidden() { prvOpened = opened = false; dispatch('hidden'); answer(); },
 		onApprove() { dispatch('approve'); answer(true); },
 		onDeny() { dispatch('deny'); answer(false); }
-	});
+	}, context ? {context: jQuery(context)} : {}, $$props));
 	let cs: string;
 	$: {
 		let {inverted, basic, fullscreen, long, longer, scrolling} = $$props;
@@ -58,8 +57,6 @@
 			{inverted, basic, fullscreen, long, longer: longer||scrolling}
 		], size, color);
 	}
-	export let node: HTMLElement|undefined = undefined;
-	let promise: {resolve: (answer?: boolean)=> void, reject: (reason: any)=> void}|null = null;
 	function answer(answer?: boolean) {
 		if(!promise) return;
 		try {
@@ -83,7 +80,7 @@
 		show();
 		return new Promise<boolean|undefined>((resolve, reject)=> { promise = {resolve, reject}; });
 	}
-	export let closable: boolean = true, title: string = '', leftActions: boolean = false, centered: boolean = false;
+	export let title: string = '', leftActions: boolean = false, centered: boolean = false;
 	let csss: {content: string, header: string, actions: string};
 	$: csss = {
 		content: combine($$slots.image ? 'image ' : '', centered && 'center aligned', 'content'),
@@ -91,30 +88,28 @@
 		actions: combine(leftActions && 'left', centered && 'center aligned', 'actions')
 	};
 </script>
-<Module {node} {config} access="modal" bind:module>
-	<div class={cs} use:semantic={$$props} bind:this={node}>
-		{#if closable}<i class="close icon"></i>{/if}
-		{#if $$slots.header}
-			<div class={csss.header}>
-				<slot name="header">
-					{title}
-				</slot>
-			</div>
-		{/if}
-		<div class={csss.content}>
-			{#if $$slots.image}
-				<div class="image">
-					<slot name="image" />
-				</div>
-			{/if}
-			<div class="description">
-				<slot />
-			</div>
+
+<div class={cs} use:module use:semantic={$$props} bind:this={node}>
+	{#if $$slots.header}
+		<div class={csss.header}>
+			<slot name="header">
+				{title}
+			</slot>
 		</div>
-		{#if $$slots.actions}
-			<div class={csss.actions}>
-				<slot name="actions" />
+	{/if}
+	<div class={csss.content}>
+		{#if $$slots.image}
+			<div class="image">
+				<slot name="image" />
 			</div>
 		{/if}
+		<div class="description">
+			<slot />
+		</div>
 	</div>
-</Module>
+	{#if $$slots.actions}
+		<div class={csss.actions}>
+			<slot name="actions" />
+		</div>
+	{/if}
+</div>

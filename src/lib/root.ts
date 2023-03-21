@@ -6,6 +6,7 @@ export type ClassDescr = baseCD|Record<string,baseCD|ClassDescr[]>|ClassDescr[];
 export interface Forward {
 	class?: string;
 	popup?: PopupSettings | string;
+	form?: (e: HTMLElement)=> any;
 }
 export function oneOf(classes: Record<string, ClassDescr>) {
 	const used = Object.keys(classes).filter(c=> !!classes[c]), itm = classes[used[0]];
@@ -35,8 +36,9 @@ export function uistr(type: string, props: Forward, classes: ClassDescr = false,
 }
 
 export function semantic(node: HTMLElement, frwrd: Forward) {
-	function update({popup: ppp}: Forward) {
+	function update({popup: ppp, form}: Forward) {
 		if(ppp) popup(node, ppp);
+		if(form) form(node);
 	}
 	update(frwrd);
 	return { update };

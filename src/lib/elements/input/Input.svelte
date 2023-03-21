@@ -5,6 +5,7 @@
     import { loading, type Loading } from '$svemantic/parts/Loading';
     import Icon, { type IconSpec } from '../Icon.svelte';
     import { getField } from '$svemantic/modules/form/Field.svelte';
+    import { getForm } from '$svemantic/modules/form/FormModule';
 
 	type Type = 'text'|'email'|'number'|'range'|'password'|'search'|'tel'|'url'|'time'|'date'|'month'|'week'|'datetime-local'|'color'|'file'|'area';
 	// not done here: checkbox radio hidden reset button submit 
@@ -27,16 +28,18 @@
 		label?: string;
 		autofocus?: boolean;
 	}
+	const form = getForm();
 	export let icon: IconSpec = '', type: Type = 'text', value: any = '',	// TODO Initialize to form's default
 		leftCorner: boolean = false, leftAction: boolean = false, leftIcon: boolean = false, label: string = '',
-		autofocus: boolean = false;
+		autofocus: boolean = false,
+		transparent: boolean = !!form && form.tabular;	// Input have no borders by default in a table
 	let cs: string, name: string, specName: string = '', placeholder: string, specPlaceholder: string = '';
 	export {specName as name, specPlaceholder as placeholder};
 	const field = getField();
 	$: name = specName || (field && $field.name);
 	$: placeholder = specPlaceholder || (field && $field.text);
 	$: {
-		let {disabled, transparent, fluid} = $$props;
+		let {disabled, fluid} = $$props;
 		cs = uistr('input', $$props, [
 			{disabled, transparent, fluid, file: type === 'file'},
 			$$slots['right-label'] ? 'right labeled' : label || $$slots['left-label'] ? 'labeled' : false,
