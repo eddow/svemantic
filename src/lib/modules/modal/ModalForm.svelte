@@ -46,12 +46,12 @@
 	}
 	const module = FormModule({
 		...$$props,
-		async onSubmit(context: FormContext, values: T) {
+		async onSubmit(values: T, context: FormContext) {
 			saving = true;
 			try {
 				await save(values);
 				answer(values);
-				dispatch('submit', {context, values});
+				dispatch('submit', {values, context});
 				model = undefined;
 			} catch(x) {
 				if(!(x instanceof ErrorNotSaved))
@@ -60,7 +60,6 @@
 			} finally {
 				saving = false;
 			}
-			
 		}
 	});
 	$: module('set values', model);

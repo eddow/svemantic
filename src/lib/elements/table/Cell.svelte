@@ -3,6 +3,7 @@
 	export interface CellSettings extends Forward, ContentColor, ChildrenNumber {
 		rowspan?: number;
 		colspan?: number;
+		collapsing?: boolean;
 	}
 </script>
 <script lang="ts">
@@ -14,9 +15,8 @@
 		element: CellElement;
 	}
 	export let element: CellElement, scope: 'row'|'col'|undefined = $$props.scope,
-		rowspan: number|undefined = undefined, colspan: number|undefined = undefined;
-
-	export let collapsing: boolean = false;
+		rowspan: number|undefined = undefined, colspan: number|undefined = undefined,
+		collapsing: boolean = false;
 	let cs: string;
 	$: cs = frwstr($$props, {collapsing}, contentColor, childrenNumber('wide'));
 </script>

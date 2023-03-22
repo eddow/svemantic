@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { alert, confirm, Buttons, Button, Field, Form, ModalForm, toast, type ModalFormFunction, ErrorNotSaved } from "$svemantic";
+    import { alert, confirm, Buttons, Button, Field, Form, ModalForm, toast, type ModalFormFunction, ErrorNotSaved, Input, Checkbox } from "$svemantic";
     import Table from "$svemantic/elements/table/Table.svelte";
 	function submit({detail}: CustomEvent) {
 		console.dir(detail);
@@ -24,16 +24,30 @@
 		else toast({message: 'Nope', class: 'warning'});
 	}
 </script>
+
 <Table compact="very" celled>
+	<tr>
+		<th>email</th>
+		<th>opt</th>
+		<th>Agreement</th>
+	</tr>
 	<Form tabular on:submit={submit}>
-		<td><Field name="email" required validate="email" /></td>
-		<td><Field name="opt" placeholder="Opt-fld" /></td>
-		<td>
+		<Input placeholder name="email" required validate="email" />
+		<Input name="opt" placeholder="Opt-fld" />
+		<td><Checkbox name="agree" /></td>
+		<td class="ui buttons">
 			<Button submit>Submit</Button>
 		</td>
-		<td class="ui error message"></td>
 	</Form>
 </Table>
+<!--
+<Form on:submit={submit} error-display="manual">
+	<Field label="email" name="email" required validate="email" />
+	<Field label="optional" name="opt" placeholder="Opt-fld" />
+	<Field><Checkbox name="agree" label="Agreement" /></Field>
+	<div class="ui error message"></div>
+	<Button submit>Submit</Button>
+</Form>
 
 <div>
 	<Button on:click={testModalPromise}>`modal` Promise</Button>	
@@ -56,3 +70,4 @@
 		<Button cancel>Cancel</Button>
 	</Buttons>
 </NameMf>
+-->

@@ -8,7 +8,9 @@
 	type T = $$Generic;
 
 	export let tabular: boolean = false, element: string = tabular ? 'tr' : 'div', model: Partial<T> = {};
-	interface $$Props extends Forward, FormSpecifications<T> {}
+	interface $$Props extends Forward, FormSpecifications<T> {
+		element?: string;
+	}
 	const module = FormModule<T>($$props);
 	$: module('set values', model);
 	let cs: string;

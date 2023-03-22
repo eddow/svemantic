@@ -33,11 +33,11 @@
 	$: {
 		let {
 			definition, structured, singleLine, fixed, stackable, selectable, celled, striped, collapsing, padded,
-			scrolling, basic, compact
+			scrolling, basic, compact, stuck
 		} = $$props;
 		cs = uistr('table', $$props, [{
 			definition, structured, fixed, stackable, selectable, celled, striped, collapsing, padded,
-			scrolling, basic, compact
+			scrolling, basic, compact, stuck
 		}, singleLine && 'single line'], smallLarge, color, childrenNumber('column'));
 	}
 	/* TODO:

@@ -8,8 +8,8 @@
 		value?: string;
 		values: any;	// {#if}<slot : only w/ JS values
 	}
-	export let value: string = '', placeholder: string|false = '', values: any[],
-		module: SemanticUI.Dropdown = <SemanticUI.Dropdown>Object.assign(()=> {}, {settings: {}});
+	export let value: string = '', placeholder: string|false = '', values: any[];
+	let module: SemanticUI.Dropdown = <SemanticUI.Dropdown>Object.assign(()=> {}, {settings: {}});
 	$: module('set selected', value);
 	let config = {placeholder, values, ...$$restProps};
 	function change({detail: {value: newV}}: any) {

@@ -6,5 +6,6 @@ export * from "./paged";
 export * from "./form";
 
 import Dimmer from "./Dimmer.svelte";
+import Checkbox from "./Checkbox.svelte";
 
-export { Dimmer }
+export { Dimmer, Checkbox }

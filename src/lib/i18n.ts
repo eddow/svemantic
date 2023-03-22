@@ -1,3 +1,4 @@
+import { onDestroy } from "svelte";
 import { writable } from "svelte/store"
 
 const englishDefault = {
@@ -58,9 +59,11 @@ const englishDefault = {
 	},
 	fld: <Record<string, string>>{}
 }
+const i18n = writable<typeof englishDefault>(englishDefault);
+export default i18n;
 
-export default writable<typeof englishDefault>(englishDefault);
-
-export function i18ned(text: string|true, auto: string) {
-	return text === true ? auto : text;
+export function field(name: string|undefined, text: string|boolean, cb: (v: string)=> void, dft?: string) {
+	console.assert(name || text !== true, 'Cannot determine text of field without name');
+	if(name && text === true)
+		onDestroy(i18n.subscribe(v=> cb(v.fld[name] || dft || `[fld.${name}]`)));
 }

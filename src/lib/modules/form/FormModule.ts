@@ -3,7 +3,7 @@ import { createEventDispatcher } from 'svelte';
 import Module from '$svemantic/modules/Module';
 import type { Readable } from "svelte/store";
 import privateStore from "$svemantic/utils/privateStore";
-import type { FomanticField } from "./Field.svelte";
+import type { FomanticField } from "./FormInput.svelte";
 import i18n from "$svemantic/i18n";
 
 export type ErrorDisplay = 'inline'|'manual'|'popup';
@@ -19,8 +19,8 @@ export interface FormContext<T=any> {
 	removeField(name: string): void;
 	module(...parms: any[]): any;
 }
-export function getForm(): FormContext {
-	return getContext<FormContext>(formContext);
+export function getForm<T=any>(): FormContext {
+	return getContext<FormContext<T>>(formContext);
 }
 type key<T> = string & keyof T;
 type Fields<T> = Partial<Record<key<T>, FomanticField>>;
@@ -37,7 +37,7 @@ export interface FormSpecifications<T> {
 		[name: string]: (this: HTMLElement, ...args: any[]) => boolean;
 	};
 	element?: string;
-	errorDisplay?: ErrorDisplay;
+	'error-display'?: ErrorDisplay;
 	model?: Partial<T>;
 }
 export default function FormModule<T=any>(config: any) {
@@ -46,10 +46,11 @@ export default function FormModule<T=any>(config: any) {
 		
 	const fields = config.fields || <Fields<T>>{},
 		tabular = !!config.tabular,
-		errorDisplay: ErrorDisplay = config.errorDisplay || 'popup';
+		errorDisplay: ErrorDisplay = config['error-display'] || 'popup';
 	let model: Partial<T> = config.model || {};
 	// TODO form formatters: https://fomantic-ui.com/behaviors/form.html#formatters	(programatic intl)
-	// TODO Error report: inline/.ui.messages.error/tool-tip
+	// TODO tr.error displays the whole row redish, not only the erroneous fields (td): the whole row
+	// TODO HMR lose fields!
 	const module = Module('form', Object.assign(config, {
 		default: model,
 		inline: errorDisplay === 'inline',
@@ -61,9 +62,9 @@ export default function FormModule<T=any>(config: any) {
 			fields[<key<T>>(<HTMLInputElement>this[0]).name]?.setErrors?.();
 		},
 		onSuccess(e: any, values: T) {
-			if(config.onSubmit) config.onSubmit(context, values);
+			if(config.onSubmit) config.onSubmit(values, context);
 			else {
-				dispatch('submit', {context, values});
+				dispatch('submit', {values, context});
 				model = values;
 			}
 		},

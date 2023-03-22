@@ -44,15 +44,13 @@
 		search?: boolean;
 		clearable?: boolean;
 		multiple?: boolean;
-		node?: HTMLElement
 	}
 
 	export let items: any[] = [],
 		name: string = '',
 		icon: IconSpec = 'dropdown',
 		values: any[]|undefined = undefined,
-		placeholder: string | false | undefined = undefined,
-		node: HTMLElement|undefined = undefined;
+		placeholder: string | false | undefined = undefined;
 
 	const dispatch = createEventDispatcher();
 	const config: any = {
@@ -61,7 +59,8 @@
 		onRemove: (value: any, text: string)=> { dispatch('remove', {value, text}); },
 		onNoResults: (search: any)=> { dispatch('no-result', {search}); },
 		...$$restProps
-	}, module = Module('dropdown', config);
+	};
+	export const module = Module('dropdown', config);
 	if(values) config.values = values;
 	if(placeholder !== undefined) config.placeholder = placeholder;
 	$: config.message = $i18n.dropdown;	//? reactive?
@@ -72,7 +71,7 @@
 	}
 	// TODO Dropdown sub: Text helpers
 </script>
-<div class={cs} use:module use:semantic={$$props} bind:this={node}>
+<div class={cs} use:module use:semantic={$$props}>
 	{#if name}<input type="hidden" {name}>{/if}
 	<slot name="toggle">
 		<slot name="text" />

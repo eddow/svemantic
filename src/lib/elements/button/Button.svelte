@@ -7,7 +7,6 @@
     import { getForm } from '$svemantic/modules/form/Form.svelte';
     import { createEventDispatcher } from 'svelte';
 
-	type Element = 'a'|'button'|'label';
 	interface $$Props extends Forward, ButtonProp, Loading {
 		active?: boolean;
 		circular?: boolean;
@@ -21,7 +20,7 @@
 		icon?: IconSpec;
 		text?: string;
 		for?: string;
-		element?: Element;
+		el?: string;
 		tabindex?: number;
 	}
 	
@@ -34,11 +33,11 @@
 		text: string = '',
 		icon: IconSpec = '',
 		label: string = '',
-		element: Element = href?'a':name?'label':'button',
-		tabindex: number|undefined = element === 'a' ? 0 : undefined;
-	let labeled: string|false = '', type: string|undefined;
-	$: type = (element === 'button' || undefined) &&
-		(oneOf({submit, reset})||'button');
+		el: string = href?'a':name?'label':'button',
+		tabindex: number|undefined = el === 'a' ? 0 : undefined;
+	let labeled: string|false = '', type: 'submit'|'reset'|'button'|undefined;
+	$: type = (el === 'button' || undefined) &&
+		(<'submit'|'reset'|undefined>oneOf({submit, reset})||'button');
 	$: labeled = !!($$slots.label || label) && (rightLabeled ? 'right labeled' : 'left labeled');
 	
 	const form = getForm(), dispatch = createEventDispatcher();
@@ -68,8 +67,18 @@
 		{/if}
 		{#if rightLabeled}<slot name="label"><Label basic pointing="left">{label}</Label></slot>{/if}
 	</div>
+{:else if el === 'button'}
+	<button {tabindex} {type} class={cs} use:semantic={$$props} on:click={click}>
+		{#if icon}<Icon {icon} />{/if}
+		<slot>{text}</slot>
+	</button>
+{:else if el === 'a'}
+	<a {tabindex} {href} class={cs} use:semantic={$$props} on:click={click}>
+		{#if icon}<Icon {icon} />{/if}
+		<slot>{text}</slot>
+	</a>
 {:else}
-	<svelte:element this={element} {tabindex} {type} {href} class={cs} use:semantic={$$props} on:click={click}>
+	<svelte:element this={el} {tabindex} class={cs} use:semantic={$$props} on:click={click}>
 		{#if icon}<Icon {icon} />{/if}
 		<slot>{text}</slot>
 	</svelte:element>

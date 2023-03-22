@@ -1,5 +1,5 @@
 import Input from "./Input.svelte";
 import File from "./File.svelte";
-import Checkbox from "./Checkbox.svelte";
+import Field from "./Field.svelte";
 
-export { Input, File, Checkbox };
+export { Input, File, Field };

@@ -3,8 +3,10 @@
 	import { size, type Size } from '$svemantic/parts/Size';
     import { oneOf, semantic, uistr, type Forward } from "$svemantic/root";
     import { loading, type Loading } from '$svemantic/parts/Loading';
-    import { getField } from '$svemantic/modules/form/Field.svelte';
     import Module from '$svemantic/modules/Module';
+    import { getForm } from '$svemantic/modules/form/FormModule';
+    import FormInput, { type RulesSpec } from './form/FormInput.svelte';
+    import { field } from '$svemantic/i18n';
 
 	type Type = 'text'|'email'|'number'|'range'|'password'|'search'|'tel'|'url'|'time'|'date'|'month'|'week'|'datetime-local'|'color'|'file'|'area';
 	// not done here: checkbox radio hidden reset button submit 
@@ -13,38 +15,49 @@
 	interface $$Props extends Forward, Size, Color, Loading {
 		value?: boolean;
 		name?: string;
-		label?: string;
+		label?: string|true;
 		disabled?: boolean;
 		toggle?: boolean;
 		slider?: boolean;
 	}
-	export let value: boolean|undefined = false, disabled: boolean = false;
-	let cs: string, name: string, specName: string = '', label: string, specLabel: string = '',
-		node: HTMLElement|undefined = undefined;
-	export {specName as name, specLabel as label};
+	const form = getForm(), tabular = !!form && form.tabular;
+	export let name: string|undefined = undefined, value: boolean|undefined = false, disabled: boolean = false,
+		label: string|true = '';
+	export let required: boolean = false, validate: RulesSpec|undefined = undefined;
+	let cs: string;
+	field(name, label, v=> label = v);
 	$: module(value === true ? 'set checked' : value === false ? 'set unchecked' : 'set indeterminate');
 	$: module(disabled ? 'set disabled' : 'set enabled');
-	const field = getField(), module = Module('checkbox', {
+
+	const module = Module('checkbox', {
 		onChecked() { value = true; },
 		onUnchecked() { value = false; },
 		onIndeterminate() { value = undefined; }
 	});
-	$: name = specName || (field && $field.name);
-	$: label = specLabel || (field && $field.text);
 	$: {
 		let {disabled, toggle, slider, right} = $$props;
 		cs = uistr('checkbox', $$props, [
-			{disabled},
+			{disabled, tabular, field: tabular},
 			oneOf({toggle, slider}),
 			right && 'right aligned'
 		], size, color, loading);
 	}
 </script>
-<div use:module bind:this={node} class={cs} use:semantic={$$props}>
+<div use:module class={cs} use:semantic={$$props}>
 	<slot name="label">
 		{#if label}
 			<label for={name}>{label}</label>
 		{/if}
 	</slot>
-	<input type="checkbox" {name} />
+	<FormInput {required} {validate} {name}>
+		<input type="checkbox" {name} />
+	</FormInput>
 </div>
+<style lang="scss" global>
+	:global(table > tr) {
+		:global(> th.ui.checkbox), :global(> td.ui.checkbox) {
+			display: table-cell;
+			padding: 0;
+		}
+	}
+</style>
