@@ -27,13 +27,26 @@
 		'right-icon'?: IconSpec;
 		autofocus?: boolean;
 		el?: string;
+		tabular?: boolean
 	}
-	const dispatch = createEventDispatcher(), form = getForm(), tabular = !!form && form.tabular;
-	export let type: Type = 'text', value: any = '',	// TODO Initialize to form's default
-		autofocus: boolean = false, name: string|undefined = undefined,
-		el: string = tabular?'td':'div', transparent: boolean = tabular,	// Default in table: <td ... "fluid transparent"
-		placeholder: string|true = '', fluid: boolean = false;
-	export let required: boolean = false, validate: RulesSpec|undefined = undefined;
+	const
+		dispatch = createEventDispatcher(),
+		form = getForm();
+	export let
+		type: Type = 'text',
+		value: any = '',	// TODO Initialize to form's default
+		autofocus: boolean = false,
+		name: string|undefined = undefined,
+		placeholder: string|true = '',
+		el: string = 'div',
+		// Default in table: <td ... "fluid transparent"
+		tabular: boolean = !!form && form.tabular,
+		transparent: boolean = tabular,
+		fluid: boolean = tabular,
+		// FormInput forward
+		required: boolean = false,
+		validate: RulesSpec|undefined = undefined;
+	
 	let cs: string, icon: IconSpec;
 	field(name, placeholder, v=> placeholder = v);
 	
@@ -77,11 +90,3 @@
 	{/if}
 	<slot name="postfix" />
 </svelte:element>
-<style lang="scss" global>
-	:global(table > tr) {
-		:global(> th.ui.input),  :global(> td.ui.input) {
-			display: table-cell;
-			padding: 0;
-		}
-	}
-</style>

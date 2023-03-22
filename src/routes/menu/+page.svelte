@@ -6,7 +6,7 @@
 	<div class="right menu">
 		<SubMenu class="icon" icon="heart">
 			<LinkItem href="#">Menu 1</LinkItem>
-			<LinkItem href="#">Menu 2</LinkItem>
+			<LinkItem href="#">Menu X</LinkItem>
 		</SubMenu>
 	</div>
 </Menu>

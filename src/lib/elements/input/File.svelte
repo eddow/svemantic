@@ -9,4 +9,4 @@
 	
 </script>
 <input {name} type="file" class="ui invisible file input">
-<Button {...$$restProps} element="label" for={name} />
+<Button {...$$restProps} el="label" for={name} />

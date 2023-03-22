@@ -54,8 +54,8 @@
 	</FormInput>
 </div>
 <style lang="scss" global>
-	:global(table > tr) {
-		:global(> th.ui.checkbox), :global(> td.ui.checkbox) {
+	table  tr {
+		> th.ui.checkbox, > td.ui.checkbox {
 			display: table-cell;
 			padding: 0;
 		}

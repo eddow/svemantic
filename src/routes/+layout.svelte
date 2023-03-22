@@ -20,10 +20,11 @@
 		</div>
 	</div>
 </div>
-<style lang="scss">.main {
+<style lang="scss">
+.main {
 	display: flex;
     flex-direction: row;
-	height: 100vh;;
+	height: 100vh;
 }
 .toc {
 	position: fixed;

@@ -20,9 +20,9 @@
 <div class={cs} use:semantic={$$props}>
 	<slot />
 </div>
-<style lang="scss">
-	:global(table > tr) {
-		:global(> th.ui.buttons), :global(> td.ui.buttons) {
+<style lang="scss" global>
+	table tr {
+		> th.ui.buttons, > td.ui.buttons {
 			display: table-cell;
 		}
 	}

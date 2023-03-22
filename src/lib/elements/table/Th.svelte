@@ -4,4 +4,4 @@
 		scope?: 'row'|'col';
 	}
 </script>
-<Cell element="th" {...$$props}><slot /></Cell>
+<Cell header {...$$props}><slot /></Cell>

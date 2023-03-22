@@ -32,8 +32,8 @@
 		<th>Agreement</th>
 	</tr>
 	<Form tabular on:submit={submit}>
-		<Input placeholder name="email" required validate="email" />
-		<Input name="opt" placeholder="Opt-fld" />
+		<td><Input placeholder name="email" required validate="email" /></td>
+		<td><Input name="opt" placeholder="Opt-fld" /></td>
 		<td><Checkbox name="agree" /></td>
 		<td class="ui buttons">
 			<Button submit>Submit</Button>

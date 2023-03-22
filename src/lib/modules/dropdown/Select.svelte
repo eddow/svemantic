@@ -1,36 +1,59 @@
 <script lang="ts">
-    import DropDown from "./Dropdown.svelte";
+    import DropDown, { type DropdownOption } from "./Dropdown.svelte";
 	import { createEventDispatcher, type ComponentProps } from 'svelte';
-    import { frwstr } from "$svemantic/root";
+	import FormInput, { type RulesSpec } from "../form/FormInput.svelte";
+	import { getForm } from "../form/FormModule";
 
-	const dispatch = createEventDispatcher();
-	interface $$Props extends ComponentProps<DropDown> {
-		value?: string;
-		values: any;	// {#if}<slot : only w/ JS values
-	}
-	export let value: string = '', placeholder: string|false = '', values: any[];
-	let module: SemanticUI.Dropdown = <SemanticUI.Dropdown>Object.assign(()=> {}, {settings: {}});
-	$: module('set selected', value);
-	let config = {placeholder, values, ...$$restProps};
 	function change({detail: {value: newV}}: any) {
 		dispatch('change', newV)
 		value = newV;
 	}
-	// TODO get name+texts from `Field` like `Input`
-	let cs: string;
-	$: cs = frwstr($$props, ['selection']);
 	function retrieveText(value: string) {
-		return values.find(v=> v.value === value)?.name;
+		let item = options.find(v=> v.value === value);
+		return item?.display || item?.text || value;
 	}
+	const
+		dispatch = createEventDispatcher(),
+		form = getForm(),
+		tabular = !!form && form.tabular;
+	interface $$Props extends ComponentProps<DropDown> {
+		value?: string;
+		options: DropdownOption[];	// {#if}<slot : only w/ JS values
+	}
+	export let
+		name: string = '',
+		value: string = '',
+		placeholder: string|boolean = '',
+		options: DropdownOption[],
+		// Default in table: <td ... "transparent"
+		el: string = tabular?'td':'div',
+		transparent: boolean = tabular,
+		// FormInput forward
+		required: boolean = false,
+		validate: RulesSpec|undefined = undefined;
+		
+	let	module: SemanticUI.Dropdown = <SemanticUI.Dropdown>Object.assign(()=> {}, {settings: {}}),
+		config = {placeholder, options, name, transparent, el, ...$$restProps};
+	$: module('set selected', value);
 	// TODO: multiselect -> set value
 	// TODO {#if}<slot https://github.com/sveltejs/svelte/pull/8304
 </script>
-<DropDown {...config} class={cs} on:change={change} bind:module>
-	<svelte:fragment slot="text">
+<DropDown {...config} class="selection" on:change={change} bind:module>
+	<FormInput {required} {validate} {name} slot="text">
 		{#if value}
 			<div class="text">{retrieveText(value)}</div>
 		{:else}
 			<div class="default text">{placeholder}</div>
 		{/if}
-	</svelte:fragment>
+	</FormInput>
 </DropDown>
+<style lang="scss" global>
+	table tr {
+		> th, > td {
+			&.ui.selection.dropdown {
+				display: table-cell;
+				background: transparent;
+			}
+		}
+	}
+</style>

@@ -8,9 +8,9 @@
 	}
 	let cs: string;
 	$: {
-		let {active, inverted} = $$props;
+		let {active} = $$props;
 		cs = uistr('dimmer', $$props, [
-			{active, inverted}
+			{active}
 		], color);
 	}
 </script>

@@ -1,4 +1,28 @@
 <script lang="ts" context="module">
+	import { uistr, semantic, type Forward } from "$svemantic/root";
+	import { createEventDispatcher } from 'svelte';
+    import Icon, { type IconSpec } from "$svemantic/elements/Icon.svelte";
+    import i18n from "$svemantic/i18n";
+    import Module from "$svemantic/modules/Module";
+	import { field } from "$svemantic/i18n";
+
+	export interface DropdownOption {
+		disabled?: true, // whether value should be disabled
+		name?: string, // displayed dropdown text
+		description?: string, // displayed dropdown description
+		descriptionVertical?: boolean, // whether description should be vertical
+		value: string, // actual dropdown value
+		text?: string, // displayed text when selected
+		display?: string, // cfr. globalConfig.SemanticUiOptions
+		type?: string, //? type of dropdown element
+		image?: string, // optional image path
+		imageClass?: string, // optional individual class for image
+		icon?: string, // optional icon name
+		iconClass?: string, // optional individual class for icon (for example to use flag instead)
+		class?: string, // optional individual class for item/header
+		divider?: boolean, // optional divider append for group headers
+		actionable?: boolean // optional actionable item
+	}
 	export interface DropdownSettings {
 		on?: string;
 		allowReselection?: boolean;
@@ -9,7 +33,7 @@
 		selectOnKeydown?: boolean;
 		forceSelection?: boolean;
 		allowCategorySelection?: boolean;
-		placeholder?: string | 'auto' | 'value' | false;
+		placeholder?: string | 'auto' | 'value' | boolean;
 		useLabels?: boolean;
 		maxSelections?: false | number;
 		label?: SemanticUI.Dropdown.LabelSettings;
@@ -27,33 +51,42 @@
 
 		className?: SemanticUI.Dropdown.ClassNameSettings;
 	}
+	export const globalConfig = {
+		SemanticUiOptions: false	// If set to true, uses {text, name} instead of {display, text} to choose the displayed values resp when selected/in the list
+	}
 </script>
 <script lang="ts">
-	import { uistr, semantic, type Forward } from "$svemantic/root";
-	import { createEventDispatcher } from 'svelte';
-    import Icon, { type IconSpec } from "$svemantic/elements/Icon.svelte";
-    import i18n from "$svemantic/i18n";
-    import Module from "$svemantic/modules/Module";
-
 	interface $$Props extends Forward, DropdownSettings {
-		items?: any[];
 		icon?: IconSpec;
 		action?: 'activate' | 'select' | 'combo' | 'nothing' | 'hide' | ((text: string, value: string | false, element: JQuery) => void);
-		values?: any;
+		options?: any;
 		module?: SemanticUI.Dropdown;
 		search?: boolean;
 		clearable?: boolean;
 		multiple?: boolean;
+		transparent?: boolean;
+		el?: string;
+		name?: string;
 	}
 
-	export let items: any[] = [],
+	const
+		dispatch = createEventDispatcher();
+	export let
 		name: string = '',
 		icon: IconSpec = 'dropdown',
-		values: any[]|undefined = undefined,
-		placeholder: string | false | undefined = undefined;
+		options: DropdownOption[]|undefined = undefined,
+		transparent: boolean = false,
+		el: string = 'div',
+		placeholder: string|boolean = '';
 
-	const dispatch = createEventDispatcher();
+	function transform(options: DropdownOption[]) {
+		return globalConfig.SemanticUiOptions ? options :
+			options.map(({text, display, ...cnf})=> ({...(display?{text: display}:{}), ...{name: text, ...cnf}}));
+	}
+	field(name, placeholder, v=> placeholder = v);
 	const config: any = {
+		values:options && transform(options),
+		placeholder,
 		onChange: (value: any, text: string)=> { dispatch('change', {value, text}); },
 		onAdd: (value: any, text: string)=> { dispatch('add', {value, text}); },
 		onRemove: (value: any, text: string)=> { dispatch('remove', {value, text}); },
@@ -61,32 +94,30 @@
 		...$$restProps
 	};
 	export const module = Module('dropdown', config);
-	if(values) config.values = values;
-	if(placeholder !== undefined) config.placeholder = placeholder;
+	$: config.values = options && transform(options);
 	$: config.message = $i18n.dropdown;	//? reactive?
 	let cs: string;
 	$: {
 		let {search, clearable, multiple} = $$props;
-		cs = uistr('dropdown', $$props, {search, clearable, multiple});
+		cs = uistr('dropdown', $$props, {search, clearable, multiple, transparent});
 	}
 	// TODO Dropdown sub: Text helpers
 </script>
-<div class={cs} use:module use:semantic={$$props}>
+<svelte:element this={el}  class={cs} use:module use:semantic={$$props}>
 	{#if name}<input type="hidden" {name}>{/if}
 	<slot name="toggle">
 		<slot name="text" />
 		{#if icon}<Icon {icon} />{/if}
 	</slot>
-	<slot name="menu">
-		{#if !values}
-			<div class="menu">
-				<slot name="header" />
-				{#each items as item}
-					<slot name="item" {item}>
-						<div class="item" data-value={item.value}>{item.name}</div>
-					</slot>
-				{/each}
-			</div>
-		{/if}
+	<slot>
+		<div class="menu">
+			<slot name="menu" />
+		</div>
 	</slot>
-</div>
+</svelte:element>
+<style lang="scss" global>
+	.ui.transparent.dropdown {
+		border-width: 1px 0 0 0;
+		border-radius: 0;
+	}
+</style>
