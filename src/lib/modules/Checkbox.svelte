@@ -25,7 +25,7 @@
 		label: string|true = '';
 	export let required: boolean = false, validate: RulesSpec|undefined = undefined;
 	let cs: string;
-	field(name, label, v=> label = v);
+	if(name) field(name, label, v=> label = v);
 	$: module(value === true ? 'set checked' : value === false ? 'set unchecked' : 'set indeterminate');
 	$: module(disabled ? 'set disabled' : 'set enabled');
 
@@ -49,7 +49,7 @@
 			<label for={name}>{label}</label>
 		{/if}
 	</slot>
-	<FormInput {required} {validate} {name}>
+	<FormInput {required} {validate} {name} text={label}>
 		<input type="checkbox" {name} />
 	</FormInput>
 </div>

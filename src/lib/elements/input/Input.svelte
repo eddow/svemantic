@@ -37,7 +37,7 @@
 		value: any = '',	// TODO Initialize to form's default
 		autofocus: boolean = false,
 		name: string|undefined = undefined,
-		placeholder: string|true = '',
+		placeholder: string|true = true,
 		el: string = 'div',
 		// Default in table: <td ... "fluid transparent"
 		tabular: boolean = !!form && form.tabular,
@@ -48,7 +48,7 @@
 		validate: RulesSpec|undefined = undefined;
 	
 	let cs: string, icon: IconSpec;
-	field(name, placeholder, v=> placeholder = v);
+	if(name) field(name, placeholder, v=> placeholder = v);
 	
 	$: {
 		const {disabled, 'left-icon': leftIcon, 'right-icon': rightIcon} = $$props;
@@ -66,7 +66,7 @@
 		dispatch('input', value);
 	};
 	
-	function castr(x: any) { return <string>x; }	// No typescript in svelte templates *but* typescript errors!
+	function castr(x: any) { return <string>x || ''; }	// No typescript in svelte templates *but* typescript errors!
 </script>
 <svelte:element this={el} class={cs} use:semantic={$$props}>
 	<slot name="prefix" />
@@ -74,7 +74,7 @@
 		<div class="ui left corner label"><slot name="left-corner" /></div>
 	{/if}
 	<slot name="left-action" />
-	<FormInput {required} {validate} {name} let:errors>
+	<FormInput {required} {validate} {name} text={castr(placeholder)} let:errors>
 		<slot {errors}>
 			{#if type === 'area'}
 				<textarea placeholder={castr(placeholder)} {autofocus} {value} {name} on:input={handleInput}></textarea>

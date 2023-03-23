@@ -40,11 +40,12 @@
 		</td>
 	</Form>
 </Table>
-<!--
+
 <Form on:submit={submit} error-display="manual">
-	<Field label="email" name="email" required validate="email" />
-	<Field label="optional" name="opt" placeholder="Opt-fld" />
-	<Field><Checkbox name="agree" label="Agreement" /></Field>
+
+	<Field><Input name="email" required validate="email" /></Field>
+	<Field><Input name="opt" placeholder="Opt-fld" /></Field>
+	<Checkbox name="agree" label="Agreement" />
 	<div class="ui error message"></div>
 	<Button submit>Submit</Button>
 </Form>
@@ -55,19 +56,18 @@
 </div>
 
 <NameMf bind:modal>
-	<Field required label="first" name="first" fluid />
-	<Field label="last" name="last" fluid />
+	<Field><Input required name="first" fluid /></Field>
+	<Field><Input name="last" fluid /></Field>
 	<Buttons slot="actions">
 		<Button submit>Submit</Button>
 		<Button cancel>Cancel</Button>
 	</Buttons>
 </NameMf>
 <NameMf bind:model {save}>
-	<Field required label="first" name="first" fluid />
-	<Field label="last" name="last" fluid />
+	<Field><Input required name="first" fluid /></Field>
+	<Field><Input name="last" fluid /></Field>
 	<Buttons slot="actions">
 		<Button submit>Submit</Button>
 		<Button cancel>Cancel</Button>
 	</Buttons>
 </NameMf>
--->

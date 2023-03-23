@@ -1,4 +1,4 @@
-import { getContext, setContext } from "svelte";
+import { getContext, onDestroy, setContext } from "svelte";
 import { createEventDispatcher } from 'svelte';
 import Module from '$svemantic/modules/Module';
 import type { Readable } from "svelte/store";
@@ -79,11 +79,9 @@ export default function FormModule<T=any>(config: any) {
 				...fld,
 				rules: (fields?.[name]?.rules||[]).concat(fld.rules||[])
 			};
-			if(module) module('add fields', [fld]);
 			config.fields[name] = fld;
 		},
 		removeField(name: key<T>) {
-			if(module) module('remove field', name);
 			delete config.fields[name];
 		},
 		dirty: dirty.store, errorDisplay,
@@ -92,6 +90,7 @@ export default function FormModule<T=any>(config: any) {
 		reset() { module('reset'); },
 		module
 	};
+	
 	i18n.subscribe(v=> Object.assign(config, v.form));
 	setContext<FormContext>(formContext, context);
 	return module;

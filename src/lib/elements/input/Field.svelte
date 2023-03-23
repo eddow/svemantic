@@ -1,32 +1,34 @@
+<script lang="ts" context="module">
+	
+	export interface FieldContext {
+		setText(text: string): void;
+	}
+	const fieldContext = {};	// unique context key
+	export function getField(): FieldContext {
+		return getContext<FieldContext>(fieldContext);
+	}
+</script>
 <script lang="ts">
-	import Input from "$svemantic/elements/input/Input.svelte";
     import { field } from "$svemantic/i18n";
 	import { clastr, semantic } from "$svemantic/root";
-    import type { ComponentProps } from "svelte";
-	interface $$Props extends ComponentProps<Input> {
-		fluid?: boolean;
+    import { getContext, setContext } from "svelte";
+	interface $$Props {
 		name?: string;
 		label?: string|true;
-		inputClass?: string;
 	}
-	export let name: string = '', inputClass: string = '', value: string = '', label: string|true = '';
-	let cs: string;
-	field(name, label, v=> label = v);
-
-	$: {
-		let {fluid} = $$props;
-		cs = clastr('field', $$props, {fluid});
-	}
+	export let name: string = '', label: string|true = true;
+	let cs: string, receivedText: string = '';
+	
+	setContext<FieldContext>(fieldContext, {
+		setText(text) { receivedText = text; },
+	});
+	$: cs = clastr('field', $$props);
 </script>
 <div class={cs} use:semantic={$$props}>
 	<slot name="label">
-		{#if label}
-			<label for={name}>{label}</label>
+		{#if label && (label !== true || receivedText)}
+			<label for={name}>{label === true ? receivedText : label}</label>
 		{/if}
 	</slot>
-	{#if $$slots.default}
-		<Input {...$$restProps} {name} bind:value class={inputClass}><slot /></Input>
-	{:else}
-		<Input {...$$restProps} {name} bind:value class={inputClass} />
-	{/if}
+	<slot />
 </div>

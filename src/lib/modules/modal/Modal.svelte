@@ -37,10 +37,9 @@
 		modal?: ModalFunction;
 		show?: ()=>void;
 		hide?: ()=>void;
-		node?: HTMLElement;
 		opened?: boolean;
 	}
-	let node: HTMLElement|undefined = undefined, promise: {resolve: (answer?: boolean)=> void, reject: (reason: any)=> void}|null = null;
+	let promise: {resolve: (answer?: boolean)=> void, reject: (reason: any)=> void}|null = null;
 	export let context: HTMLElement|undefined = undefined, opened: boolean = false;
 	const module = Module('modal', Object.assign({
 		onShow() { dispatch('show'); },
@@ -89,7 +88,7 @@
 	};
 </script>
 
-<div class={cs} use:module use:semantic={$$props} bind:this={node}>
+<div class={cs} use:module use:semantic={$$props}>
 	{#if $$slots.header}
 		<div class={csss.header}>
 			<slot name="header">
@@ -98,12 +97,12 @@
 		</div>
 	{/if}
 	<div class={csss.content}>
-		{#if $$slots.image}
-			<div class="image">
-				<slot name="image" />
-			</div>
-		{/if}
 		<div class="description">
+			{#if $$slots.image}
+				<div class="image">
+					<slot name="image" />
+				</div>
+			{/if}
 			<slot />
 		</div>
 	</div>

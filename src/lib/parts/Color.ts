@@ -5,11 +5,13 @@ export interface Color {
 	color?: ColorName;
 	primary?: boolean;
 	secondary?: boolean;
+	tertiary?: boolean;
 	positive?: boolean;
 	negative?: boolean;
+	info?: boolean;
 	inverted?: boolean;
 }
 
-export function color({color, primary, secondary, positive, negative, inverted}: Color): ClassDescr {
-	return combine([oneOf({color, primary, secondary, positive, negative}), {inverted}]);
+export function color({color, primary, secondary, positive, negative, info, inverted, tertiary}: Color): ClassDescr {
+	return combine([oneOf({color, primary, secondary, positive, negative, info}), {inverted, tertiary}]);
 }

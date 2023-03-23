@@ -13,6 +13,7 @@
 		href?: string;
 		approve?: boolean;
 		cancel?: boolean;
+		deny?: boolean;
 		submit?: boolean;
 		reset?: boolean;
 		rightLabeled?: boolean;
@@ -51,8 +52,8 @@
 	}
 	let cs: string;
 	$: {
-		let {active, circular, approve, cancel} = $$props;
-		cs = uistr('button', $$props, [{active, circular, approve, cancel, icon: !!icon && !text && !$$slots.default && !labeled}, labeled], buttonProp, loading);
+		let {active, circular, approve, cancel, deny} = $$props;
+		cs = uistr('button', $$props, [{active, circular, approve, cancel, deny, icon: !!icon && !text && !$$slots.default && !labeled}, labeled], buttonProp, loading);
 	}
 	// TODO animated
 	// TODO labeled icon

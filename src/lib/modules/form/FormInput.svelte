@@ -17,12 +17,19 @@
 	}
 </script>
 <script lang="ts">
+    import { getField } from '$svemantic/elements/input/Field.svelte';
+
     import { getForm } from '$svemantic/modules/form/FormModule';
     import Popup from '$svemantic/modules/popup/Popup.svelte';
     import { createEventDispatcher, onDestroy } from 'svelte';
 
 	const dispatch = createEventDispatcher(), form = getForm(), tabular = !!form && form.tabular;
-	export let required: boolean = false, validate: RulesSpec|undefined = undefined, name: string|undefined = undefined;
+	export let required: boolean = false, validate: RulesSpec|undefined = undefined,
+		name: string|undefined = undefined, text: string = '';
+
+	const setText = getField()?.setText;
+
+	$: if(setText) setText(text);
 	
 	let errors: string[]|undefined = undefined;
 	function fieldDescr(identifier: string, optional: boolean, rules?: RulesSpec): FomanticField {

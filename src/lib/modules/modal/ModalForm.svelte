@@ -17,6 +17,8 @@
 	interface $$Props extends ModalSpecification, FormSpecifications<T> {
 		modal?: ModalFormFunction<T>;
 		save?: ModalSaveFunction<T>;
+		show?(): void;
+		hide?(): void;
 	}
 	export let save: ModalSaveFunction<T> = ()=> Promise.resolve(), model: Partial<T>|undefined = undefined;
 	let promise: {resolve: (answer?: T)=> void, reject: (reason: any)=> void}|null = null;
@@ -35,13 +37,16 @@
 		model = init || {};
 		return new Promise<T|undefined>((resolve, reject)=> { promise = {resolve, reject}; });
 	}
+	export let show = ()=> {}, hide = ()=> {};
 	// TODO: on:hide dirty-> "Are you sure you want to lose your changes?"
 	function deny() {
+		//hide();
 		answer();
 		dispatch('deny');
 	}
 	function hidden() {
 		answer();
+		model = undefined;
 		dispatch('hidden');
 	}
 	const module = FormModule({
@@ -63,11 +68,10 @@
 		}
 	});
 	$: module('set values', model);
-	let node: HTMLElement, saving = false;
-	let cs: string;
-	$: cs = clastr('form', $$props);
+	let cs: string, saving = false;
+	$: cs = clastr('form', $$props);``
 </script>
-<Modal form={module} bind:node opened={!!model} on:show on:visible on:hide on:hidden={hidden} on:deny={deny} {...$$restProps} class={cs}>
+<Modal form={module} opened={!!model} bind:show bind:hide on:show on:visible on:hide on:hidden={hidden} on:deny={deny} {...$$restProps} class={cs}>
 	<Loader inverted loading={saving} />
 	<slot name="header" slot="header" />
 	<!--slot name="image" slot="image" /-->
