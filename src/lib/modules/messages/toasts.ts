@@ -41,7 +41,7 @@ interface ToastSetting {
 }
 
 //? fomantic-ui.d.ts
-if(browser) i18n.subscribe(txts=> { (<any>jQuery.fn).toast.settings.text = txts.cmd; })
+if(browser) i18n.subscribe(txts=> { (<any>jQuery.fn).toast.settings.text = txts.buttons; })
 export function toast<T=any>(message: string|ToastSetting) {
 	const spec: ToastSetting = typeof message==='string'?{message}:Object.assign({}, message);
 	let rv: Promise<T>|undefined = undefined;

@@ -32,9 +32,9 @@
 		<th>Agreement</th>
 	</tr>
 	<Form tabular on:submit={submit}>
-		<td><Input placeholder name="email" required validate="email" /></td>
-		<td><Input name="opt" placeholder="Opt-fld" /></td>
-		<td><Checkbox name="agree" /></td>
+		<Field name="email" required validate="email"><Input el="td" /></Field>
+		<Field name="opt"><Input placeholder="Opt-fld" el="td" /></Field>
+		<Field name="agree" required><Checkbox el="td" /></Field>
 		<td class="ui buttons">
 			<Button submit>Submit</Button>
 		</td>
@@ -43,9 +43,9 @@
 
 <Form on:submit={submit} error-display="manual">
 
-	<Field><Input name="email" required validate="email" /></Field>
-	<Field><Input name="opt" placeholder="Opt-fld" /></Field>
-	<Checkbox name="agree" label="Agreement" />
+	<Field label name="email" required validate="email"><Input /></Field>
+	<Field label name="opt"><Input placeholder="Opt-fld" /></Field>
+	<Field name="agree" required><Checkbox label /></Field>
 	<div class="ui error message"></div>
 	<Button submit>Submit</Button>
 </Form>
@@ -56,16 +56,16 @@
 </div>
 
 <NameMf bind:modal>
-	<Field><Input required name="first" fluid /></Field>
-	<Field><Input name="last" fluid /></Field>
+	<Field label required name="first"><Input fluid /></Field>
+	<Field label name="last"><Input fluid /></Field>
 	<Buttons slot="actions">
 		<Button submit>Submit</Button>
 		<Button cancel>Cancel</Button>
 	</Buttons>
 </NameMf>
 <NameMf bind:model {save}>
-	<Field><Input required name="first" fluid /></Field>
-	<Field><Input name="last" fluid /></Field>
+	<Field required name="first"><Input fluid /></Field>
+	<Field name="last"><Input fluid /></Field>
 	<Buttons slot="actions">
 		<Button submit>Submit</Button>
 		<Button cancel>Cancel</Button>

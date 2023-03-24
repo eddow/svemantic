@@ -1,9 +1,7 @@
 <script lang="ts">
     import Dropdown, { type DropdownEvent, type DropdownOption } from "./Dropdown.svelte";
 	import { createEventDispatcher, onMount, type ComponentProps } from 'svelte';
-	import FormInput, { type RulesSpec } from "../form/FormInput.svelte";
-	import { getForm } from "../form/FormModule";
-    import { field } from "$svemantic/i18n";
+	import { getForm, getField } from "../form";
 	import { clastr } from "$svemantic/root";
 
 	type T = $$Generic<string | string[]>;
@@ -22,31 +20,32 @@
 	const
 		dispatch = createEventDispatcher(),
 		form = getForm(),
-		tabular = !!form && form.tabular;
+		tabular = !!form && form.tabular,
+		field = getField();
+	let directName: string|undefined = undefined,
+		name: string|undefined;
+	export { directName as name };
+	$: name = directName === undefined ? $field?.name : directName;
 	interface $$Props extends ComponentProps<Dropdown> {
 		value?: T;
 		options: DropdownOption[];
 	}
 	export let
 		delimiter: string|false = false,
-		name: string = '',
 		placeholder: string|boolean = '',
 		options: DropdownOption[],
 		multiple: boolean = false,
 		value: T = <T>((multiple && !delimiter) ? [] : ''),
 		// Default in table: <td ... "transparent"
 		el: string = 'div',
-		transparent: boolean = tabular,
-		// FormInput forward
-		required: boolean = false,
-		validate: RulesSpec|undefined = undefined;
+		transparent: boolean = tabular;
 		
 	let	module: SemanticUI.Dropdown;
 	const config = {placeholder, options, name, transparent, multiple, el, delimiter: delimiter||'|', ...$$restProps};
-	if(name) field(name, placeholder, v=> {
-		config.placeholder = placeholder = v;
-		module && (<any>module)('set placeholder text', v);	// new in fomantic?
-	});
+	$: if(placeholder === true) {
+		config.placeholder = placeholder = $field.text;
+		module && (<any>module)('set placeholder text', placeholder);	// untyped: new in fomantic?
+	}
 		// module.set.placeholderText();
 	$: if(multiple)
 		module && module('set exactly', typeof value === 'string' ? value.split(delimiter||'|') : value);
@@ -57,11 +56,9 @@
 	let cs: string;
 	$: cs = clastr('selection', $$props);
 </script>
-<Dropdown {...config} class={cs} on:change={change} on:add={add} on:remove={remove} bind:module>
-	<FormInput {required} {validate} {name} text={castr(placeholder)} slot="text">
-		<div class="text"></div>
-	</FormInput>
-</Dropdown>
+<Dropdown {...config} placeholder={placeholder===true?$field?.text:placeholder}
+	class={cs} on:change={change} on:add={add} on:remove={remove} bind:module
+><div class="text"></div></Dropdown>
 <style lang="scss" global>
 	table tr {
 		> th, > td {

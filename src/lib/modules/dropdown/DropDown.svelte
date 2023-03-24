@@ -79,6 +79,7 @@
 		fluid?: boolean;
 		el?: string;
 		name?: string;
+		className?: any;
 	}
 
 	const

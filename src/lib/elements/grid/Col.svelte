@@ -10,7 +10,7 @@
 	let cs: string;
 	$: {
 		let {floated, aligned} = $$props;
-		cs = clastr('row', $$props, {floated, aligned}, color, childrenNumber('wide'));
+		cs = clastr('column', $$props, {floated, aligned}, color, childrenNumber('wide'));
 	}
 </script>
 <div class={cs} use:semantic={$$props}><slot /></div>

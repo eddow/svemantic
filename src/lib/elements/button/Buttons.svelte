@@ -22,8 +22,10 @@
 </div>
 <style lang="scss" global>
 	table tr {
-		> th.ui.buttons, > td.ui.buttons {
-			display: table-cell;
+		> th, > td {
+			.ui.buttons {
+				display: table-cell;
+			}
 		}
 	}
 </style>

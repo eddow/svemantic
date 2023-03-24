@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Flag from '$svemantic/elements/Flag.svelte';
     import DropDown, { type DropdownOption } from "./Dropdown.svelte";
+	import Menu from '$svemantic/elements/menu/Menu.svelte';
 
 	function change({detail: {value: lng}}: any) {
 		dispatch('set-language', lng)
@@ -20,5 +21,6 @@
 		}));
 </script>
 <DropDown {...$$restProps} {options} className={{icon: 'flag'}} on:change={change}>
+	<Menu vertical />
 	<Flag slot="toggle" code={flag(language)} />
 </DropDown>

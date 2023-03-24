@@ -5,6 +5,22 @@ Now tuned to Fomantic-UI 2.9.2
 
 Library [documentation entrance](./src/lib/README.md)
 
+## Installation
+
+[Fomantic-UI needs some installation steps.](https://fomantic-ui.com/introduction/getting-started.html)
+The configuration is provided so that semantic generates in svelte-kit's `static/dist` folder that can be git-ignored.
+
+### TL;DR
+
+```sh
+$ cd node_modules/fomantic-ui
+$ npx gulp install
+```
+```sh
+$ cd semantic/
+$ npx gulp build
+```
+
 ## What it does and does not
 
 ### What it does
@@ -14,6 +30,7 @@ Library [documentation entrance](./src/lib/README.md)
 - Makes events or even promises out of call backs
 - Automate and re-order some content managements (like Tabs, Grids)
 - Centralize internationalization
+- Completely typed with typescript
 
 ### What it does not
 
@@ -28,8 +45,8 @@ and
 
 - [x] Button
 - [ ] Container
-- --Divider--
-- [ ] Emoji
+- ~~Divider~~
+- Emoji
 - [x] Flag
 - [ ] Header
 - [x] Icon
@@ -38,21 +55,21 @@ and
 - [x] Label
 - [ ] List
 - [x] Loader
-- [ ] Placeholder
-- [ ] Rail
-- [ ] Reveal
-- [ ] Segment
+- Placeholder
+- Rail
+- Reveal
+- Segment
 - [ ] Step
-- [ ] Text
+- Text
 
 ### Collections
 
 - [ ] Breadcrumb
 - [X] Form
-- [ ] Grid
+- [x] Grid
 - [x] Menu
 - [ ] Message
-- [ ] Table
+- [x] Table
 
 ### Views
 
@@ -67,14 +84,14 @@ and
 
 - [x] Accordion
 - [ ] Calendar
-- [ ] Checkbox
+- [x] Checkbox
 - [x] Dimmer
-- [-] Dropdown
+- [x] Dropdown
 - [ ] Embed
 - [ ] Flyout
 - [x] Modal
 - [ ] Nag
-- [ ] Popup
+- [x] Popup
 - [ ] Progress
 - [ ] Rating
 - [ ] Search

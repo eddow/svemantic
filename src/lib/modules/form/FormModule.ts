@@ -1,9 +1,9 @@
-import { getContext, onDestroy, setContext } from "svelte";
+import { getContext, setContext } from "svelte";
 import { createEventDispatcher } from 'svelte';
 import Module from '$svemantic/modules/Module';
 import type { Readable } from "svelte/store";
 import privateStore from "$svemantic/utils/privateStore";
-import type { FomanticField } from "./FormInput.svelte";
+import type { FomanticField } from "./Field.svelte";
 import i18n from "$svemantic/i18n";
 
 export type ErrorDisplay = 'inline'|'manual'|'popup';
@@ -50,7 +50,6 @@ export default function FormModule<T=any>(config: any) {
 	let model: Partial<T> = config.model || {};
 	// TODO form formatters: https://fomantic-ui.com/behaviors/form.html#formatters	(programatic intl)
 	// TODO tr.error displays the whole row redish, not only the erroneous fields (td): the whole row
-	// TODO HMR lose fields!
 	const module = Module('form', Object.assign(config, {
 		default: model,
 		inline: errorDisplay === 'inline',

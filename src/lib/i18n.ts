@@ -1,5 +1,5 @@
 import { onDestroy } from "svelte";
-import { writable } from "svelte/store"
+import { readable, writable } from "svelte/store"
 
 const englishDefault = {
 	or: 'or',
@@ -52,18 +52,13 @@ const englishDefault = {
 			addErrors: '{name}: {error}',
 		}
 	},
-	cmd: {
+	buttons: {
 		ok: 'Ok',
 		cancel: 'Cancel',
 		close: 'Close'
-	},
-	fld: <Record<string, string>>{}
+	}
 }
 const i18n = writable<typeof englishDefault>(englishDefault);
 export default i18n;
 
-export function field(name: string|undefined, text: string|boolean, cb: (v: string)=> void, dft?: string) {
-	console.assert(name || text !== true, 'Cannot determine text of field without name');
-	if(name && text === true)
-		onDestroy(i18n.subscribe(v=> cb(v.fld[name] || dft || `[fld.${name}]`)));
-}
+export const field = writable((name: string|undefined)=> `[Untranslated: ${name||'no-name'}]`);

@@ -37,7 +37,7 @@
 		el: string = href?'a':name?'label':'button',
 		tabindex: number|undefined = el === 'a' ? 0 : undefined;
 	let labeled: string|false = '', type: 'submit'|'reset'|'button'|undefined;
-	$: type = (el === 'button' || undefined) &&
+	$: type = el !== 'button' ? undefined :
 		(<'submit'|'reset'|undefined>oneOf({submit, reset})||'button');
 	$: labeled = !!($$slots.label || label) && (rightLabeled ? 'right labeled' : 'left labeled');
 	
