@@ -43,8 +43,13 @@
 		onHide?(this: JQuery, $module: JQuery): false | void;
 		onHidden?(this: JQuery, $module: JQuery): void;
 	}
+	// TODO? Use Module ?
 	export function popup(node: HTMLElement, params?: PopupSettings|string) {
 		function update(params?: PopupSettings|string) {
+			destroy();
+			init(params);
+		}
+		function init(params?: PopupSettings|string) {
 			if(typeof params === 'string')
 				params = {content: params};
 			else if(params) {
@@ -55,8 +60,9 @@
 			}
 			jQuery(node).popup(<SemanticUI.PopupSettings>params);
 		}
-		update(params);
-		return { update };
+		init(params);
+		function destroy() { jQuery(node).popup('destroy') }
+		return { update, destroy };
 	}
 </script>
 <script lang="ts">
@@ -118,7 +124,7 @@
 		cs = uistr('popup', $$props, {loading, flowing, basic, multiline, wide}, size, color);
 	}
 	onDestroy(()=> {
-		module('remove popup');
+		module('destroy');
 	});
 </script>
 <div class={cs} use:semantic={$$restProps} bind:this={node}>

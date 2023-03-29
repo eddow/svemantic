@@ -31,6 +31,7 @@
 		rightLabeled: boolean = false,
 		submit: boolean = false,
 		reset: boolean = false,
+		cancel: boolean = false,
 		text: string = '',
 		icon: IconSpec = '',
 		label: string = '',
@@ -47,12 +48,13 @@
 		if(form) {
 			if(submit) form.validate();
 			if(reset) form.reset();
+			if(cancel) form.cancel();
 		}
 		dispatch('click');
 	}
 	let cs: string;
 	$: {
-		let {active, circular, approve, cancel, deny} = $$props;
+		let {active, circular, approve, deny} = $$props;
 		cs = uistr('button', $$props, [{active, circular, approve, cancel, deny, icon: !!icon && !text && !$$slots.default && !labeled}, labeled], buttonProp, loading);
 	}
 	// TODO animated

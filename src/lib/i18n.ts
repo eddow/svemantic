@@ -1,5 +1,4 @@
-import { onDestroy } from "svelte";
-import { readable, writable } from "svelte/store"
+import { writable } from "svelte/store"
 
 const englishDefault = {
 	or: 'or',

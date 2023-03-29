@@ -14,7 +14,6 @@ export function confirm(text: string|MessageImmediate) {
 export function prompt(text: string|PromptImmediate) {
 	return new Promise<string>((resolve)=> (<any>jQuery).modal('prompt', text, resolve));
 }
-// TODO Find a way to do this as semantic-ui ($.modal.setting...) is loaded after the svemantic if svemantic does not import ir
 //? fomantic-ui.d.ts
 if(browser) ()=> i18n.subscribe(txts=> { (<any>jQuery.fn).modal.settings.text = txts.buttons; });
 

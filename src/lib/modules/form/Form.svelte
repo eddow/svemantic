@@ -3,7 +3,6 @@
 </script>
 <script lang="ts">
 	import { color, type Color } from "$svemantic/parts/Color";
-
     import { uistr, type Forward, semantic } from "$svemantic/root";
     import FormModule, { type FormSpecifications } from "./FormModule";
 
@@ -14,11 +13,11 @@
 		el?: string;
 	}
 	const module = FormModule<T>($$props);
-	$: module('set values', model);
+	$: module('set values', model);	// TODO Update module and context too?
 	let cs: string;
 	$: cs = uistr(tabular ? '' : 'form', $$props, false, color);
 	// TODO bind an object as a value
 </script>
-<svelte:element use:module this={el} class={cs} use:semantic={$$props}>
+<svelte:element this={el} use:module class={cs} use:semantic={$$props}>
 	<slot />
 </svelte:element>

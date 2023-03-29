@@ -4,7 +4,6 @@
     import Icon, { type IconSpec } from "$svemantic/elements/Icon.svelte";
     import i18n from "$svemantic/i18n";
     import Module from "$svemantic/modules/Module";
-	import { field } from "$svemantic/i18n";
 
 	export interface DropdownOption {
 		disabled?: true, // whether value should be disabled
@@ -77,7 +76,6 @@
 		module?: SemanticUI.Dropdown;
 		transparent?: boolean;
 		fluid?: boolean;
-		el?: string;
 		name?: string;
 		className?: any;
 	}
@@ -88,8 +86,6 @@
 		name: string = '',
 		icon: IconSpec = 'dropdown',
 		options: DropdownOption[]|undefined = undefined,
-		transparent: boolean = false,
-		el: string = 'div',
 		placeholder: string|boolean = '',
 		hideDividers: boolean|'empty' = 'empty';
 
@@ -114,12 +110,12 @@
 	$: config.message = $i18n.dropdown;	//? reactive?
 	let cs: string;
 	$: {
-		let {search, clearable, multiple, fluid} = $$props;
+		let {search, clearable, multiple, transparent, fluid} = $$props;
 		cs = uistr('dropdown', $$props, {search, clearable, multiple, transparent, fluid});
 	}
 	// TODO Dropdown sub: Text helpers
 </script>
-<svelte:element this={el}  class={cs} use:module use:semantic={$$props}>
+<div class={cs} use:module use:semantic={$$props}>
 	{#if name}<input type="hidden" {name}>{/if}
 	<slot name="toggle">
 		<slot name="text" />
@@ -130,10 +126,10 @@
 			<slot name="menu" />
 		</div>
 	</slot>
-</svelte:element>
+</div>
 <style lang="scss" global>
 	.ui.transparent.dropdown {
-		border-width: 1px 0 0 0;
+		border: 0;
 		border-radius: 0;
 	}
 </style>

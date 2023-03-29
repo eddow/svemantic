@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Button, Input } from "$svemantic";
 	/*
     import Accordion from "$svemantic/modules/accordion/Accordion.svelte";
     import Languages from "$svemantic/modules/dropdown/Languages.svelte";
@@ -13,7 +14,14 @@
 	//let languages = {fr: 'Français', en: {flag: 'gb uk', text: 'English'}, ro: 'Romanian'}, language = 'fr';
 </script>
 
-<Select {options} bind:value placeholder="test-left" /><br />
+<Input fluid>
+	<svelte:fragment slot="left-action">
+		<Button>a</Button>
+	</svelte:fragment>
+<Select {options} bind:value placeholder="test-left" class="fluid">
+	<div class="text">blah</div>
+</Select>
+</Input><br />
 {value}<br />
 <!--Select items={values} bind:value placeholder="blup">
 	<div slot="item" let:item class="item" data-value={item && item.value}>

@@ -24,75 +24,11 @@
 
 	import { clastr, semantic } from "$svemantic/root";
     import { getContext, setContext } from "svelte";
-	import { writable, type Readable } from "svelte/store";
+	import type { Readable } from "svelte/store";
     import { getForm } from '$svemantic/modules/form/FormModule';
     import Popup from '$svemantic/modules/popup/Popup.svelte';
     import { createEventDispatcher, onDestroy } from 'svelte';
-
-/*
-	interface $$Props {
-		name?: string = ''
-		label?: string|boolean
-	//#region Semantic validation
-		required?: boolean
-		email?: boolean
-		url?: boolean
-		integer?: boolean|[number, number]
-		decimal?: boolean|[number, number]
-		number?: boolean|[number, number]
-		min?: number
-		max?: number
-		regexp?: string|RegExp
-		'credit-card'?: true|'visa'|'mastercard'|'unionpay'
-
-		contains?: string
-		'contains-exactly'?: string
-		'doesnt-contains'?: string
-		'doesnt-contains-exactly'?: string
-		is?: string
-		'is-exactly'?: string
-		not?: string
-		'not-exactly'?: string
-
-		length?: number|[number, number]
-		'min-length'?: number
-		'max-length'?: number
-		
-		match?: string
-		different?: string
-
-		count?: number
-		'min-count'?: number
-		'max-count'?: number
-	}
-	$: {
-		const {
-			required: empty, email, url, integer, decimal, number, min: minValue, max: maxValue, regexp, 'credit-card': creditCard,
-			conbtains, 'contains-exactly': containsExactly, 'doesnt-contains': doesntContains, 'doesnt-contains-exactly': doesntContainsExactly,
-			is, 'is-exactly': isExactly, not, 'not-exactly': notExactly,
-			length, 'min-length': minLength, 'max-length': maxLength, match, different,
-			count, 'min-count': minCount, 'max-count': maxCount
-		} = $$props;
-		const {exactLength, size} : {exactLength?: number, size?: [number, number]} =
-			typeof length === 'number' ? {exactLength: length} : {size: length};
-		const ruleDescs = {
-			empty, email, url, integer, decimal, number, minValue, maxValue, regexp, creditCard,
-			conbtains, containsExactly, doesntContains, doesntContainsExactly,
-			is, isExactly, not, notExactly,
-			exactLength, size, minLength, maxLength, match, different,
-			count, minCount, maxCount};
-		type ruleType = keyof typeof ruleDescs;
-		const ruleSet: Rule[] = (<ruleType[]>Object.keys(ruleDescs)).filter(k=> ruleDescs[k] !== undefined)
-			.map((type: ruleType)=> {
-				const desc: any = ruleDescs[type], args =
-					desc === true ? {} :
-					['string', 'number'].includes(typeof desc) ? {value: desc} :
-					desc instanceof Array ? {value: (([x, y])=> `${x}..${y}`)(desc)} :
-					{};	//error
-				return { type, ...args };
-			});
-	};*/
-	//#endregion
+    import privateStore from "$svemantic/utils/privateStore";
 
 	function fieldDescr(identifier: string, optional: boolean, rules?: RulesSpec): FomanticField {
 		const ruleList : Rule[] = rules ?
@@ -107,13 +43,14 @@
 			setErrors
 		};
 	}
-	function setErrors(nwErrors?: string[]) {	// TODO? Errors in context
+	function setErrors(nwErrors?: string[]) {	// TODO? Put errors in context
 		errors = nwErrors;
 		dispatch('validated', errors);
 	}
 
 	const dispatch = createEventDispatcher(), form = getForm();
 	export let
+		rawContext: Record<string, any> = Object.prototype,
 		required: boolean = false,
 		name: string = '',
 		label: string|boolean = false,
@@ -122,14 +59,11 @@
 	let cs: string,
 		text: string = '...',
 		errors: string[]|undefined = undefined;
-	$: {
-		text = $field(name);
-		context.set({ name, text });
-	}
 	$: cs = clastr('field', $$props);
+	const context = privateStore(Object.create(rawContext));
+	$: context.value = Object.assign(Object.create(rawContext), {name, text: $field(name)});
 
-	const context = writable({ name, text });
-	setContext<FieldContext>(fieldContext, context);
+	setContext<FieldContext>(fieldContext, context.store);
 
 	if(name && form) {
 		form.addField(name, fieldDescr(name, !required, validate));

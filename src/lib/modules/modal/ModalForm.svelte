@@ -4,7 +4,7 @@
 	export class ErrorNotSaved extends Error {}
 </script>
 <script lang="ts">
-	import { createEventDispatcher, type ComponentProps } from 'svelte';
+	import { createEventDispatcher, onMount, type ComponentProps } from 'svelte';
     import Modal, { type ModalSpecification } from './Modal.svelte';
     import FormModule, { type FormContext, type FormSpecifications } from '../form/FormModule';
     import Loader from '$svemantic/elements/Loader.svelte';
@@ -46,7 +46,7 @@
 	}
 	function hidden() {
 		answer();
-		model = undefined;
+		//model = undefined;	// Seems superfluous
 		dispatch('hidden');
 	}
 	const module = FormModule({
@@ -67,7 +67,7 @@
 			}
 		}
 	});
-	$: module('set values', model);
+	// $: module('set values', model);	// No need : it fires too early and does not need to be fired
 	let cs: string, saving = false;
 	$: cs = clastr('form', $$props);``
 </script>

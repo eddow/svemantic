@@ -1,0 +1,64 @@
+
+	interface $$Props {
+		name?: string = ''
+		label?: string|boolean
+	//#region Semantic validation
+		required?: boolean
+		email?: boolean
+		url?: boolean
+		integer?: boolean|[number, number]
+		decimal?: boolean|[number, number]
+		number?: boolean|[number, number]
+		min?: number
+		max?: number
+		regexp?: string|RegExp
+		'credit-card'?: true|'visa'|'mastercard'|'unionpay'
+
+		contains?: string
+		'contains-exactly'?: string
+		'doesnt-contains'?: string
+		'doesnt-contains-exactly'?: string
+		is?: string
+		'is-exactly'?: string
+		not?: string
+		'not-exactly'?: string
+
+		length?: number|[number, number]
+		'min-length'?: number
+		'max-length'?: number
+		
+		match?: string
+		different?: string
+
+		count?: number
+		'min-count'?: number
+		'max-count'?: number
+	}
+	$: {
+		const {
+			required: empty, email, url, integer, decimal, number, min: minValue, max: maxValue, regexp, 'credit-card': creditCard,
+			conbtains, 'contains-exactly': containsExactly, 'doesnt-contains': doesntContains, 'doesnt-contains-exactly': doesntContainsExactly,
+			is, 'is-exactly': isExactly, not, 'not-exactly': notExactly,
+			length, 'min-length': minLength, 'max-length': maxLength, match, different,
+			count, 'min-count': minCount, 'max-count': maxCount
+		} = $$props;
+		const {exactLength, size} : {exactLength?: number, size?: [number, number]} =
+			typeof length === 'number' ? {exactLength: length} : {size: length};
+		const ruleDescs = {
+			empty, email, url, integer, decimal, number, minValue, maxValue, regexp, creditCard,
+			conbtains, containsExactly, doesntContains, doesntContainsExactly,
+			is, isExactly, not, notExactly,
+			exactLength, size, minLength, maxLength, match, different,
+			count, minCount, maxCount};
+		type ruleType = keyof typeof ruleDescs;
+		const ruleSet: Rule[] = (<ruleType[]>Object.keys(ruleDescs)).filter(k=> ruleDescs[k] !== undefined)
+			.map((type: ruleType)=> {
+				const desc: any = ruleDescs[type], args =
+					desc === true ? {} :
+					['string', 'number'].includes(typeof desc) ? {value: desc} :
+					desc instanceof Array ? {value: (([x, y])=> `${x}..${y}`)(desc)} :
+					{};	//error
+				return { type, ...args };
+			});
+	};
+	//#endregion

@@ -35,11 +35,29 @@ export function uistr(type: string, props: Forward, classes: ClassDescr = false,
 	return ['ui', clastr(type, props, classes, ...parts)].join(' ');
 }
 
-export function semantic(node: HTMLElement, frwrd: Forward) {
-	function update({popup: ppp, form}: Forward) {
-		if(ppp) popup(node, ppp);
-		if(form) form(node);
+interface Module {
+	update?(x?: any): void;
+	destroy?(): void;
+}
+
+export function semantic(node: HTMLElement, {popup: ppp, form}: Forward) {
+	let modules: Record<string, Module> = {},
+		present: Record<string, any> = {};
+	function destroy() {
+		for(const m in modules) modules[m]?.destroy?.();
+		modules = {};
+		present = {};
 	}
-	update(frwrd);
-	return { update };
+	function update({popup: ppp}: Forward) {
+		if(ppp !== present.popup) {
+			modules.popup.update?.(ppp);
+			present.popup = ppp;
+		}
+	}
+	if(ppp) {
+		modules.popup = popup(node, ppp);
+		present.popup = ppp;
+	}
+	if(form) modules.form = form(node);
+	return { update, destroy };
 }

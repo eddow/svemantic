@@ -38,7 +38,8 @@
 		value: T = <T>((multiple && !delimiter) ? [] : ''),
 		// Default in table: <td ... "transparent"
 		el: string = 'div',
-		transparent: boolean = tabular;
+		transparent: boolean = tabular,
+		fluid: boolean = tabular;
 		
 	let	module: SemanticUI.Dropdown;
 	const config = {placeholder, options, name, transparent, multiple, el, delimiter: delimiter||'|', ...$$restProps};
@@ -50,20 +51,21 @@
 	$: if(multiple)
 		module && module('set exactly', typeof value === 'string' ? value.split(delimiter||'|') : value);
 	else module && module('set selected', value);
-	// TODO: multiselect -> set value
 	// TODO {#if}<slot https://github.com/sveltejs/svelte/pull/8304
-	function castr(x: any) { return <string>x || ''; }	// No typescript in svelte templates *but* typescript errors!
 	let cs: string;
 	$: cs = clastr('selection', $$props);
 </script>
-<Dropdown {...config} placeholder={placeholder===true?$field?.text:placeholder}
-	class={cs} on:change={change} on:add={add} on:remove={remove} bind:module
-><div class="text"></div></Dropdown>
+<Dropdown {...config} {name} placeholder={placeholder===true?$field?.text:placeholder}
+	class={cs} {fluid} {transparent}
+	on:change={change} on:add={add} on:remove={remove} bind:module
+>
+	<slot><div class="text"></div></slot>
+</Dropdown>
 <style lang="scss" global>
 	table tr {
 		> th, > td {
-			&.ui.selection.dropdown {
-				display: table-cell;
+			.ui.selection.dropdown {
+				min-height: 0;
 				background: transparent;
 			}
 		}

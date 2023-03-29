@@ -1,25 +1,27 @@
-import { getContext, setContext } from "svelte";
+import { getAllContexts, getContext, setContext } from "svelte";
 import { createEventDispatcher } from 'svelte';
 import Module from '$svemantic/modules/Module';
 import type { Readable } from "svelte/store";
-import privateStore from "$svemantic/utils/privateStore";
 import type { FomanticField } from "./Field.svelte";
 import i18n from "$svemantic/i18n";
+import privateStore from "$svemantic/utils/privateStore";
 
 export type ErrorDisplay = 'inline'|'manual'|'popup';
-const formContext = {};	//unique local value
+const formContext = Symbol('form context key');	//unique local value
 export interface FormContext<T=any> {
-	validate(): boolean;
-	reset(): void;
-	isValid(): boolean;
-	tabular: boolean;
-	dirty: Readable<boolean>;
-	errorDisplay: ErrorDisplay;
-	addField(name: string, fld: FomanticField): void;
-	removeField(name: string): void;
-	module(...parms: any[]): any;
+	model: Partial<T>
+	dirty: Readable<boolean>
+	errorDisplay: ErrorDisplay
+	tabular: boolean
+	validate(): boolean
+	reset(): void
+	cancel(): void
+	isValid(): boolean
+	addField(name: string, fld: FomanticField): void
+	removeField(name: string): void
+	module(...parms: any[]): any
 }
-export function getForm<T=any>(): FormContext {
+export function getForm<T=any>() {
 	return getContext<FormContext<T>>(formContext);
 }
 type key<T> = string & keyof T;
@@ -67,11 +69,16 @@ export default function FormModule<T=any>(config: any) {
 				model = values;
 			}
 		},
-		onFailure(e: any, errors: string[], field: any /*todo type*/) { dispatch('failure', {context, errors, field}); },
+		onFailure(e: any, errors: string[], field: any /*todo type*/) {
+			dispatch('failure', {context, errors, field});
+		},
 		onDirty() { dirty.value = true; },
 		onClean() { dirty.value = false; }
 	})), context: FormContext<T> = {
+		model,
 		tabular,
+		errorDisplay,
+		dirty: dirty.store,
 		addField(name: key<T>, fld: FomanticField) {
 			if(fields[name]) fld = {
 				...fields[name],
@@ -83,14 +90,13 @@ export default function FormModule<T=any>(config: any) {
 		removeField(name: key<T>) {
 			delete config.fields[name];
 		},
-		dirty: dirty.store, errorDisplay,
+		cancel() { dispatch('cancel') },
 		validate() { return module('validate form'); },
 		isValid() { return module('is valid'); },
 		reset() { module('reset'); },
 		module
 	};
-	
 	i18n.subscribe(v=> Object.assign(config, v.form));
-	setContext<FormContext>(formContext, context);
+	setContext<FormContext<T>>(formContext, context);
 	return module;
 }

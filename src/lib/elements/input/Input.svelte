@@ -4,24 +4,13 @@
     import { oneOf, semantic, uistr, type Forward } from "$svemantic/root";
     import { loading, type Loading } from '$svemantic/parts/Loading';
     import Icon, { type IconSpec } from '../Icon.svelte';
-    import { createEventDispatcher } from 'svelte';
     import { getForm, getField } from '$svemantic/modules/form';
-
-	type Type = 'text'|'email'|'number'|'range'|'password'|'search'|'tel'|'url'|'time'|'date'|'month'|'week'|'datetime-local'|'color'|'file'|'area';
-	// not done here: checkbox radio hidden reset button submit 
-	//? image
+    import InputBase, { type InputType } from './InputBase.svelte';
 	
-// TODO Generics all along? (input, field, -> form[fieldName])
-
-	function handleInput(e: any) {
-		value = (<any>e.target!).value;
-		dispatch('input', value);
-	}
-
 	interface $$Props extends Forward, Size, Color, Loading {
 		fluid?: boolean;
 		value?: any;
-		type?: Type;
+		type?: InputType;
 		placeholder?: string|true;
 		name?: string;
 		disabled?: boolean;
@@ -30,10 +19,9 @@
 		'right-icon'?: IconSpec;
 		autofocus?: boolean;
 		el?: string;
-		tabular?: boolean
+		tabular?: boolean;
 	}
 	const
-		dispatch = createEventDispatcher(),
 		form = getForm(),
 		field = getField();
 	let directName: string|undefined = undefined,
@@ -42,17 +30,18 @@
 	$: name = directName === undefined ? $field?.name : directName;
 
 	export let
-		type: Type = 'text',
-		value: any = '',	// TODO Initialize to form's default
+		type: InputType = 'text',
+		value: any = '',
 		autofocus: boolean = false,
 		placeholder: string|true = true,
-		el: string = 'div',
-		// Default in table: <td ... "fluid transparent"
 		tabular: boolean = !!form && form.tabular,
+		el: string = /*form?.tabular ? 'td' :*/ 'div',
+		// Default in table: <td ... "fluid transparent"
 		transparent: boolean = tabular,
 		fluid: boolean = tabular;
 	
-	let cs: string, icon: IconSpec;
+	let cs: string, icon: IconSpec, rsltPlaceholder: string;
+	$: rsltPlaceholder = placeholder===true?$field?.text:placeholder;
 	$: {
 		const {disabled, 'left-icon': leftIcon, 'right-icon': rightIcon} = $$props;
 		icon = leftIcon || rightIcon;
@@ -64,6 +53,7 @@
 			oneOf({'corner': $$slots['right-corner'], 'left corner': $$slots['left-corner']}),
 		], size, color, loading);
 	}
+	console.log($$props.form)
 </script>
 <svelte:element this={el} class={cs} use:semantic={$$props}>
 	<slot name="prefix" />
@@ -71,12 +61,8 @@
 		<div class="ui left corner label"><slot name="left-corner" /></div>
 	{/if}
 	<slot name="left-action" />
-	<slot>
-		{#if type === 'area'}
-			<textarea placeholder={placeholder===true?$field?.text:placeholder} {autofocus} {value} {name} on:input={handleInput}></textarea>
-		{:else}
-			<input placeholder={placeholder===true?$field?.text:placeholder} {autofocus} {type} {value} {name} on:input={handleInput} />
-		{/if}
+	<slot placeholder={rsltPlaceholder}>
+		<InputBase placeholder={rsltPlaceholder} {autofocus} bind:value {name} />
 	</slot>
 	{#if icon}<Icon {icon} />{/if}
 	<slot name="right-action" />
@@ -85,13 +71,3 @@
 	{/if}
 	<slot name="postfix" />
 </svelte:element>
-<style lang="scss" global>
-	table tr {
-		> th, > td {
-			&.ui.input {
-				display: table-cell;
-				background: transparent;
-			}
-		}
-	}
-</style>
