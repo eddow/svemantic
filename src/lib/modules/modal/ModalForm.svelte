@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	export type ModalFormFunction<T=any> = (init?: Partial<T>)=> Promise<T|undefined>;
 	export type ModalSaveFunction<T=any> = (item: T)=> Promise<void>;
-	export class ErrorNotSaved extends Error {}
+	export class NotSaved extends Error {}
 </script>
 <script lang="ts">
 	import { createEventDispatcher, onMount, type ComponentProps } from 'svelte';
@@ -46,10 +46,10 @@
 	}
 	function hidden() {
 		answer();
-		//model = undefined;	// Seems superfluous
 		dispatch('hidden');
+		model = undefined;
 	}
-	const module = FormModule({
+	const {module, forward} = FormModule({
 		...$$props,
 		async onSubmit(values: T, context: FormContext) {
 			saving = true;
@@ -59,7 +59,7 @@
 				dispatch('submit', {values, context});
 				model = undefined;
 			} catch(x) {
-				if(!(x instanceof ErrorNotSaved))
+				if(!(x instanceof NotSaved))
 					throw x;
 				toast({message: x.message, class: 'error'});
 			} finally {
@@ -67,14 +67,16 @@
 			}
 		}
 	});
-	// $: module('set values', model);	// No need : it fires too early and does not need to be fired
+	$: $forward('set values', model);	// No need : it fires too early and does not need to be fired
 	let cs: string, saving = false;
 	$: cs = clastr('form', $$props);``
 </script>
-<Modal form={module} opened={!!model} bind:show bind:hide on:show on:visible on:hide on:hidden={hidden} on:deny={deny} {...$$restProps} class={cs}>
-	<Loader inverted loading={saving} />
-	<slot name="header" slot="header" />
-	<!--slot name="image" slot="image" /-->
-	<slot name="actions" slot="actions" />
-	<slot />
-</Modal>
+{#if model}
+	<Modal form={module} opened={!!model} bind:show bind:hide on:show on:visible on:hide on:hidden={hidden} on:deny={deny} {...$$restProps} class={cs}>
+		<Loader inverted loading={saving} />
+		<slot name="header" slot="header" />
+		<!--slot name="image" slot="image" /-->
+		<slot name="actions" slot="actions" />
+		<slot />
+	</Modal>
+{/if}

@@ -12,12 +12,12 @@
 	interface $$Props extends Forward, FormSpecifications<T>, Color {
 		el?: string;
 	}
-	const module = FormModule<T>($$props);
-	$: module('set values', model);	// TODO Update module and context too?
+	const {module, forward, dirty} = FormModule<T>($$props);
+	$: $forward('set values', model);	// TODO Update module and context too?
 	let cs: string;
 	$: cs = uistr(tabular ? '' : 'form', $$props, false, color);
 	// TODO bind an object as a value
 </script>
 <svelte:element this={el} use:module class={cs} use:semantic={$$props}>
-	<slot />
+	<slot dirty={$dirty} />
 </svelte:element>

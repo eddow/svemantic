@@ -15,7 +15,7 @@ export function prompt(text: string|PromptImmediate) {
 	return new Promise<string>((resolve)=> (<any>jQuery).modal('prompt', text, resolve));
 }
 //? fomantic-ui.d.ts
-if(browser) ()=> i18n.subscribe(txts=> { (<any>jQuery.fn).modal.settings.text = txts.buttons; });
+if(browser) ()=> i18n.subscribe(txts=> { (<any>jQuery.fn).modal.settings.text = txts.button; });
 
 export interface ModalSettings {
 	offset?: number;

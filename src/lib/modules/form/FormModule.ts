@@ -9,7 +9,7 @@ import privateStore from "$svemantic/utils/privateStore";
 export type ErrorDisplay = 'inline'|'manual'|'popup';
 const formContext = Symbol('form context key');	//unique local value
 export interface FormContext<T=any> {
-	model: Partial<T>
+	default: Partial<T>
 	dirty: Readable<boolean>
 	errorDisplay: ErrorDisplay
 	tabular: boolean
@@ -49,11 +49,10 @@ export default function FormModule<T=any>(config: any) {
 	const fields = config.fields || <Fields<T>>{},
 		tabular = !!config.tabular,
 		errorDisplay: ErrorDisplay = config['error-display'] || 'popup';
-	let model: Partial<T> = config.model || {};
 	// TODO form formatters: https://fomantic-ui.com/behaviors/form.html#formatters	(programatic intl)
 	// TODO tr.error displays the whole row redish, not only the erroneous fields (td): the whole row
-	const module = Module('form', Object.assign(config, {
-		default: model,
+	const {module, forward} = Module('form', Object.assign(config, {
+		default: config.model,
 		inline: errorDisplay === 'inline',
 		fields,
 		onInvalid(this: JQuery, errors: string[]) {
@@ -66,7 +65,6 @@ export default function FormModule<T=any>(config: any) {
 			if(config.onSubmit) config.onSubmit(values, context);
 			else {
 				dispatch('submit', {values, context});
-				model = values;
 			}
 		},
 		onFailure(e: any, errors: string[], field: any /*todo type*/) {
@@ -75,7 +73,7 @@ export default function FormModule<T=any>(config: any) {
 		onDirty() { dirty.value = true; },
 		onClean() { dirty.value = false; }
 	})), context: FormContext<T> = {
-		model,
+		default: config.model,
 		tabular,
 		errorDisplay,
 		dirty: dirty.store,
@@ -98,5 +96,5 @@ export default function FormModule<T=any>(config: any) {
 	};
 	i18n.subscribe(v=> Object.assign(config, v.form));
 	setContext<FormContext<T>>(formContext, context);
-	return module;
+	return {module, forward, dirty: dirty.store};
 }

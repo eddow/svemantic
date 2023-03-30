@@ -2,7 +2,7 @@
     import { clastr, semantic, type Forward } from "$svemantic/root";
     import i18n from "$svemantic/i18n";
 	export let text: string = '';
-	$: if(!text) text = $i18n.or;
+	$: if(!text) text = $i18n.button.or;
 	interface $$Props extends Forward {
 		text?: string
 	}

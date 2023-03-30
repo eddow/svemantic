@@ -41,7 +41,8 @@
 	}
 	let promise: {resolve: (answer?: boolean)=> void, reject: (reason: any)=> void}|null = null;
 	export let context: HTMLElement|undefined = undefined, opened: boolean = false;
-	const module = Module('modal', Object.assign({
+	const {module} = Module('modal', Object.assign({
+		autoShow: opened,
 		onShow() { dispatch('show'); },
 		onVisible() { prvOpened = opened = true; dispatch('visible'); },
 		onHide() { return dispatch('hide', null, {cancelable: true}); },

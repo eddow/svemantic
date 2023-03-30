@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { alert, confirm, Buttons, Button, Field, Form, ModalForm, toast, type ModalFormFunction, ErrorNotSaved, Input, Checkbox } from "$svemantic";
+    import { alert, confirm, Buttons, Button, Field, Form, ModalForm, toast, type ModalFormFunction, NotSaved, Input, Checkbox } from "$svemantic";
     import Table from "$svemantic/elements/table/Table.svelte";
 	function submit({detail}: CustomEvent) {
 		console.dir(detail);
@@ -16,13 +16,14 @@
 			message: itm.first + ' ' + itm.last, classActions: 'left vertical attached',
 			actions: [{class: 'green', text: 'Yes', value: true}, {class: 'red', text: 'no', value: false}]})
 		)
-			throw new ErrorNotSaved('Not saved');
+			throw new NotSaved('Not saved');
 	}
 	async function testModalPromise() {
 		const itm = await modal({first: '', last: 'Pekin'});
 		if(itm) toast({message: itm.first + ' ' + itm.last, class: 'info'});
 		else toast({message: 'Nope', class: 'warning'});
 	}
+	const dft = {opt: 'No'};
 </script>
 
 <Table compact="very" celled>
@@ -31,7 +32,7 @@
 		<th>opt</th>
 		<th>Agreement</th>
 	</tr>
-	<Form tabular on:submit={submit}>
+	<Form tabular on:submit={submit} model={dft}>
 		<Field name="email" required validate="email"><Input el="td" /></Field>
 		<Field name="opt"><Input placeholder="Opt-fld" el="td" /></Field>
 		<Field name="agree" required><Checkbox el="td" /></Field>
@@ -41,8 +42,7 @@
 	</Form>
 </Table>
 
-<Form on:submit={submit} error-display="manual">
-
+<Form on:submit={submit} error-display="manual" model={dft}>
 	<Field label name="email" required validate="email"><Input /></Field>
 	<Field label name="opt"><Input placeholder="Opt-fld" /></Field>
 	<Field name="agree" required><Checkbox label /></Field>

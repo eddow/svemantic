@@ -61,7 +61,7 @@
 		errors: string[]|undefined = undefined;
 	$: cs = clastr('field', $$props);
 	const context = privateStore(Object.create(rawContext));
-	$: context.value = Object.assign(Object.create(rawContext), {name, text: $field(name)});
+	$: context.value = Object.assign(Object.create(rawContext), {name, text: text=$field(name)});
 
 	setContext<FieldContext>(fieldContext, context.store);
 
@@ -70,16 +70,14 @@
 		onDestroy(()=> { form.removeField(name!); });
 	}
 </script>
-{#if label}
 	<div class={cs} use:semantic={$$props}>
-		<slot name="label">
-			<label for={name}>{label === true ? text : label}</label>
-		</slot>
+		{#if label}
+			<slot name="label">
+				<label for={name}>{label === true ? text : label}</label>
+			</slot>
+		{/if}
 		<slot {errors} />
 	</div>
-{:else}
-	<slot {errors} />
-{/if}
 {#if form?.errorDisplay === 'popup' && errors}
 	<Popup inverted color="red">
 		<div class="ui list">

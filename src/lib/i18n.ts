@@ -1,7 +1,6 @@
 import { writable } from "svelte/store"
 
-const englishDefault = {
-	or: 'or',
+export const englishDefault = {
 	dropdown: {
 		addResult: 'Add <b>{term}</b>',
 		count: '{count} selected',
@@ -51,7 +50,8 @@ const englishDefault = {
 			addErrors: '{name}: {error}',
 		}
 	},
-	buttons: {
+	button: {
+		or: 'or',
 		ok: 'Ok',
 		cancel: 'Cancel',
 		close: 'Close'

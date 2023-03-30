@@ -35,14 +35,14 @@ Like with regular modals, `ModalForm` binds a `modal` function, taking a model a
 
 If the modal brings server-side reaction, interraction can be done through `save` callback *(not event as it returns a promise)*. 
 
-Note: throw an `ErrorNotSaved` to specify a managed refusal, its message will be toasted if it is not empty.
+Note: throw an `NotSaved` to specify a managed refusal, its message will be toasted if it is not empty.
 
 Setting the `model` of the Modal form is equivalent to using `opened`
 
 ```html
 <script lang="ts">
 	async function save(model: MyModel) {
-		if(!await doServerStuff(model)) throw ErrorNotSaved('Server error');
+		if(!await doServerStuff(model)) throw NotSaved('Server error');
 	}
 	let model: myModel;
 </script>

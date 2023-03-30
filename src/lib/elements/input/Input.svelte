@@ -53,7 +53,6 @@
 			oneOf({'corner': $$slots['right-corner'], 'left corner': $$slots['left-corner']}),
 		], size, color, loading);
 	}
-	console.log($$props.form)
 </script>
 <svelte:element this={el} class={cs} use:semantic={$$props}>
 	<slot name="prefix" />
@@ -62,7 +61,7 @@
 	{/if}
 	<slot name="left-action" />
 	<slot placeholder={rsltPlaceholder}>
-		<InputBase placeholder={rsltPlaceholder} {autofocus} bind:value {name} />
+		<InputBase {type} placeholder={rsltPlaceholder} {autofocus} bind:value {name} />
 	</slot>
 	{#if icon}<Icon {icon} />{/if}
 	<slot name="right-action" />

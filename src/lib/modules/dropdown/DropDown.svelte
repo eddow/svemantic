@@ -4,6 +4,7 @@
     import Icon, { type IconSpec } from "$svemantic/elements/Icon.svelte";
     import i18n from "$svemantic/i18n";
     import Module from "$svemantic/modules/Module";
+    import type { Readable } from "svelte/store";
 
 	export interface DropdownOption {
 		disabled?: true, // whether value should be disabled
@@ -73,7 +74,7 @@
 	interface $$Props extends Forward, DropdownSettings {
 		icon?: IconSpec;
 		options?: any;
-		module?: SemanticUI.Dropdown;
+		forward?: Readable<SemanticUI.Dropdown>;
 		transparent?: boolean;
 		fluid?: boolean;
 		name?: string;
@@ -105,7 +106,8 @@
 		onSearch() { return dispatch('search', null, {cancelable: true}); },
 		...$$restProps
 	};
-	export const module = Module('dropdown', config);
+	const {module, forward} = Module('dropdown', config);
+	export {forward};
 	$: config.values = options && transform(options);
 	$: config.message = $i18n.dropdown;	//? reactive?
 	let cs: string;

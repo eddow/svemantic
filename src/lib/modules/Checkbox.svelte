@@ -32,10 +32,10 @@
 		label: string|boolean = false;
 	let cs: string;
 	
-	$: module(value === true ? 'set checked' : value === false ? 'set unchecked' : 'set indeterminate');
-	$: module(disabled ? 'set disabled' : 'set enabled');
+	$: $forward(value === true ? 'set checked' : value === false ? 'set unchecked' : 'set indeterminate');
+	$: $forward(disabled ? 'set disabled' : 'set enabled');
 
-	const module = Module('checkbox', {
+	const {module, forward} = Module('checkbox', {
 		onChecked() { value = true; },
 		onUnchecked() { value = false; },
 		onIndeterminate() { value = undefined; }

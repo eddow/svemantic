@@ -8,7 +8,7 @@
 	let node: HTMLDivElement;
 	export let exclusive: boolean = true,
 		collapsible: boolean = true;
-	const module = Module('accordion', {exclusive, collapsible});
+	const {module} = Module('accordion', {exclusive, collapsible});
 	interface $$Props extends Forward {
 		styled?: boolean;
 		exclusive?: boolean;
