@@ -4,7 +4,8 @@
 	import { size, type Size } from '$svemantic/parts/Size';
     import { clastr, semantic, type Forward } from "$svemantic/root";
 	import { position, type Position } from "$svemantic/parts/Position";
-	import { page } from "$app/stores";
+    import { onDestroy } from 'svelte';
+    import { app } from '$svemantic/globals';
 
 	interface $$Props extends Forward, Size, Color, Position {
 		href?: string;
@@ -14,7 +15,7 @@
 	export let icon: IconSpec = '', text: string = '', href: string|undefined = undefined;
 	let cs: string, active: boolean;
 	
-	$: active = $page.url.pathname === href;
+	onDestroy(app.pathname.subscribe(pn=> { active = pn === href; }));
 	$: cs = clastr('item', $$props, {active}, size, color, position);
 </script>
 <a class={cs} use:semantic={$$props} {href} on:click>

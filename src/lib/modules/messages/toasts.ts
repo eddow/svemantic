@@ -1,4 +1,4 @@
-import { browser } from "$app/environment";
+import { app } from "$svemantic/globals";
 import i18n from "../../i18n";
 import { actions, type Action } from "./actions";
 
@@ -41,7 +41,7 @@ interface ToastSetting {
 }
 
 //? fomantic-ui.d.ts
-if(browser) i18n.subscribe(txts=> { (<any>jQuery.fn).toast.settings.text = txts.button; })
+if(app.browser) i18n.subscribe(txts=> { (<any>jQuery.fn).toast.settings.text = txts.button; })
 export function toast<T=any>(message: string|ToastSetting) {
 	const spec: ToastSetting = typeof message==='string'?{message}:Object.assign({}, message);
 	let rv: Promise<T>|undefined = undefined;

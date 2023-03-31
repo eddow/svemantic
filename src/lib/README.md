@@ -1,5 +1,28 @@
 # All svemantic
 
+### Initialization
+
+In your application root, the global `app` can be managed. It contains two values:
+- `browser: boolean` is false on SSR and true on CSR
+- `pathname: Writable<string>` gives the actual location
+
+Without further modification, `browser` only states if `window` is defined, and `pathname` gives the location at which the psge has been loaded when on the client-side (no SSR connection)
+
+If you use a router, make it manage the `app.pathname` value.
+
+#### Svelte-kit users
+
+In your root loader - for example root layout with svelte-kit :
+
+```ts
+import { app } from 'svemantic';
+import { browser } from '$app/environment';
+import { page } from "$app/stores";
+
+app.browser = browser;	// No need for reactivity here
+page.subscribe((p: Page)=> app.pathname.set(p.url.pathname));
+```
+
 ## Documentation
 
 "Attributes" stand for HTML attributes while "Flags" are used for boolean HTML attributes.

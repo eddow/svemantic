@@ -1,11 +1,11 @@
-import { browser } from "$app/environment";
+import { app } from "$svemantic/globals";
 import privateStore from "$svemantic/utils/privateStore";
 
 const emptyF = ()=> {};
 
 export default function Module(access: string, config: any = {}) {
 	const forward = privateStore<(...parms: any[])=> any>(emptyF);
-	if(!browser) return {module: emptyF, forward: forward.store};
+	if(!app.browser) return {module: emptyF, forward: forward.store};
 	return {
 		module(...parms: any[]) {
 			if(typeof parms[0] === 'string') return forward.value(...parms);

@@ -11,7 +11,7 @@ Each of these page containers are therefore used like this:
 		Lorem ipsum One maxima
 	</Page>
 	<Page>
-		<svelte:fragment slot="header">Title 2</svelte:fragment>
+		<svelte:fragment slot="header">Second title</svelte:fragment>
 		Lorem ipsum Two maxima
 	</Page>
 </SomePageContainer>
@@ -21,17 +21,17 @@ Page without specified keys will have an automatically generated one as it is us
 
 ## Accordions
 
-Nothing fancy implemented - just works but interactions have to use Fomantic-UI
+Nothing fancy implemented - simple Fomantic-UI forwarding
 
 No attributes nor flags
 
 ## Tabs
 
-Completely re-implemented (only the CSS is used) - so, no loading, history or ajax content
+Completely re-implemented (only the CSS is used) - so there no loading, history or ajax content
 
 ### Attributes
 
-- `tabs` **top** | bottom
+- `tabs` **'top'** | 'bottom'
 - `headerClass` CSS Classes to give to the `<div class="ui ... tabuler menu">` header container
 - `active` Bindable active page key. Can be used to change it programatically, follow its change or simply initialize it
 

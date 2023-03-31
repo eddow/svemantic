@@ -1,4 +1,4 @@
-import { browser } from "$app/environment";
+import { app } from "$svemantic/globals";
 import i18n from "../../i18n";
 import { actions, type Action } from "./actions";
 
@@ -15,7 +15,7 @@ export function prompt(text: string|PromptImmediate) {
 	return new Promise<string>((resolve)=> (<any>jQuery).modal('prompt', text, resolve));
 }
 //? fomantic-ui.d.ts
-if(browser) ()=> i18n.subscribe(txts=> { (<any>jQuery.fn).modal.settings.text = txts.button; });
+if(app.browser) ()=> i18n.subscribe(txts=> { (<any>jQuery.fn).modal.settings.text = txts.button; });
 
 export interface ModalSettings {
 	offset?: number;

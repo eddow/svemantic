@@ -50,7 +50,9 @@ export function semantic(node: HTMLElement, {popup: ppp, form}: Forward) {
 	}
 	function update({popup: ppp}: Forward) {
 		if(ppp !== present.popup) {
-			modules.popup.update?.(ppp);
+			if(modules.popup)
+				modules.popup.update?.(ppp);
+			else modules.popup = popup(node, ppp);
 			present.popup = ppp;
 		}
 	}

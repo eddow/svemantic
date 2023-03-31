@@ -1,5 +1,11 @@
 <script lang="ts">
-    import { LinkItem, Menu } from '$svemantic';
+    import { app, LinkItem, Menu } from '$svemantic';
+	import { browser } from '$app/environment';
+	import { page } from "$app/stores";
+    import type { Page } from '@sveltejs/kit';
+
+	app.browser = browser;	// No need for reactivity here
+	page.subscribe((p: Page)=> { app.pathname.set(p.url.pathname) });
 </script>
 <div class="main">
 	<div class="toc">

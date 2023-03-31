@@ -67,16 +67,14 @@
 			}
 		}
 	});
-	$: $forward('set values', model);	// No need : it fires too early and does not need to be fired
+	$: $forward('set values', model);
 	let cs: string, saving = false;
 	$: cs = clastr('form', $$props);``
 </script>
-{#if model}
-	<Modal form={module} opened={!!model} bind:show bind:hide on:show on:visible on:hide on:hidden={hidden} on:deny={deny} {...$$restProps} class={cs}>
-		<Loader inverted loading={saving} />
-		<slot name="header" slot="header" />
-		<!--slot name="image" slot="image" /-->
-		<slot name="actions" slot="actions" />
-		<slot />
-	</Modal>
-{/if}
+<Modal form={module} opened={!!model} bind:show bind:hide on:show on:visible on:hide on:hidden={hidden} on:deny={deny} {...$$restProps} class={cs}>
+	<Loader inverted loading={saving} />
+	<slot name="header" slot="header" />
+	<!--slot name="image" slot="image" /-->
+	<slot name="actions" slot="actions" />
+	<slot />
+</Modal>

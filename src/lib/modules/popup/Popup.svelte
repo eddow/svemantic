@@ -67,7 +67,7 @@
 </script>
 <script lang="ts">
 	// TODO Buggy with HMR
-    import { browser } from '$app/environment';
+	import { app } from "$svemantic/globals";
 
 	import { color, type Color } from '$svemantic/parts/Color';
 	import { size, type Size } from '$svemantic/parts/Size';
@@ -91,7 +91,7 @@
 		await tick();
 		previous = $$props.config !== emptyConfig;
 	}
-	if(browser) setPrevious();
+	if(app.browser) setPrevious();
 	$: if(node) {
 		if(previous) apply = <HTMLElement>node.previousElementSibling;
 		let {
