@@ -1,4 +1,4 @@
-import { getAllContexts, getContext, setContext } from "svelte";
+import { getContext, setContext } from "svelte";
 import { createEventDispatcher } from 'svelte';
 import Module from '$svemantic/modules/Module';
 import type { Readable } from "svelte/store";
@@ -19,7 +19,7 @@ export interface FormContext<T=any> {
 	isValid(): boolean
 	addField(name: string, fld: FomanticField): void
 	removeField(name: string): void
-	module(...parms: any[]): any
+	forward: Readable<(...parms: any[])=> any>
 }
 export function getForm<T=any>() {
 	return getContext<FormContext<T>>(formContext);
@@ -67,8 +67,8 @@ export default function FormModule<T=any>(config: any) {
 				dispatch('submit', {values, context});
 			}
 		},
-		onFailure(e: any, errors: string[], field: any /*todo type*/) {
-			dispatch('failure', {context, errors, field});
+		onFailure(e: any, errors: string[], fields: any /*todo type*/) {
+			dispatch('failure', {context, errors, fields});
 		},
 		onDirty() { dirty.value = true; },
 		onClean() { dirty.value = false; }
@@ -92,7 +92,7 @@ export default function FormModule<T=any>(config: any) {
 		validate() { return module('validate form'); },
 		isValid() { return module('is valid'); },
 		reset() { module('reset'); },
-		module
+		forward
 	};
 	i18n.subscribe(v=> Object.assign(config, v.form));
 	setContext<FormContext<T>>(formContext, context);

@@ -32,7 +32,8 @@
 		}
 	},
 	"files": [
-		"dist"
+		"dist",
+		"src/lib"
 	],
 	"peerDependencies": {
 		"svelte": "^3.54.0"

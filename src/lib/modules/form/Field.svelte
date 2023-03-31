@@ -33,7 +33,7 @@
 	function fieldDescr(identifier: string, optional: boolean, rules?: RulesSpec): FomanticField {
 		const ruleList : Rule[] = rules ?
 			(typeof rules === 'string' ? rules.split('&') : rules)
-				.map(type=>typeof type === 'string' ? {type} : type) :
+				.map(type=>typeof type === 'string' ? {type: type.trim()} : type) :
 			[],
 			hasEmptyRule = ruleList.some(r=> r.type === 'empty');
 		return {
@@ -70,14 +70,14 @@
 		onDestroy(()=> { form.removeField(name!); });
 	}
 </script>
-	<div class={cs} use:semantic={$$props}>
-		{#if label}
-			<slot name="label">
-				<label for={name}>{label === true ? text : label}</label>
-			</slot>
-		{/if}
-		<slot {errors} />
-	</div>
+<div class={cs} use:semantic={$$props}>
+	{#if label}
+		<slot name="label">
+			<label for={name}>{label === true ? text : label}</label>
+		</slot>
+	{/if}
+	<slot {errors} />
+</div>
 {#if form?.errorDisplay === 'popup' && errors}
 	<Popup inverted color="red">
 		<div class="ui list">

@@ -18,6 +18,7 @@ In your root loader - for example root layout with svelte-kit :
 import { app } from 'svemantic';
 import { browser } from '$app/environment';
 import { page } from "$app/stores";
+import type { Page } from '@sveltejs/kit';
 
 app.browser = browser;	// No need for reactivity here
 page.subscribe((p: Page)=> app.pathname.set(p.url.pathname));
@@ -31,14 +32,17 @@ If the names match, these follow and simply mean what was intended by Semantic-U
 
 ## Elements
 
+- [Input](./elements/input/README.md) define all the generic table parts
 - [Table](./elements/table/README.md) define all the generic table parts
 
 ## Modules
 
+- [Form](./modules/form/README.md) forms and fields interractions
 - [Paged](./modules/paged/README.md) define `Accordions`, `Tabs` and `Steps`
 - [Popup](./modules/popup/README.md) allows to bind popups to elements
 - [Messages](./modules/messages/README.md) are functions allowing standard small interractions with the user (alert, prompt, confirm, toast, ...)
 - [Modal](./modules/modal/README.md) designs custom modals
+
 ## [Parts](./parts/README.md)
 
 These are not components so to speak but common configurations of several components. Each are refered when used

@@ -9,8 +9,8 @@
 	export let
 		model: Partial<T> = {};
 	interface $$Props extends FormSpecifications<T> {}
-	export const {module: form, forward} = FormModule<T>($$props);
+	export const {module: form, forward, dirty} = FormModule<T>($$props);
 	$: $forward('set values', model);	// TODO Update module and context too?
 	// TODO bind an object as a value
 </script>
-<slot {form} {forward} />
+<slot {form} {forward} dirty={$dirty} />
