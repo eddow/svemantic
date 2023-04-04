@@ -5,6 +5,7 @@
     import { loading, type Loading } from '$svemantic/parts/Loading';
     import Module from '$svemantic/modules/Module';
     import { getForm, getField, type RulesSpec } from '$svemantic/modules/form';
+    import { onDestroy } from 'svelte';
 
 	type Type = 'text'|'email'|'number'|'range'|'password'|'search'|'tel'|'url'|'time'|'date'|'month'|'week'|'datetime-local'|'color'|'file'|'area';
 	// not done here: checkbox radio hidden reset button submit 
@@ -25,12 +26,15 @@
 	let directName: string|undefined = undefined,
 		name: string|undefined;
 	export { directName as name };
-	$: name = directName === undefined ? $field?.name : directName;
+	$: name = directName === undefined ? field?.name : directName;
 	export let value: boolean|undefined = false,
 		disabled: boolean = false,
 		el: string = 'div',
 		label: string|boolean = false;
-	let cs: string;
+	let cs: string,
+		rsltLabel: string;
+	if(field && label === true) onDestroy(field.text.subscribe((t: string)=> rsltLabel = t));
+	$: if(typeof label === 'string') rsltLabel = label;
 	
 	$: $forward(value === true ? 'set checked' : value === false ? 'set unchecked' : 'set indeterminate');
 	$: $forward(disabled ? 'set disabled' : 'set enabled');
@@ -52,7 +56,7 @@
 <svelte:element this={el} use:module class={cs} use:semantic={$$props}>
 	<slot name="label">
 		{#if label}
-			<label for={name}>{label===true?$field?.text:label}</label>
+			<label for={name}>{rsltLabel}</label>
 		{/if}
 	</slot>
 	<input type="checkbox" {name} />

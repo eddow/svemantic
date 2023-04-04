@@ -1,7 +1,7 @@
 import { getContext, setContext } from "svelte";
 import { createEventDispatcher } from 'svelte';
 import Module from '$svemantic/modules/Module';
-import type { Readable } from "svelte/store";
+import type { Readable, Writable } from "svelte/store";
 import type { FomanticField } from "./Field.svelte";
 import i18n from "$svemantic/i18n";
 import privateStore from "$svemantic/utils/privateStore";
@@ -9,7 +9,7 @@ import privateStore from "$svemantic/utils/privateStore";
 export type ErrorDisplay = 'inline'|'manual'|'popup';
 const formContext = Symbol('form context key');	//unique local value
 export interface FormContext<T=any> {
-	default: Partial<T>
+	model: Writable<Partial<T>>
 	dirty: Readable<boolean>
 	errorDisplay: ErrorDisplay
 	tabular: boolean
@@ -42,7 +42,7 @@ export interface FormSpecifications<T> {
 	'error-display'?: ErrorDisplay;
 	model?: Partial<T>;
 }
-export default function FormModule<T=any>(config: any) {
+export default function FormModule<T=any>(config: any, model: Writable<Partial<T>>) {
 	const dispatch = createEventDispatcher(),
 		dirty = privateStore(false);
 		
@@ -52,7 +52,6 @@ export default function FormModule<T=any>(config: any) {
 	// TODO form formatters: https://fomantic-ui.com/behaviors/form.html#formatters	(programatic intl)
 	// TODO tr.error displays the whole row redish, not only the erroneous fields (td): the whole row
 	const {module, forward} = Module('form', Object.assign(config, {
-		default: config.model,
 		inline: errorDisplay === 'inline',
 		fields,
 		onInvalid(this: JQuery, errors: string[]) {
@@ -73,7 +72,7 @@ export default function FormModule<T=any>(config: any) {
 		onDirty() { dirty.value = true; },
 		onClean() { dirty.value = false; }
 	})), context: FormContext<T> = {
-		default: config.model,
+		model,
 		tabular,
 		errorDisplay,
 		dirty: dirty.store,

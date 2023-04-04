@@ -12,7 +12,12 @@
 	}
 	export type RulesSpec = string|(string|Rule)[];
 	
-	export type FieldContext = Readable<{name: string, text: string}>;
+	//export type FieldContext = Readable<{name: string, text: string}>;
+	export interface FieldContext<T=any> {
+		name: string
+		text: Readable<string>
+		default?: Readable<T>
+	}
 
 	const fieldContext = {};	// unique context key
 	export function getField(): FieldContext {
@@ -21,7 +26,6 @@
 </script>
 <script lang="ts">
 	import { field } from "$svemantic/i18n";
-
 	import { clastr, semantic } from "$svemantic/root";
     import { getContext, setContext } from "svelte";
 	import type { Readable } from "svelte/store";
@@ -29,6 +33,8 @@
     import Popup from '$svemantic/modules/popup/Popup.svelte';
     import { createEventDispatcher, onDestroy } from 'svelte';
     import privateStore from "$svemantic/utils/privateStore";
+
+	type T = $$Generic;
 
 	function fieldDescr(identifier: string, optional: boolean, rules?: RulesSpec): FomanticField {
 		const ruleList : Rule[] = rules ?
@@ -50,20 +56,29 @@
 
 	const dispatch = createEventDispatcher(), form = getForm();
 	export let
-		rawContext: Record<string, any> = Object.prototype,
 		required: boolean = false,
 		name: string = '',
 		label: string|boolean = false,
-		validate: RulesSpec|undefined = undefined;
+		validate: RulesSpec|undefined = undefined,
+		init: T|undefined = undefined;
 		
 	let cs: string,
-		text: string = '...',
 		errors: string[]|undefined = undefined;
+	
 	$: cs = clastr('field', $$props);
-	const context = privateStore(Object.create(rawContext));
-	$: context.value = Object.assign(Object.create(rawContext), {name, text: text=$field(name)});
+	const textPrv = privateStore<string>(), text = textPrv.store;
+	$: textPrv.value = $field(name);
+	const valuePrv = init !== undefined || form ? privateStore<T>() : undefined;
+	$: if(init !== undefined && valuePrv) valuePrv.value = init;
+	if(form)
+		onDestroy(form.model.subscribe((m: any)=> {
+			if(init === undefined)
+				valuePrv!.value = m[name];
+		}))
 
-	setContext<FieldContext>(fieldContext, context.store);
+	setContext<FieldContext<T>>(fieldContext, {
+		name, text, default: valuePrv?.store || undefined
+	});
 
 	if(name && form) {
 		form.addField(name, fieldDescr(name, !required, validate));

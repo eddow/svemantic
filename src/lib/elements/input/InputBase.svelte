@@ -4,9 +4,9 @@
 	//? image
 </script>
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
+    import { onDestroy, createEventDispatcher } from 'svelte';
+    import { getField } from '$svemantic/modules';
 	
-
 	function handleInput(e: any) {
 		value = (<any>e.target!).value;
 		dispatch('input', value);
@@ -17,14 +17,16 @@
 		type: InputType = 'text',
 		value: any = '',
 		autofocus: boolean = false,
+		readonly: boolean = false,
 		name: string|undefined = undefined,
 		placeholder: string = '';
-	
+	const field = getField();
+	if(field?.default) onDestroy(field.default.subscribe((v: string)=> value = v));
 </script>
 {#if type === 'area'}
-	<textarea {placeholder} {autofocus} {value} {name} on:input={handleInput}></textarea>
+	<textarea {readonly} {placeholder} {autofocus} {value} {name} on:input={handleInput}></textarea>
 {:else}
-	<input {placeholder} {autofocus} {type} {value} {name} on:input={handleInput} />
+	<input {readonly} {placeholder} {autofocus} {type} {value} {name} on:input={handleInput} />
 {/if}
 <style lang="scss" global>
 	.ui.fluid.input > textarea {

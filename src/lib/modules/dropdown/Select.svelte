@@ -1,8 +1,9 @@
 <script lang="ts">
     import Dropdown, { type DropdownEvent, type DropdownOption } from "./Dropdown.svelte";
-	import { createEventDispatcher, onMount, type ComponentProps } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount, type ComponentProps } from 'svelte';
 	import { getForm, getField } from "../form";
 	import { clastr } from "$svemantic/root";
+    import type { Readable } from "svelte/store";
 
 	type T = $$Generic<string | string[]>;
 
@@ -25,7 +26,7 @@
 	let directName: string|undefined = undefined,
 		name: string|undefined;
 	export { directName as name };
-	$: name = directName === undefined ? $field?.name : directName;
+	$: name = directName === undefined ? field?.name : directName;
 	interface $$Props extends ComponentProps<Dropdown> {
 		value?: T;
 		options: DropdownOption[];
@@ -35,29 +36,28 @@
 		placeholder: string|boolean = '',
 		options: DropdownOption[],
 		multiple: boolean = false,
-		value: T = <T>((multiple && !delimiter) ? [] : ''),
+		value: T = <T>((multiple) ? [] : ''),
 		// Default in table: <td ... "transparent"
 		el: string = 'div',
 		transparent: boolean = tabular,
 		fluid: boolean = tabular;
-		
-	let	module: SemanticUI.Dropdown;
+	if(field?.default) onDestroy(field.default.subscribe((v: T)=> value = v));
+	let	forward: Readable<SemanticUI.Dropdown>,
+		rsltPlaceholder: string;
 	const config = {placeholder, options, name, transparent, multiple, el, delimiter: delimiter||'|', ...$$restProps};
-	$: if(placeholder === true) {
-		config.placeholder = placeholder = $field.text;
-		module && (<any>module)('set placeholder text', placeholder);	// untyped: new in fomantic?
-	}
-		// module.set.placeholderText();
+	if(field && placeholder === true) onDestroy(field.text.subscribe((t: string)=> rsltPlaceholder = t));
+	$: if(typeof placeholder === 'string') rsltPlaceholder = placeholder;
+	$: (<any>$forward)?.('set placeholder text', rsltPlaceholder);	// cast for old @types/semantic-ui version
 	$: if(multiple)
-		module && module('set exactly', typeof value === 'string' ? value.split(delimiter||'|') : value);
-	else module && module('set selected', value);
+		$forward?.('set exactly', typeof value === 'string' ? value.split(delimiter||'|') : value);
+	else $forward?.('set selected', value);
 	// TODO {#if}<slot https://github.com/sveltejs/svelte/pull/8304
 	let cs: string;
 	$: cs = clastr('selection', $$props);
 </script>
-<Dropdown {...config} {name} placeholder={placeholder===true?$field?.text:placeholder}
+<Dropdown {...config} {name} placeholder={rsltPlaceholder}
 	class={cs} {fluid} {transparent}
-	on:change={change} on:add={add} on:remove={remove} bind:module
+	on:change={change} on:add={add} on:remove={remove} bind:forward
 >
 	<slot><div class="text"></div></slot>
 </Dropdown>

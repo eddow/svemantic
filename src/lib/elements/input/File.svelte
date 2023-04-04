@@ -10,7 +10,7 @@
 	let directName: string|undefined = undefined,
 		name: string|undefined;
 	export { directName as name };
-	$: name = directName || $field.name;
+	$: name = directName || field.name;
 	
 </script>
 <input {name} type="file" class="ui invisible file input">

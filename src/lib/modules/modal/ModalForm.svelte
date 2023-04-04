@@ -10,6 +10,7 @@
     import Loader from '$svemantic/elements/Loader.svelte';
     import { clastr } from '$svemantic/root';
     import { toast } from '../messages';
+    import { writable } from 'svelte/store';
 
 	type T = $$Generic;
 
@@ -21,6 +22,8 @@
 		hide?(): void;
 	}
 	export let save: ModalSaveFunction<T> = ()=> Promise.resolve(), model: Partial<T>|undefined = undefined;
+	const modelStore = writable<Partial<T>>();
+	$: modelStore.set(model||{});
 	let promise: {resolve: (answer?: T)=> void, reject: (reason: any)=> void}|null = null;
 	function answer(answer?: T) {
 		if(!promise) return;
@@ -66,8 +69,7 @@
 				saving = false;
 			}
 		}
-	});
-	$: $forward('set values', model);
+	}, modelStore);
 	let cs: string, saving = false;
 	$: cs = clastr('form', $$props);``
 </script>

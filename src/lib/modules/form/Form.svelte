@@ -4,19 +4,20 @@
 <script lang="ts">
 	import { color, type Color } from "$svemantic/parts/Color";
     import { uistr, type Forward, semantic } from "$svemantic/root";
+    import { writable } from "svelte/store";
     import FormModule, { type FormSpecifications } from "./FormModule";
 
 	type T = $$Generic;
 
 	export let tabular: boolean = false, el: string = tabular ? 'tr' : 'div', model: Partial<T> = {};
+	const modelStore = writable<Partial<T>>();
+	$: modelStore.set(model);
 	interface $$Props extends Forward, FormSpecifications<T>, Color {
 		el?: string;
 	}
-	const {module, forward, dirty} = FormModule<T>($$props);
-	$: $forward('set values', model);	// TODO Update module and context too?
+	const {module, forward, dirty} = FormModule<T>($$props, modelStore);
 	let cs: string;
 	$: cs = uistr(tabular ? '' : 'form', $$props, false, color);
-	// TODO bind an object as a value
 </script>
 <svelte:element this={el} use:module class={cs} use:semantic={$$props}>
 	<slot dirty={$dirty} />

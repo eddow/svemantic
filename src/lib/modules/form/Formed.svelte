@@ -2,15 +2,18 @@
 	export { getForm, type FormContext } from "./FormModule";
 </script>
 <script lang="ts">
+    import { writable } from "svelte/store";
+
     import FormModule, { type FormSpecifications } from "./FormModule";
 
 	type T = $$Generic;
 
 	export let
 		model: Partial<T> = {};
+	const modelStore = writable<Partial<T>>();
+	$: modelStore.set(model);
 	interface $$Props extends FormSpecifications<T> {}
-	export const {module: form, forward, dirty} = FormModule<T>($$props);
-	$: $forward('set values', model);	// TODO Update module and context too?
+	export const {module: form, forward, dirty} = FormModule<T>($$props, modelStore);
 	// TODO bind an object as a value
 </script>
 <slot {form} {forward} dirty={$dirty} />

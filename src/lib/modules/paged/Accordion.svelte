@@ -21,7 +21,7 @@
 	}
 	const spec = {part: AccordionPage};
 	onDestroy(()=> module('destroy'));
-	// TODO Accordion usage <-> + test dynamic cases
+	// TODO when not `exclusive`, `active` bindable like tabs
 </script>
 <div class={cs} use:module use:semantic={$$props} bind:this={node}>
 	<PageContainer {spec}><slot /></PageContainer>
