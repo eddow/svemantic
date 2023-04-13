@@ -10,7 +10,7 @@ Note: fomantic `dirty` flag management is quite unefficient and, until now, just
 
 In a form (whether way the form is created), a `FormContext<T>` is retrieved with `getForm<T>()` and gives access to information and functionality of the form being described.
 
-Note, its `forward` Readable function is a shortcut to `$(...).form(...)`. IE: `$forward('do something', parms)` is equivalent to `$(myNode).form('do something', parms)`. It is declared as a `Readable` as it is initialized to an empty function (that returns `undefined`)
+Note, its `form` Readable function is a shortcut to `$(...).form(...)`. IE: `$form('do something', parms)` is equivalent to `$(myNode).form('do something', parms)`. It is declared as a `Readable` as it is initialized to an empty function (that returns `undefined`)
 
 ### Field context
 
@@ -32,7 +32,7 @@ Errors are always displayed in any `ui error message` container from within the 
 ### Without the element
 
 ```html
-<Formed let:form let:forward let:dirty
+<Formed let:form let:dirty
 		on:submit="function(event: {values, context})"
 		on:failure="function(event: {values, fields, context})"
 		on:cancel="function()"
@@ -41,7 +41,7 @@ Errors are always displayed in any `ui error message` container from within the 
 		...
 ```
 
-Allows the (here `nav`) node to use the Fomantic `form` module. `$forward(...)` is used as `$(...).form(...)` would be used.
+Allows the (here `nav`) node to use the Fomantic `form` module. `$form(...)` is used as `$(...).form(...)` would be used.
 
 ### Attributes
 

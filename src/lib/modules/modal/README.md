@@ -47,10 +47,14 @@ Setting the `model` of the Modal form is equivalent to using `opened`
 	let model: myModel;
 </script>
 <Button on:click={()=> model = {...}}>Modal</Button>
-<ModalForm bind:model bind:save ...
+<ModalForm {model} bind:save ...
 ```
 
-### Access through the `model` function
+### Access through the `model` property
 
-Like with regular form, `ModalForm` have a 2-ways binding of `model`.
+The model (default values) determine whether the modal is opened (if not `undefined`)
 In order to use it properly, [`on="change"` or at least `on="blur"`](https://fomantic-ui.com/behaviors/form.html#form-settings) if any validation should be involved.
+
+### Caveats
+
+`positive` and `negative` buttons close the modal.

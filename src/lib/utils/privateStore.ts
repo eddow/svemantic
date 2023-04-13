@@ -1,4 +1,4 @@
-import { readable, writable, type Readable, type Subscriber } from "svelte/store";
+import { readable, type Readable, type Subscriber } from "svelte/store";
 
 export interface PrivateStore<T=any> {
 	get store(): Readable<T>;

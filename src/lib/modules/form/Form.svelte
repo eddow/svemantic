@@ -15,10 +15,10 @@
 	interface $$Props extends Forward, FormSpecifications<T>, Color {
 		el?: string;
 	}
-	const {module, forward, dirty} = FormModule<T>($$props, modelStore);
+	const {form, dirty} = FormModule<T>($$props, modelStore);
 	let cs: string;
 	$: cs = uistr(tabular ? '' : 'form', $$props, false, color);
 </script>
-<svelte:element this={el} use:module class={cs} use:semantic={$$props}>
+<svelte:element this={el} use:form class={cs} use:semantic={$$props}>
 	<slot dirty={$dirty} />
 </svelte:element>

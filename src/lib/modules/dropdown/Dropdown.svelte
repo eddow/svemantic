@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
     import Icon, { type IconSpec } from "$svemantic/elements/Icon.svelte";
     import i18n from "$svemantic/i18n";
-    import Module from "$svemantic/modules/Module";
+    import module from "$svemantic/modules/bmodule";
     import type { Readable } from "svelte/store";
 
 	export interface DropdownOption {
@@ -106,8 +106,7 @@
 		onSearch() { return dispatch('search', null, {cancelable: true}); },
 		...$$restProps
 	};
-	const {module, forward} = Module('dropdown', config);
-	export {forward};
+	export const dropdown = module('dropdown', config);
 	$: config.values = options && transform(options);
 	$: config.message = $i18n.dropdown;	//? reactive?
 	let cs: string;
@@ -117,7 +116,7 @@
 	}
 	// TODO Dropdown sub: Text helpers
 </script>
-<div class={cs} use:module use:semantic={$$props}>
+<div class={cs} use:dropdown use:semantic={$$props}>
 	{#if name}<input type="hidden" {name}>{/if}
 	<slot name="toggle">
 		<slot name="text" />

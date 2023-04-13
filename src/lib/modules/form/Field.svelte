@@ -11,8 +11,6 @@
 		setErrors?(errors?: string[]): void;
 	}
 	export type RulesSpec = string|(string|Rule)[];
-	
-	//export type FieldContext = Readable<{name: string, text: string}>;
 	export interface FieldContext<T=any> {
 		name: string
 		text: Readable<string>
@@ -20,8 +18,8 @@
 	}
 
 	const fieldContext = {};	// unique context key
-	export function getField(): FieldContext {
-		return getContext<FieldContext>(fieldContext);
+	export function getField<T=any>(): FieldContext<T> {
+		return getContext<FieldContext<T>>(fieldContext);
 	}
 </script>
 <script lang="ts">
@@ -88,7 +86,7 @@
 <div class={cs} use:semantic={$$props}>
 	{#if label}
 		<slot name="label">
-			<label for={name}>{label === true ? text : label}</label>
+			<label for={name}>{label === true ? $text : label}</label>
 		</slot>
 	{/if}
 	<slot {errors} />

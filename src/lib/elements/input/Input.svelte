@@ -60,18 +60,18 @@
 	}
 </script>
 <svelte:element this={el} class={cs} use:semantic={$$props}>
-	<slot name="prefix" />
+	<slot name="prefix" {value} />
 	{#if $$slots['left-corner']}
 		<div class="ui left corner label"><slot name="left-corner" /></div>
 	{/if}
 	<slot name="left-action" />
-	<slot placeholder={rsltPlaceholder}>
+	<slot placeholder={rsltPlaceholder} {value}>
 		<InputBase {readonly} {type} placeholder={rsltPlaceholder} {autofocus} bind:value {name} />
 	</slot>
 	{#if icon}<Icon {icon} />{/if}
-	<slot name="right-action" />
+	<slot name="right-action" {value} />
 	{#if $$slots['right-corner']}
 		<div class="ui corner label"><slot name="right-corner" /></div>
 	{/if}
-	<slot name="postfix" />
+	<slot name="postfix" {value} />
 </svelte:element>

@@ -52,7 +52,7 @@
 		dispatch('hidden');
 		model = undefined;
 	}
-	const {module, forward} = FormModule({
+	const {form} = FormModule({
 		...$$props,
 		async onSubmit(values: T, context: FormContext) {
 			saving = true;
@@ -73,7 +73,7 @@
 	let cs: string, saving = false;
 	$: cs = clastr('form', $$props);``
 </script>
-<Modal form={module} opened={!!model} bind:show bind:hide on:show on:visible on:hide on:hidden={hidden} on:deny={deny} {...$$restProps} class={cs}>
+<Modal {form} opened={!!model} bind:show bind:hide on:show on:visible on:hide on:hidden={hidden} on:deny={deny} {...$$restProps} class={cs}>
 	<Loader inverted loading={saving} />
 	<slot name="header" slot="header" />
 	<!--slot name="image" slot="image" /-->

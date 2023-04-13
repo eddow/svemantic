@@ -14,7 +14,7 @@
 		data?: T[];
 		definition?: boolean;
 		structured?: boolean;
-		singleLine?: boolean;
+		'single-line'?: boolean;
 		fixed?: boolean;
 		stackable?: boolean;
 		selectable?: boolean;
@@ -32,7 +32,7 @@
 	let cs: string;
 	$: {
 		let {
-			definition, structured, singleLine, fixed, stackable, selectable, celled, striped, collapsing, padded,
+			definition, structured, 'single-line': singleLine, fixed, stackable, selectable, celled, striped, collapsing, padded,
 			scrolling, basic, compact, stuck
 		} = $$props;
 		cs = uistr('table', $$props, [{

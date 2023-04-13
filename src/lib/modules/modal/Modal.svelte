@@ -30,7 +30,7 @@
 	import { size, type Size } from '$svemantic/parts/Size';
     import { uistr, combine, type Forward, semantic } from "$svemantic/root";
 	import { createEventDispatcher } from 'svelte';
-    import Module from '$svemantic/modules/Module';
+    import module from '$svemantic/modules/bmodule';
 
 	const dispatch = createEventDispatcher();
 	interface $$Props extends ModalSpecification {
@@ -41,7 +41,7 @@
 	}
 	let promise: {resolve: (answer?: boolean)=> void, reject: (reason: any)=> void}|null = null;
 	export let context: HTMLElement|undefined = undefined, opened: boolean = false;
-	const {module} = Module('modal', Object.assign({
+	const mdl = module('modal', Object.assign({
 		autoShow: opened,
 		onShow() { dispatch('show'); },
 		onVisible() { prvOpened = opened = true; dispatch('visible'); },
@@ -70,8 +70,8 @@
 		if(opened) show();
 		else hide();
 	}
-	export function show() { module('show'); }
-	export function hide() { module('hide'); }
+	export function show() { mdl('show'); }
+	export function hide() { mdl('hide'); }
 	export function modal() {
 		if(!!promise) {
 			console.assert(false, "Modal opened twice");
@@ -89,7 +89,7 @@
 	};
 </script>
 
-<div class={cs} use:module use:semantic={$$props}>
+<div class={cs} use:mdl use:semantic={$$props}>
 	{#if $$slots.header}
 		<div class={csss.header}>
 			<slot name="header">

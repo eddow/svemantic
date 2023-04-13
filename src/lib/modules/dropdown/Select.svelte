@@ -1,9 +1,9 @@
 <script lang="ts">
+	import type { Module } from '$svemantic/modules/bmodule';
     import Dropdown, { type DropdownEvent, type DropdownOption } from "./Dropdown.svelte";
 	import { createEventDispatcher, onDestroy, onMount, type ComponentProps } from 'svelte';
 	import { getForm, getField } from "../form";
 	import { clastr } from "$svemantic/root";
-    import type { Readable } from "svelte/store";
 
 	type T = $$Generic<string | string[]>;
 
@@ -42,22 +42,22 @@
 		transparent: boolean = tabular,
 		fluid: boolean = tabular;
 	if(field?.default) onDestroy(field.default.subscribe((v: T)=> value = v));
-	let	forward: Readable<SemanticUI.Dropdown>,
+	let dropdown: Module,
 		rsltPlaceholder: string;
 	const config = {placeholder, options, name, transparent, multiple, el, delimiter: delimiter||'|', ...$$restProps};
 	if(field && placeholder === true) onDestroy(field.text.subscribe((t: string)=> rsltPlaceholder = t));
 	$: if(typeof placeholder === 'string') rsltPlaceholder = placeholder;
-	$: (<any>$forward)?.('set placeholder text', rsltPlaceholder);	// cast for old @types/semantic-ui version
+	$: (<any>$dropdown)?.('set placeholder text', rsltPlaceholder);	// cast for old @types/semantic-ui version
 	$: if(multiple)
-		$forward?.('set exactly', typeof value === 'string' ? value.split(delimiter||'|') : value);
-	else $forward?.('set selected', value);
+		$dropdown?.('set exactly', typeof value === 'string' ? value.split(delimiter||'|') : value);
+	else $dropdown?.('set selected', value);
 	// TODO {#if}<slot https://github.com/sveltejs/svelte/pull/8304
 	let cs: string;
 	$: cs = clastr('selection', $$props);
 </script>
 <Dropdown {...config} {name} placeholder={rsltPlaceholder}
 	class={cs} {fluid} {transparent}
-	on:change={change} on:add={add} on:remove={remove} bind:forward
+	on:change={change} on:add={add} on:remove={remove} bind:dropdown
 >
 	<slot><div class="text"></div></slot>
 </Dropdown>

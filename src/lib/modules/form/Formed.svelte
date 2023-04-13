@@ -13,7 +13,7 @@
 	const modelStore = writable<Partial<T>>();
 	$: modelStore.set(model);
 	interface $$Props extends FormSpecifications<T> {}
-	export const {module: form, forward, dirty} = FormModule<T>($$props, modelStore);
+	export const {form, dirty} = FormModule<T>($$props, modelStore);
 	// TODO bind an object as a value
 </script>
-<slot {form} {forward} dirty={$dirty} />
+<slot {form} dirty={$dirty} />

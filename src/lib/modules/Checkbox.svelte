@@ -3,7 +3,7 @@
 	import { size, type Size } from '$svemantic/parts/Size';
     import { oneOf, semantic, uistr, type Forward } from "$svemantic/root";
     import { loading, type Loading } from '$svemantic/parts/Loading';
-    import Module from '$svemantic/modules/Module';
+    import module from '$svemantic/modules/bmodule';
     import { getForm, getField, type RulesSpec } from '$svemantic/modules/form';
     import { onDestroy } from 'svelte';
 
@@ -36,10 +36,10 @@
 	if(field && label === true) onDestroy(field.text.subscribe((t: string)=> rsltLabel = t));
 	$: if(typeof label === 'string') rsltLabel = label;
 	
-	$: $forward(value === true ? 'set checked' : value === false ? 'set unchecked' : 'set indeterminate');
-	$: $forward(disabled ? 'set disabled' : 'set enabled');
+	$: $checkbox(value === true ? 'set checked' : value === false ? 'set unchecked' : 'set indeterminate');
+	$: $checkbox(disabled ? 'set disabled' : 'set enabled');
 
-	const {module, forward} = Module('checkbox', {
+	const checkbox = module('checkbox', {
 		onChecked() { value = true; },
 		onUnchecked() { value = false; },
 		onIndeterminate() { value = undefined; }
@@ -53,7 +53,7 @@
 		], size, color, loading);
 	}
 </script>
-<svelte:element this={el} use:module class={cs} use:semantic={$$props}>
+<svelte:element this={el} use:checkbox class={cs} use:semantic={$$props}>
 	<slot name="label">
 		{#if label}
 			<label for={name}>{rsltLabel}</label>

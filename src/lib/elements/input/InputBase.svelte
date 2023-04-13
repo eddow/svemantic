@@ -21,7 +21,7 @@
 		name: string|undefined = undefined,
 		placeholder: string = '';
 	const field = getField();
-	if(field?.default) onDestroy(field.default.subscribe((v: string)=> value = v));
+	if(field?.default) onDestroy(field.default.subscribe((v: string)=> value = v||''));
 </script>
 {#if type === 'area'}
 	<textarea {readonly} {placeholder} {autofocus} {value} {name} on:input={handleInput}></textarea>

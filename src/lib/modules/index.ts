@@ -5,8 +5,8 @@ export * from "./popup";
 export * from "./paged";
 export * from "./form";
 
-import Module from "./Module";
+import module from "./bmodule";
 import Dimmer from "./Dimmer.svelte";
 import Checkbox from "./Checkbox.svelte";
 
-export { Dimmer, Checkbox, Module }
+export { Dimmer, Checkbox, module }
