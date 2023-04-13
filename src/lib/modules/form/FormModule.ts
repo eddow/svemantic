@@ -1,6 +1,6 @@
 import { getContext, setContext } from "svelte";
 import { createEventDispatcher } from 'svelte';
-import module from '$svemantic/modules/bmodule';
+import module from '$svemantic/modules/module';
 import type { Readable, Writable } from "svelte/store";
 import type { FomanticField } from "./Field.svelte";
 import i18n from "$svemantic/i18n";

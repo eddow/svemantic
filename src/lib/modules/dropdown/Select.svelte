@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Module } from '$svemantic/modules/bmodule';
+	import type { Module } from '$svemantic/modules/module';
     import Dropdown, { type DropdownEvent, type DropdownOption } from "./Dropdown.svelte";
 	import { createEventDispatcher, onDestroy, onMount, type ComponentProps } from 'svelte';
 	import { getForm, getField } from "../form";

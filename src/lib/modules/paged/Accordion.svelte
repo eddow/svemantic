@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { semantic, uistr, type Forward } from "$svemantic/root";
     import { onDestroy } from "svelte";
-    import module from "$svemantic/modules/bmodule";
+    import module from "$svemantic/modules/module";
     import AccordionPage from "./AccordionPage.svelte";
     import PageContainer from "./PageContainer.svelte";
 

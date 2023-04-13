@@ -3,7 +3,7 @@
 	import { size, type Size } from '$svemantic/parts/Size';
     import { oneOf, semantic, uistr, type Forward } from "$svemantic/root";
     import { loading, type Loading } from '$svemantic/parts/Loading';
-    import module from '$svemantic/modules/bmodule';
+    import module from '$svemantic/modules/module';
     import { getForm, getField, type RulesSpec } from '$svemantic/modules/form';
     import { onDestroy } from 'svelte';
 

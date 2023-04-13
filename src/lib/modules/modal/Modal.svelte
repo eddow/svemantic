@@ -30,7 +30,7 @@
 	import { size, type Size } from '$svemantic/parts/Size';
     import { uistr, combine, type Forward, semantic } from "$svemantic/root";
 	import { createEventDispatcher } from 'svelte';
-    import module from '$svemantic/modules/bmodule';
+    import module from '$svemantic/modules/module';
 
 	const dispatch = createEventDispatcher();
 	interface $$Props extends ModalSpecification {

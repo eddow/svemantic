@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
     import Icon, { type IconSpec } from "$svemantic/elements/Icon.svelte";
     import i18n from "$svemantic/i18n";
-    import module from "$svemantic/modules/bmodule";
+    import module from "$svemantic/modules/module";
     import type { Readable } from "svelte/store";
 
 	export interface DropdownOption {
