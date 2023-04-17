@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
 	const tabContext = {};	//unique context key;
 	export function getTabs() { return getContext<Writable<string>>(tabContext); }
+    import type { PageSpecification } from "./Page.svelte";
 	export type TabSide = 'top' | 'bottom';
 	export interface TabSpecification extends PageSpecification {
 		side: TabSide;
@@ -14,7 +15,6 @@
     import { writable, type Writable } from "svelte/store";
     import { getContext, setContext } from "svelte";
     import PageContainer from "./PageContainer.svelte";
-    import type { PageSpecification } from "./Page.svelte";
 
 	export let tabs: TabSide = 'top', inverted: boolean = false, active: string = '',
 		headerClass: string = '';

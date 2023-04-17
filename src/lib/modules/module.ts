@@ -6,7 +6,6 @@ export type ModuleFunction = (...parms: any[])=> any;
 export interface Module extends ModuleFunction, Readable<ModuleFunction> {}
 
 const emptyF = ()=> {};
-// TODO: one return value, both function and function's store
 export default function module(access: string, config: any = {}) {
 	const forward = privateStore<ModuleFunction>(emptyF);
 	if(!app.browser) return Object.assign(()=>{}, {subscribe: forward.store.subscribe});

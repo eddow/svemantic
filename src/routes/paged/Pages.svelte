@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Page, type PageSpecification } from "$svemantic";
+    import { Page } from "$svemantic";
 </script>
 <Page key="p1">
 	<svelte:fragment slot="header">

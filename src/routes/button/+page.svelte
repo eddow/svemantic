@@ -24,8 +24,8 @@
 </div>
 <div>
 	<Checkbox bind:value label="try3" />
-	<Checkbox toggle bind:value label="try3" />
-	<Checkbox slider bind:value label="try3" />
+	<Checkbox bind:value label="try3" toggle />
+	<Checkbox bind:value label="try3" slider />
 	<Buttons>
 		<Button icon="check square outline" on:click={()=> value=true} />
 		<Button icon="square outline" on:click={()=> value=false} />
